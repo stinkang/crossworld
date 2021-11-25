@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "loadJson(fileName:):CrosswordView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "url">
+            </PersistentString>
+            <PersistentString
+               value = "URL(string: &quot;file:///private/var/mobile/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Nov24th.json&quot;)">
+            </PersistentString>
+            <PersistentString
+               value = "url!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in LobbyView.body.getter:LobbyView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "fileContent">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DocumentPickerCoordinator.init(fileContent:):DocumentPicker.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
