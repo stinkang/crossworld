@@ -7,108 +7,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B28057F1-AAC6-416F-8881-8F1EF2E030FC"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/DocumentPicker.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "15"
-            endingLineNumber = "15"
-            landmarkName = "unknown"
-            landmarkType = "0">
-            <Locations>
-               <Location
-                  uuid = "B28057F1-AAC6-416F-8881-8F1EF2E030FC - fe5cc2f2ef5d2085"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "word_o_crossv2.DocumentPicker.fileContent.getter : Swift.String"
-                  moduleName = "word-o-crossv2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/austinkang/MyProjects/word-o-crossv2/word-o-crossv2/DocumentPicker.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "14"
-                  endingLineNumber = "14"
-                  offsetFromSymbolStart = "188">
-               </Location>
-               <Location
-                  uuid = "B28057F1-AAC6-416F-8881-8F1EF2E030FC - 78b7e79954441089"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "word_o_crossv2.DocumentPicker.fileContent.setter : Swift.String"
-                  moduleName = "word-o-crossv2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/austinkang/MyProjects/word-o-crossv2/word-o-crossv2/DocumentPicker.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "14"
-                  endingLineNumber = "14"
-                  offsetFromSymbolStart = "212">
-               </Location>
-               <Location
-                  uuid = "B28057F1-AAC6-416F-8881-8F1EF2E030FC - af240a0e23fa967e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "word_o_crossv2.DocumentPicker.fileContent.modify : Swift.String"
-                  moduleName = "word-o-crossv2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/austinkang/MyProjects/word-o-crossv2/%3Ccompiler-generated%3E"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "92">
-               </Location>
-               <Location
-                  uuid = "B28057F1-AAC6-416F-8881-8F1EF2E030FC - 875d99d337e5ef6e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "word_o_crossv2.DocumentPicker.fileContent.modify : Swift.String with unmangled suffix &quot;.resume.0&quot;"
-                  moduleName = "word-o-crossv2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/austinkang/MyProjects/word-o-crossv2/word-o-crossv2/DocumentPicker.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "14"
-                  endingLineNumber = "14"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  uuid = "B28057F1-AAC6-416F-8881-8F1EF2E030FC - 3fa75bc446181b41"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "word_o_crossv2.DocumentPicker.$fileContent.getter : SwiftUI.Binding&lt;Swift.String&gt;"
-                  moduleName = "word-o-crossv2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/austinkang/MyProjects/word-o-crossv2/word-o-crossv2/DocumentPicker.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "14"
-                  endingLineNumber = "14"
-                  offsetFromSymbolStart = "204">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "DC3A73DA-00C9-4EB1-ACCB-26EAC012C267"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "word-o-crossv2/DocumentPicker.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
             landmarkName = "documentPicker(_:didPickDocumentsAt:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -196,8 +103,72 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5F5E3D04-002D-4CF2-B6CB-1DF5063BABF8"
+            uuid = "76908482-B66A-478D-A7A0-2C770EB73B6A"
             shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/DocumentPicker.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "documentPicker(_:didPickDocumentsAt:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "80539112-629D-4B46-BB43-890894578E4F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/DocumentPicker.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C05AB659-C745-4F79-9425-71EB505CE9FD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/DocumentPicker.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ED8ACC9C-9634-4B9B-B2D4-80E988C038D4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/DocumentPicker.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "CrosswordDocumentPicker"
+            landmarkType = "14">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "44458BE3-9D6B-4CB1-8B1A-0846336D9360"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "word-o-crossv2/DocumentPicker.swift"
@@ -212,81 +183,129 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "43C850D0-5B6E-4963-8C28-E5B7DAC6C37E"
-            shouldBeEnabled = "No"
+            uuid = "DFB6AC75-526C-45C4-A97F-4BB685DCF17D"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/Views/CrosswordView.swift"
+            filePath = "word-o-crossv2/DocumentPicker.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "loadJson(fileName:)"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "documentPickerWasCancelled(_:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "84532741-2B30-4C45-B765-6CC4AEB8C227"
+            uuid = "2DA257D3-2F38-4A58-BD47-AC248A7F7738"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/Views/CrosswordView.swift"
+            filePath = "word-o-crossv2/DocumentPicker.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "loadJson(fileName:)"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "490CECA7-D995-43C5-9E35-A1686FD9E3FA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/DocumentPicker.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "documentPicker(_:didPickDocumentsAt:)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "03B7E228-04B5-4B4A-AD8E-CEF356147D35"
+            uuid = "7FE3B893-13A5-4398-A4A3-E84AEB9FC64C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/Views/CrosswordView.swift"
+            filePath = "word-o-crossv2/CrosswordDocumentPicker.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "loadJson(fileName:)"
-            landmarkType = "9">
+            startingLineNumber = "8"
+            endingLineNumber = "8"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "639C8DA4-9018-40B7-BC42-303AA6F4840D"
+            uuid = "12A53541-C294-4806-B020-1CEE17023674"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/Views/CrosswordView.swift"
+            filePath = "word-o-crossv2Tests/word_o_crossv2Tests.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "loadJson(fileName:)"
-            landmarkType = "9">
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "testCrosswordDocumentPickerDecodesAllCrosswords()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0F3F0582-F602-4C03-A0DE-DBD44934AB73"
+            uuid = "5AAE4275-2227-4A08-9D3F-8C45F4BB553D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/Views/CrosswordView.swift"
+            filePath = "word-o-crossv2Tests/word_o_crossv2Tests.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "loadJson(fileName:)"
-            landmarkType = "9">
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "testCrosswordDocumentPickerDecodesAllCrosswords()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "743A0FBA-2684-483A-84A9-38D5BAF81F34"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2Tests/word_o_crossv2Tests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "testCrosswordDocumentPickerDecodesAllCrosswords()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "50464240-F105-4D88-A283-0902FA63681C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2Tests/word_o_crossv2Tests.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "testCrosswordDocumentPickerDecodesAllCrosswords()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

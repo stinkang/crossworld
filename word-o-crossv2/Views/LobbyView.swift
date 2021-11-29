@@ -9,19 +9,19 @@ import SwiftUI
 
 struct LobbyView: View {
 
-    @State private var fileURL = URL(string: "/")!
+    @State var crossword = Crossword()
     @State private var showDocumentPicker = false
 
     var body: some View {
         VStack {
-            Text(fileURL.absoluteString).padding()
+            Text(crossword.title).padding()
 
             Button("Import file") {
                 showDocumentPicker = true
             }
         }
         .sheet(isPresented: self.$showDocumentPicker) {
-            DocumentPicker(fileURL: $fileURL)
+            CrosswordDocumentPicker(crossword: $crossword)
         }
     }
 }

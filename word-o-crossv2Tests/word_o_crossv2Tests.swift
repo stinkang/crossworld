@@ -9,13 +9,26 @@ import XCTest
 @testable import word_o_crossv2
 
 class word_o_crossv2Tests: XCTestCase {
+    
+    var crosswordDocumentPicker: CrosswordDocumentPicker!
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        try super.setUpWithError()
+        self.crosswordDocumentPicker = CrosswordDocumentPicker(crossword: .constant(Crossword()))
     }
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
+    
+    func testCrosswordDocumentPickerDecodesAllCrosswords() throws {
+        if let urls = Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: "nyt_crosswords-master") {
+            urls.forEach { url in
+                self.crosswordDocumentPicker.makeCoordinator().decodeCrossword(url: url)
+            }
+            // TODO: Make the urls actually the list of all URLs in nyt_crosswords-master tinstead of just Nov24th.json
+        }
     }
 
     func testExample() throws {

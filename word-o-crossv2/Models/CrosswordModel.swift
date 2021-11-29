@@ -26,7 +26,7 @@ struct Crossword: Decodable {
     var cols: Int
     var grid: [String]
     var gridNums: [Int]
-    var circles: [Int]
+    var circles: [Int]?
     var acrossClues: [String]
     var downClues: [String]
     var acrossAnswers: [String]
@@ -83,11 +83,43 @@ struct Crossword: Decodable {
         self.cols = try sizeContainer.decode(Int.self, forKey: .cols)
         self.grid = try outerContainer.decode([String].self, forKey: .grid)
         self.gridNums = try outerContainer.decode([Int].self, forKey: .gridNums)
-        self.circles = try outerContainer.decode([Int].self, forKey: .circles)
+
+        if let circles = try outerContainer.decodeIfPresent([Int].self, forKey: .circles) {
+            self.circles = circles
+        } else {
+            self.circles = nil
+        }
+
         self.acrossClues = try cluesContnainer.decode([String].self, forKey: .acrossClues)
         self.downClues = try cluesContnainer.decode([String].self, forKey: .downClues)
         self.acrossAnswers = try answersContainer.decode([String].self, forKey: .acrossAnswers)
         self.downAnswers = try answersContainer.decode([String].self, forKey: .downAnswers)
+    }
+
+    init() {
+        self.title = ""
+        self.author = ""
+        self.editor = ""
+        self.copyright = ""
+        self.publisher = ""
+        self.date = ""
+        self.dow = ""
+        self.target = ""
+        self.valid = true
+        self.uniClue = true
+        self.admin = true
+        self.hasTitle = true
+        self.navigate = true
+        self.auto = true
+        self.rows = 4
+        self.cols = 4
+        self.grid = [""]
+        self.gridNums = [0]
+        self.circles = [0]
+        self.acrossClues = [""]
+        self.downClues = [""]
+        self.acrossAnswers = [""]
+        self.downAnswers = [""]
     }
 }
 
