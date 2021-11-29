@@ -19,6 +19,11 @@ struct LobbyView: View {
             Button("Import file") {
                 showDocumentPicker = true
             }
+            .padding()
+            NavigationLink(destination: CrosswordView(crossword: $crossword)) {
+                Label("Solve Crossword", systemImage: "folder")
+            }
+            .disabled(crossword.title == "")
         }
         .sheet(isPresented: self.$showDocumentPicker) {
             CrosswordDocumentPicker(crossword: $crossword)

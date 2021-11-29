@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CrosswordView: View {
-    var crossword: Crossword
+    @Binding var crossword: Crossword
     var body: some View {
         VStack {
             Text("Hello, CrossWorld!")
@@ -20,6 +20,6 @@ struct CrosswordView: View {
 
 struct CrosswordView_Previews: PreviewProvider {
     static var previews: some View {
-        CrosswordView(crossword: Crossword())
+        CrosswordView(crossword: .constant(Crossword()))
     }
 }
