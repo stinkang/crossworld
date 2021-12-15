@@ -15,13 +15,13 @@ struct Crossword: Decodable {
     var publisher: String
     var date: String
     var dow: String
-    var target: String
-    var valid: Bool
-    var uniClue: Bool
+    var target: String?
+    var valid: Bool?
+    var uniClue: Bool?
     var admin: Bool
-    var hasTitle: Bool
-    var navigate: Bool
-    var auto: Bool
+    var hasTitle: Bool?
+    var navigate: Bool?
+    var auto: Bool?
     var rows: Int
     var cols: Int
     var grid: [String]
@@ -29,13 +29,19 @@ struct Crossword: Decodable {
     var circles: [Int]?
     var acrossClues: [String]
     var downClues: [String]
+    var clueNamesToCluesMap: Dictionary<String, String> // was crossword.clues
+    var tagsToCluesMap: Array<Dictionary<String, String>>
+    var cluesToTagsMap: Dictionary<String, [Int]>
     var acrossAnswers: [String]
     var downAnswers: [String]
+    var notes: String?
+    var solved: Bool
+    var entries: [String]
     
     enum OuterKeys: String, CodingKey {
         case title, author, editor, copyright, publisher, date, dow,
             target, valid, admin, navigate, auto, size, grid, circles,
-            clues, answers
+            clues, answers, notes
         case uniClue = "uniclue"
         case hasTitle = "hastitle"
         case gridNums = "gridnums"
@@ -62,7 +68,7 @@ struct Crossword: Decodable {
     init(from decoder: Decoder) throws {
         let outerContainer = try decoder.container(keyedBy: OuterKeys.self)
         let sizeContainer = try outerContainer.nestedContainer(keyedBy: SizeKeys.self, forKey: .size)
-        let cluesContnainer = try outerContainer.nestedContainer(keyedBy: CluesKeys.self, forKey: .clues)
+        let cluesContainer = try outerContainer.nestedContainer(keyedBy: CluesKeys.self, forKey: .clues)
         let answersContainer = try outerContainer.nestedContainer(keyedBy: AnswersKeys.self, forKey: .answers)
         
         self.title = try outerContainer.decode(String.self, forKey: .title)
@@ -72,28 +78,207 @@ struct Crossword: Decodable {
         self.publisher = try outerContainer.decode(String.self, forKey: .publisher)
         self.date = try outerContainer.decode(String.self, forKey: .date)
         self.dow = try outerContainer.decode(String.self, forKey: .dow)
-        self.target = try outerContainer.decode(String.self, forKey: .target)
-        self.valid = try outerContainer.decode(Bool.self, forKey: .valid)
-        self.uniClue = try outerContainer.decode(Bool.self, forKey: .uniClue)
+
+        if let target = try outerContainer.decodeIfPresent(String.self, forKey: .target) {
+            self.target = target
+        } else {
+            self.target = nil
+        }
+
+        if let valid = try outerContainer.decodeIfPresent(Bool.self, forKey: .valid) {
+            self.valid = valid
+        } else {
+            self.valid = nil
+        }
+
+        if let uniClue = try outerContainer.decodeIfPresent(Bool.self, forKey: .uniClue) {
+            self.uniClue = uniClue
+        } else {
+            self.uniClue = nil
+        }
+
         self.admin = try outerContainer.decode(Bool.self, forKey: .admin)
-        self.hasTitle = try outerContainer.decode(Bool.self, forKey: .hasTitle)
-        self.navigate = try outerContainer.decode(Bool.self, forKey: .navigate)
-        self.auto = try outerContainer.decode(Bool.self, forKey: .auto)
-        self.rows = try sizeContainer.decode(Int.self, forKey: .rows)
-        self.cols = try sizeContainer.decode(Int.self, forKey: .cols)
-        self.grid = try outerContainer.decode([String].self, forKey: .grid)
-        self.gridNums = try outerContainer.decode([Int].self, forKey: .gridNums)
+
+        if let hasTitle = try outerContainer.decodeIfPresent(Bool.self, forKey: .hasTitle) {
+            self.hasTitle = hasTitle
+        } else {
+            self.hasTitle = nil
+        }
+
+        if let navigate = try outerContainer.decodeIfPresent(Bool.self, forKey: .navigate) {
+            self.navigate = navigate
+        } else {
+            self.navigate = nil
+        }
+
+        if let auto = try outerContainer.decodeIfPresent(Bool.self, forKey: .auto) {
+            self.auto = auto
+        } else {
+            self.auto = nil
+        }
+
+        let rows = try sizeContainer.decode(Int.self, forKey: .rows)
+        self.rows = rows
+        
+        let cols = try sizeContainer.decode(Int.self, forKey: .cols)
+        self.cols = cols
+
+        let grid = try outerContainer.decode([String].self, forKey: .grid)
+        self.grid = grid
+
+        let gridNums = try outerContainer.decode([Int].self, forKey: .gridNums)
+        self.gridNums = gridNums
 
         if let circles = try outerContainer.decodeIfPresent([Int].self, forKey: .circles) {
             self.circles = circles
         } else {
             self.circles = nil
         }
+        
+        let acrossClues = try cluesContainer.decode([String].self, forKey: .acrossClues)
+        let downClues = try cluesContainer.decode([String].self, forKey: .downClues)
 
-        self.acrossClues = try cluesContnainer.decode([String].self, forKey: .acrossClues)
-        self.downClues = try cluesContnainer.decode([String].self, forKey: .downClues)
+        self.acrossClues = acrossClues
+        self.downClues = downClues
+        self.clueNamesToCluesMap = Crossword.buildClueNamesToCluesMap(gridNums: gridNums, acrossClues: acrossClues, downClues: downClues, cols: cols, grid: grid)
+
+        let tagsToCluesMap = Crossword.buildTagsToCluesMap(gridNums: gridNums, cols: cols, grid: grid)
+        self.tagsToCluesMap = tagsToCluesMap
+        self.cluesToTagsMap = Crossword.buildCluesToTagsMap(tagsToCluesMap: tagsToCluesMap)
+        
         self.acrossAnswers = try answersContainer.decode([String].self, forKey: .acrossAnswers)
         self.downAnswers = try answersContainer.decode([String].self, forKey: .downAnswers)
+        
+        if let notes = try outerContainer.decodeIfPresent(String.self, forKey: .notes) {
+            self.notes = notes
+        } else {
+            self.notes = nil
+        }
+        self.solved = false
+
+        var entries = Array(repeating: "", count: grid.count)
+        for i in 0..<grid.count {
+            if (grid[i] == ".") {
+                entries[i] = "."
+            }
+        }
+        self.entries = entries
+    }
+    
+    // Naive
+    static func squareShouldHaveAcrossClue(squareNumber: Int, cols: Int, grid: Array<String>) -> Bool {
+        let isNotBlackSquare = grid[squareNumber] != "."
+        let isEdgeSquare = squareNumber % cols == 0
+        let hasBlackSquareToTheLeft = !isEdgeSquare && grid[squareNumber - 1] == "."
+        let hasAtLeastTwoWhiteSquaresToTheRight =
+            (squareNumber + 1) % cols != 0
+            && (squareNumber + 2) % cols != 0
+            && grid[squareNumber + 1] != "."
+            && grid[squareNumber + 2] != "."
+
+        return isNotBlackSquare && (isEdgeSquare || hasBlackSquareToTheLeft) && hasAtLeastTwoWhiteSquaresToTheRight
+    }
+    
+    // Naive
+    static func squareShouldHaveDownClue(squareNumber: Int, cols: Int, grid: Array<String>) -> Bool {
+        let isNotBlackSquare = grid[squareNumber] != "."
+        let isEdgeSquare = squareNumber < cols
+        let hasBlackSquareAbove = squareNumber - cols >= 0 && grid[squareNumber - cols] == "."
+        let hasAtLeastTwoWhiteSquaresBelow =
+            squareNumber + cols < grid.count
+            && squareNumber + cols * 2 < grid.count
+            && grid[squareNumber + cols] != "."
+            && grid[squareNumber + cols * 2] != "."
+        
+        return isNotBlackSquare && (isEdgeSquare || hasBlackSquareAbove) && hasAtLeastTwoWhiteSquaresBelow
+    }
+    
+    static func getDownClueForSquare(squareNumber: Int, cols: Int, gridNums: Array<Int>, grid: Array<String>) -> String {
+        var currentIndex = squareNumber
+        while (currentIndex >= 0) {
+            let squareClueNumber = gridNums[currentIndex]
+            if squareClueNumber != 0 && squareShouldHaveDownClue(squareNumber: currentIndex, cols: cols, grid: grid) {
+                return String(squareClueNumber) + "D"
+            }
+            currentIndex -= cols
+        }
+        return ""
+    }
+    
+    static func getAcrossClueForSquare(squareNumber: Int, cols: Int, gridNums: Array<Int>, grid: Array<String>) -> String {
+        var currentIndex = squareNumber
+        while (currentIndex >= 0) {
+            let squareClueNumber = gridNums[currentIndex]
+            if squareClueNumber != 0 && squareShouldHaveAcrossClue(squareNumber: currentIndex, cols: cols, grid: grid) {
+                return String(squareClueNumber) + "A"
+            }
+            currentIndex -= 1
+        }
+        return ""
+    }
+
+    static func buildClueNamesToCluesMap(gridNums: Array<Int>, acrossClues: Array<String>, downClues: Array<String>, cols: Int, grid: Array<String> ) -> Dictionary<String, String>
+    {
+        var map: Dictionary<String, String> = [:]
+        var i = 0
+        var downIndex = 0
+        var acrossIndex = 0
+        for gridNum in gridNums {
+            if (gridNum != 0) {
+                if (squareShouldHaveDownClue(squareNumber: i, cols: cols, grid: grid)) {
+                    map[String(gridNum) + "D"] = downClues[downIndex]
+                    downIndex += 1
+                }
+                if (squareShouldHaveAcrossClue(squareNumber: i, cols: cols, grid: grid)) {
+                    map[String(gridNum) + "A"] = acrossClues[acrossIndex]
+                    acrossIndex += 1
+                }
+            }
+            i += 1
+        }
+        return map
+    }
+    
+    static func buildTagsToCluesMap(gridNums: Array<Int>, cols: Int, grid: Array<String>) -> Array<Dictionary<String, String>> {
+        var array: Array<Dictionary<String, String>> = []
+        for i in 0..<gridNums.count {
+            var map: Dictionary<String, String> = [:]
+//            if (gridNum != 0) {
+//                if (squareShouldHaveDownClue(squareNumber: i, cols: cols, grid: grid)) {
+//                    map["D"] = String(gridNum) + "D"
+//                } else {
+//                    map["D"] = ""
+//                }
+//                if (squareShouldHaveAcrossClue(squareNumber: i, cols: cols, grid: grid)) {
+//                    map["A"] = String(gridNum) + "A"
+//                } else {
+//                    map["A"] = ""
+//                }
+//            } else {
+//                map["D"] = ""
+//                map["A"] = ""
+//            }
+            map["A"] = getAcrossClueForSquare(squareNumber: i, cols: cols, gridNums: gridNums, grid: grid)
+            map["D"] = getDownClueForSquare(squareNumber: i, cols: cols, gridNums: gridNums, grid: grid)
+            array.append(map)
+        }
+        return array
+    }
+    
+    static func buildCluesToTagsMap(tagsToCluesMap: Array<Dictionary<String, String>>)  -> Dictionary<String, [Int]> {
+        var map: Dictionary<String, [Int]> = [:]
+        for tag in 0..<tagsToCluesMap.count {
+            for dir in ["A", "D"] {
+                if (tagsToCluesMap[tag].count > 0 ) {
+                    let clue = tagsToCluesMap[tag][dir]
+                    if map[clue!] == nil {
+                        map[clue!] = []
+                    }
+                    map[clue!]!.append(tag)
+                }
+            }
+        }
+        return map
     }
 
     init() {
@@ -111,15 +296,23 @@ struct Crossword: Decodable {
         self.hasTitle = true
         self.navigate = true
         self.auto = true
-        self.rows = 4
-        self.cols = 4
-        self.grid = [""]
-        self.gridNums = [0]
+        self.rows = 15
+        self.cols = 15
+        let grid = ["S","L","A","G",".","O","B","T","U","S","E",".","S","S","E","H","A","I","R",".","N","E","W","L","O","W",".","U","P","N","O","M","N","I","P","O","T","E","N","C","E",".","P","O","E","O","A","T","E","S",".",".","R","A","O",".","D","E","R","M","P","R","I","V","A","T","E","P","R","O","P","E","R","T","Y",".",".",".","E","T","A","L",".",".","L","O","B","E","S",".","A","C","K",".",".","L","I","E","S",".","R","U","G","B","Y","T","R","A","S","H","C","O","M","P","A","C","T","O","R","S","M","A","L","T","A",".","T","O","I","L",".",".","S","A","L",".","Z","E","A","L","S",".",".","R","U","M","S",".",".",".","F","I","S","H","F","O","R","C","O","M","P","LIME","N","T","S","A","N","A","L",".","D","O","H",".",".","E","B","O","A","T","T","E","L",".","P","I","C","O","D","E","G","A","L","L","O","A","S","A",".","S","U","C","K","E","R",".","L","I","E","U","L","S","D",".","A","M","O","E","B","A",".","L","E","S","T"]
+        self.grid = grid
+        self.gridNums = [1,2,3,4,0,5,6,7,8,9,10,0,11,12,13,14,0,0,0,0,15,0,0,0,0,0,0,16,0,0,17,0,0,0,18,0,0,0,0,0,0,0,19,0,0,20,0,0,0,0,0,0,21,0,0,0,22,0,0,0,23,0,0,0,0,24,25,0,0,0,26,0,0,0,0,0,0,0,27,0,0,0,0,0,28,0,0,0,0,0,29,30,31,0,0,32,0,33,34,0,35,0,0,0,36,37,0,0,38,39,0,0,0,0,40,0,0,0,0,0,41,0,0,0,0,0,42,0,0,0,0,0,43,0,0,0,44,0,0,0,45,0,0,46,0,47,48,0,0,0,49,0,0,0,0,0,50,51,0,0,0,0,52,53,54,55,0,0,0,0,56,0,0,0,0,57,0,0,0,0,58,0,0,0,59,0,0,0,60,61,0,0,0,0,0,62,0,0,0,63,0,0,0,0,0,0,64,0,0,0,65,0,0,0,66,0,0,0,0,0,0,67,0,0,0]
         self.circles = [0]
         self.acrossClues = [""]
         self.downClues = [""]
         self.acrossAnswers = [""]
         self.downAnswers = [""]
+        self.clueNamesToCluesMap = [:]
+        self.tagsToCluesMap = [[:]]
+        self.cluesToTagsMap = [:]
+        self.notes = ""
+        self.solved = false
+        let entries = Array(repeating: "", count: grid.count)
+        self.entries = entries
     }
 }
 

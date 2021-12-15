@@ -14,14 +14,15 @@ struct LobbyView: View {
 
     var body: some View {
         VStack {
-            Text(crossword.title).padding()
-
-            Button("Import file") {
+            Text("CrossWorld!").font(.largeTitle)
+            Button(action: {
                 showDocumentPicker = true
+            }) {
+                Label("Import file", systemImage: "folder")
             }
             .padding()
             NavigationLink(destination: CrosswordView(crossword: $crossword)) {
-                Label("Solve Crossword", systemImage: "folder")
+                Text(crossword.title).padding()
             }
             .disabled(crossword.title == "")
         }
