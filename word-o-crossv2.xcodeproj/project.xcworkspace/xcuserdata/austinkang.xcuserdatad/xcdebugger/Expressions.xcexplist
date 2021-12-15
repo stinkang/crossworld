@@ -3,13 +3,84 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "CrosswordView.getCurrentClue():CrosswordView.swift">
+         contextName = "CrosswordTextFieldView.Coordinator.didPressBackspace(_:):CrosswordCellView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "crossword.entries[parent.focusedTag]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "DocumentPickerCoordinator.init(fileContent:):DocumentPicker.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MyCrosswordView.body.getter:MyCrosswordView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CrosswordTextFieldView.Coordinator.textField(_:shouldChangeCharactersIn:replacementString:):CrosswordCellView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "textField.text">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "static Crossword.squareShouldHaveAcrossClue(squareNumber:cols:grid:):CrosswordModel.swift">
          <PersistentStrings>
             <PersistentString
                value = "isNotBlackSquare &amp;&amp; (isEdgeSquare || hasBlackSquareToTheLeft) &amp;&amp; hasAtLeastTwoWhiteSquaresToTheRight">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Crossword.buildClueNamesToCluesMap(gridNums:acrossClues:downClues:cols:grid:):CrosswordModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "squareShouldHaveAcrossClue(squareNumber: i, cols: cols, grid: grid)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in LobbyView.body.getter:LobbyView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "fileContent">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CrosswordTextFieldView.updateUIView(_:context:):CrosswordCellView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "uiTextField.isFirstResponder">
+            </PersistentString>
+            <PersistentString
+               value = "self.crossword.entries[self.tag] ">
+            </PersistentString>
+            <PersistentString
+               value = "uiTextField.text">
+            </PersistentString>
+            <PersistentString
+               value = "uiTextField.gestureRecognizers">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CrosswordView.getCurrentClue():CrosswordView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CrosswordModelTests.testSquareShouldHaveAcrossClue():CrosswordModelTests.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Crossword.squareShouldHaveAcrossClue(squareNumber: num, cols: cols, grid: grid)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Crossword.squareShouldHaveDownClue(squareNumber:cols:grid:):CrosswordModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "isNotBlackSquare &amp;&amp; (isEdgeSquare || hasBlackSquareAbove) &amp;&amp; hasAtLeastTwoWhiteSquaresBelow">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -40,44 +111,6 @@
                value = "url!">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "static Crossword.squareShouldHaveDownClue(squareNumber:cols:grid:):CrosswordModel.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "isNotBlackSquare &amp;&amp; (isEdgeSquare || hasBlackSquareAbove) &amp;&amp; hasAtLeastTwoWhiteSquaresBelow">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "static Crossword.buildClueNamesToCluesMap(gridNums:acrossClues:downClues:cols:grid:):CrosswordModel.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "squareShouldHaveAcrossClue(squareNumber: i, cols: cols, grid: grid)">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "DocumentPickerCoordinator.init(fileContent:):DocumentPicker.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in LobbyView.body.getter:LobbyView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "fileContent">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "CrosswordModelTests.testSquareShouldHaveAcrossClue():CrosswordModelTests.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "Crossword.squareShouldHaveAcrossClue(squareNumber: num, cols: cols, grid: grid)">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "MyCrosswordView.body.getter:MyCrosswordView.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>
