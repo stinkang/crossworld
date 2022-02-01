@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		964B9CF8274DCD4E00C73172 /* word_o_crossv2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9CF7274DCD4E00C73172 /* word_o_crossv2App.swift */; };
-		964B9CFA274DCD4E00C73172 /* MyCrosswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9CF9274DCD4E00C73172 /* MyCrosswordView.swift */; };
+		964B9CFA274DCD4E00C73172 /* XWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9CF9274DCD4E00C73172 /* XWordView.swift */; };
 		964B9CFC274DCD5200C73172 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 964B9CFB274DCD5200C73172 /* Assets.xcassets */; };
 		964B9CFF274DCD5200C73172 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 964B9CFE274DCD5200C73172 /* Preview Assets.xcassets */; };
 		964B9D09274DCD5200C73172 /* word_o_crossv2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9D08274DCD5200C73172 /* word_o_crossv2Tests.swift */; };
@@ -18,15 +18,17 @@
 		964B9D26274E10B000C73172 /* CrosswordDocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9D25274E10B000C73172 /* CrosswordDocumentPicker.swift */; };
 		964B9D2C274F282A00C73172 /* CrosswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9D2B274F282A00C73172 /* CrosswordModel.swift */; };
 		964B9D322754B43300C73172 /* nyt_crosswords-master in Resources */ = {isa = PBXBuildFile; fileRef = 964B9D312754B43200C73172 /* nyt_crosswords-master */; };
+		96730411279A494C0063DF21 /* XWordSquareBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96730410279A494C0063DF21 /* XWordSquareBlackBox.swift */; };
+		96730413279A49760063DF21 /* XWordSquareColorBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96730412279A49760063DF21 /* XWordSquareColorBox.swift */; };
+		96730415279A49940063DF21 /* XWordSquareTextBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96730414279A49940063DF21 /* XWordSquareTextBox.swift */; };
+		96730417279A91BE0063DF21 /* XWordSquareTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96730416279A91BE0063DF21 /* XWordSquareTextField.swift */; };
+		9673041A27A518E00063DF21 /* SquareStateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673041927A518DF0063DF21 /* SquareStateModel.swift */; };
+		9673042027A519CA0063DF21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673041D27A5190B0063DF21 /* AppDelegate.swift */; };
 		96EBB0AE2755F65C00EBA2BC /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0AD2755F65C00EBA2BC /* ColorExtensions.swift */; };
-		96EBB0B12758687100EBA2BC /* CrosswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0AF2758687100EBA2BC /* CrosswordView.swift */; };
-		96EBB0B22758687100EBA2BC /* CrosswordCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0B02758687100EBA2BC /* CrosswordCellView.swift */; };
 		96EBB0B4275F2F5100EBA2BC /* CrosswordModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0B3275F2F5100EBA2BC /* CrosswordModelTests.swift */; };
 		96EBB0B82760712100EBA2BC /* NavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0B52760712000EBA2BC /* NavigationBarModifier.swift */; };
 		96EBB0B92760712100EBA2BC /* KeyboardHeightHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0B62760712000EBA2BC /* KeyboardHeightHelper.swift */; };
 		96EBB0BA2760712100EBA2BC /* UITextField+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0B72760712000EBA2BC /* UITextField+Toolbar.swift */; };
-		96EBB0BD276079FB00EBA2BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0BB276079FA00EBA2BC /* AppDelegate.swift */; };
-		96EBB0BE276079FB00EBA2BC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0BC276079FA00EBA2BC /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,14 +49,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		964B9CF4274DCD4E00C73172 /* word-o-crossv2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "word-o-crossv2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		964B9CF4274DCD4E00C73172 /* CrossWorld!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CrossWorld!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		964B9CF7274DCD4E00C73172 /* word_o_crossv2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = word_o_crossv2App.swift; sourceTree = "<group>"; };
-		964B9CF9274DCD4E00C73172 /* MyCrosswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCrosswordView.swift; sourceTree = "<group>"; };
+		964B9CF9274DCD4E00C73172 /* XWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordView.swift; sourceTree = "<group>"; };
 		964B9CFB274DCD5200C73172 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		964B9CFE274DCD5200C73172 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		964B9D04274DCD5200C73172 /* word-o-crossv2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "word-o-crossv2Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		964B9D04274DCD5200C73172 /* word_o_crossv2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = word_o_crossv2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		964B9D08274DCD5200C73172 /* word_o_crossv2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = word_o_crossv2Tests.swift; sourceTree = "<group>"; };
-		964B9D0E274DCD5200C73172 /* word-o-crossv2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "word-o-crossv2UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		964B9D0E274DCD5200C73172 /* word_o_crossv2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = word_o_crossv2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		964B9D12274DCD5200C73172 /* word_o_crossv2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = word_o_crossv2UITests.swift; sourceTree = "<group>"; };
 		964B9D14274DCD5200C73172 /* word_o_crossv2UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = word_o_crossv2UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		964B9D23274E027B00C73172 /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
@@ -62,15 +64,20 @@
 		964B9D2B274F282A00C73172 /* CrosswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosswordModel.swift; sourceTree = "<group>"; };
 		964B9D2D274F5D3A00C73172 /* word-o-crossv2.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "word-o-crossv2.entitlements"; sourceTree = "<group>"; };
 		964B9D312754B43200C73172 /* nyt_crosswords-master */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "nyt_crosswords-master"; path = "../../../Downloads/nyt_crosswords-master"; sourceTree = "<group>"; };
+		96730410279A494C0063DF21 /* XWordSquareBlackBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordSquareBlackBox.swift; sourceTree = "<group>"; };
+		96730412279A49760063DF21 /* XWordSquareColorBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordSquareColorBox.swift; sourceTree = "<group>"; };
+		96730414279A49940063DF21 /* XWordSquareTextBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordSquareTextBox.swift; sourceTree = "<group>"; };
+		96730416279A91BE0063DF21 /* XWordSquareTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordSquareTextField.swift; sourceTree = "<group>"; };
+		9673041927A518DF0063DF21 /* SquareStateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareStateModel.swift; sourceTree = "<group>"; };
+		9673041C27A519090063DF21 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		9673041D27A5190B0063DF21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9673041E27A5190F0063DF21 /* CrosswordCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosswordCellView.swift; sourceTree = "<group>"; };
+		9673041F27A519190063DF21 /* CrosswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosswordView.swift; sourceTree = "<group>"; };
 		96EBB0AD2755F65C00EBA2BC /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
-		96EBB0AF2758687100EBA2BC /* CrosswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrosswordView.swift; path = "../../../omni-crosswords/crosswords/Views/CrosswordView.swift"; sourceTree = "<group>"; };
-		96EBB0B02758687100EBA2BC /* CrosswordCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CrosswordCellView.swift; path = "../../../omni-crosswords/crosswords/Views/CrosswordCellView.swift"; sourceTree = "<group>"; };
 		96EBB0B3275F2F5100EBA2BC /* CrosswordModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosswordModelTests.swift; sourceTree = "<group>"; };
 		96EBB0B52760712000EBA2BC /* NavigationBarModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationBarModifier.swift; path = "../../../omni-crosswords/crosswords/Utils/NavigationBarModifier.swift"; sourceTree = "<group>"; };
 		96EBB0B62760712000EBA2BC /* KeyboardHeightHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardHeightHelper.swift; path = "../../../omni-crosswords/crosswords/Utils/KeyboardHeightHelper.swift"; sourceTree = "<group>"; };
 		96EBB0B72760712000EBA2BC /* UITextField+Toolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITextField+Toolbar.swift"; path = "../../../omni-crosswords/crosswords/Utils/UITextField+Toolbar.swift"; sourceTree = "<group>"; };
-		96EBB0BB276079FA00EBA2BC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "../../../omni-crosswords/crosswords/AppDelegate.swift"; sourceTree = "<group>"; };
-		96EBB0BC276079FA00EBA2BC /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SceneDelegate.swift; path = "../../../omni-crosswords/crosswords/SceneDelegate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,9 +118,9 @@
 		964B9CF5274DCD4E00C73172 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				964B9CF4274DCD4E00C73172 /* word-o-crossv2.app */,
-				964B9D04274DCD5200C73172 /* word-o-crossv2Tests.xctest */,
-				964B9D0E274DCD5200C73172 /* word-o-crossv2UITests.xctest */,
+				964B9CF4274DCD4E00C73172 /* CrossWorld!.app */,
+				964B9D04274DCD5200C73172 /* word_o_crossv2Tests.xctest */,
+				964B9D0E274DCD5200C73172 /* word_o_crossv2UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -126,6 +133,7 @@
 				964B9CFB274DCD5200C73172 /* Assets.xcassets */,
 				964B9CF7274DCD4E00C73172 /* word_o_crossv2App.swift */,
 				964B9D2A274F281200C73172 /* Views */,
+				9673041827A518AB0063DF21 /* ViewModels */,
 				964B9D29274F280C00C73172 /* Models */,
 				964B9D302754AE1900C73172 /* Utils */,
 				964B9CFD274DCD5200C73172 /* Preview Content */,
@@ -170,12 +178,8 @@
 		964B9D2A274F281200C73172 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				96EBB0BB276079FA00EBA2BC /* AppDelegate.swift */,
-				96EBB0BC276079FA00EBA2BC /* SceneDelegate.swift */,
-				964B9CF9274DCD4E00C73172 /* MyCrosswordView.swift */,
-				96EBB0B02758687100EBA2BC /* CrosswordCellView.swift */,
-				96EBB0AF2758687100EBA2BC /* CrosswordView.swift */,
-				964B9D23274E027B00C73172 /* LobbyView.swift */,
+				9673040F279A48FB0063DF21 /* MyCrosswordViews */,
+				9673041B27A518F80063DF21 /* TheirCrosswordViews */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -192,12 +196,44 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		9673040F279A48FB0063DF21 /* MyCrosswordViews */ = {
+			isa = PBXGroup;
+			children = (
+				964B9CF9274DCD4E00C73172 /* XWordView.swift */,
+				96730410279A494C0063DF21 /* XWordSquareBlackBox.swift */,
+				96730412279A49760063DF21 /* XWordSquareColorBox.swift */,
+				96730414279A49940063DF21 /* XWordSquareTextBox.swift */,
+				96730416279A91BE0063DF21 /* XWordSquareTextField.swift */,
+				964B9D23274E027B00C73172 /* LobbyView.swift */,
+				9673041D27A5190B0063DF21 /* AppDelegate.swift */,
+			);
+			path = MyCrosswordViews;
+			sourceTree = "<group>";
+		};
+		9673041827A518AB0063DF21 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				9673041927A518DF0063DF21 /* SquareStateModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9673041B27A518F80063DF21 /* TheirCrosswordViews */ = {
+			isa = PBXGroup;
+			children = (
+				9673041C27A519090063DF21 /* SceneDelegate.swift */,
+				9673041E27A5190F0063DF21 /* CrosswordCellView.swift */,
+				9673041F27A519190063DF21 /* CrosswordView.swift */,
+			);
+			path = TheirCrosswordViews;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		964B9CF3274DCD4E00C73172 /* word-o-crossv2 */ = {
+		964B9CF3274DCD4E00C73172 /* word_o_crossv2 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 964B9D18274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word-o-crossv2" */;
+			buildConfigurationList = 964B9D18274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word_o_crossv2" */;
 			buildPhases = (
 				964B9CF0274DCD4E00C73172 /* Sources */,
 				964B9CF1274DCD4E00C73172 /* Frameworks */,
@@ -207,14 +243,14 @@
 			);
 			dependencies = (
 			);
-			name = "word-o-crossv2";
+			name = word_o_crossv2;
 			productName = "word-o-crossv2";
-			productReference = 964B9CF4274DCD4E00C73172 /* word-o-crossv2.app */;
+			productReference = 964B9CF4274DCD4E00C73172 /* CrossWorld!.app */;
 			productType = "com.apple.product-type.application";
 		};
-		964B9D03274DCD5200C73172 /* word-o-crossv2Tests */ = {
+		964B9D03274DCD5200C73172 /* word_o_crossv2Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 964B9D1B274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word-o-crossv2Tests" */;
+			buildConfigurationList = 964B9D1B274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word_o_crossv2Tests" */;
 			buildPhases = (
 				964B9D00274DCD5200C73172 /* Sources */,
 				964B9D01274DCD5200C73172 /* Frameworks */,
@@ -225,14 +261,14 @@
 			dependencies = (
 				964B9D06274DCD5200C73172 /* PBXTargetDependency */,
 			);
-			name = "word-o-crossv2Tests";
+			name = word_o_crossv2Tests;
 			productName = "word-o-crossv2Tests";
-			productReference = 964B9D04274DCD5200C73172 /* word-o-crossv2Tests.xctest */;
+			productReference = 964B9D04274DCD5200C73172 /* word_o_crossv2Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		964B9D0D274DCD5200C73172 /* word-o-crossv2UITests */ = {
+		964B9D0D274DCD5200C73172 /* word_o_crossv2UITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 964B9D1E274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word-o-crossv2UITests" */;
+			buildConfigurationList = 964B9D1E274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word_o_crossv2UITests" */;
 			buildPhases = (
 				964B9D0A274DCD5200C73172 /* Sources */,
 				964B9D0B274DCD5200C73172 /* Frameworks */,
@@ -243,9 +279,9 @@
 			dependencies = (
 				964B9D10274DCD5200C73172 /* PBXTargetDependency */,
 			);
-			name = "word-o-crossv2UITests";
+			name = word_o_crossv2UITests;
 			productName = "word-o-crossv2UITests";
-			productReference = 964B9D0E274DCD5200C73172 /* word-o-crossv2UITests.xctest */;
+			productReference = 964B9D0E274DCD5200C73172 /* word_o_crossv2UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -285,9 +321,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				964B9CF3274DCD4E00C73172 /* word-o-crossv2 */,
-				964B9D03274DCD5200C73172 /* word-o-crossv2Tests */,
-				964B9D0D274DCD5200C73172 /* word-o-crossv2UITests */,
+				964B9CF3274DCD4E00C73172 /* word_o_crossv2 */,
+				964B9D03274DCD5200C73172 /* word_o_crossv2Tests */,
+				964B9D0D274DCD5200C73172 /* word_o_crossv2UITests */,
 			);
 		};
 /* End PBXProject section */
@@ -324,19 +360,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96EBB0BD276079FB00EBA2BC /* AppDelegate.swift in Sources */,
-				96EBB0B22758687100EBA2BC /* CrosswordCellView.swift in Sources */,
+				96730413279A49760063DF21 /* XWordSquareColorBox.swift in Sources */,
 				964B9D26274E10B000C73172 /* CrosswordDocumentPicker.swift in Sources */,
 				96EBB0B82760712100EBA2BC /* NavigationBarModifier.swift in Sources */,
-				964B9CFA274DCD4E00C73172 /* MyCrosswordView.swift in Sources */,
+				9673042027A519CA0063DF21 /* AppDelegate.swift in Sources */,
+				964B9CFA274DCD4E00C73172 /* XWordView.swift in Sources */,
 				964B9CF8274DCD4E00C73172 /* word_o_crossv2App.swift in Sources */,
+				96730411279A494C0063DF21 /* XWordSquareBlackBox.swift in Sources */,
 				96EBB0B92760712100EBA2BC /* KeyboardHeightHelper.swift in Sources */,
 				96EBB0BA2760712100EBA2BC /* UITextField+Toolbar.swift in Sources */,
-				96EBB0BE276079FB00EBA2BC /* SceneDelegate.swift in Sources */,
 				964B9D2C274F282A00C73172 /* CrosswordModel.swift in Sources */,
+				9673041A27A518E00063DF21 /* SquareStateModel.swift in Sources */,
+				96730415279A49940063DF21 /* XWordSquareTextBox.swift in Sources */,
+				96730417279A91BE0063DF21 /* XWordSquareTextField.swift in Sources */,
 				964B9D24274E027B00C73172 /* LobbyView.swift in Sources */,
 				96EBB0AE2755F65C00EBA2BC /* ColorExtensions.swift in Sources */,
-				96EBB0B12758687100EBA2BC /* CrosswordView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,12 +401,12 @@
 /* Begin PBXTargetDependency section */
 		964B9D06274DCD5200C73172 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 964B9CF3274DCD4E00C73172 /* word-o-crossv2 */;
+			target = 964B9CF3274DCD4E00C73172 /* word_o_crossv2 */;
 			targetProxy = 964B9D05274DCD5200C73172 /* PBXContainerItemProxy */;
 		};
 		964B9D10274DCD5200C73172 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 964B9CF3274DCD4E00C73172 /* word-o-crossv2 */;
+			target = 964B9CF3274DCD4E00C73172 /* word_o_crossv2 */;
 			targetProxy = 964B9D0F274DCD5200C73172 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -514,7 +552,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.word-o-crossv2";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "CrossWorld!";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -547,7 +585,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.word-o-crossv2";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "CrossWorld!";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
@@ -663,7 +701,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		964B9D18274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word-o-crossv2" */ = {
+		964B9D18274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word_o_crossv2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				964B9D19274DCD5300C73172 /* Debug */,
@@ -672,7 +710,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		964B9D1B274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word-o-crossv2Tests" */ = {
+		964B9D1B274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word_o_crossv2Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				964B9D1C274DCD5300C73172 /* Debug */,
@@ -681,7 +719,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		964B9D1E274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word-o-crossv2UITests" */ = {
+		964B9D1E274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word_o_crossv2UITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				964B9D1F274DCD5300C73172 /* Debug */,
