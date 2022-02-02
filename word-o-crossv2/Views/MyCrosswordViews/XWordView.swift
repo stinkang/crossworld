@@ -7,20 +7,29 @@
 
 import SwiftUI
 
-class SquareStateStore {
+class SquareModelStore {
 
-    var states: [SquareState] = []
+    var models: [SquareModel] = []
 
-    init(count: Int) {
-        (0...count).forEach { _ in states.append(SquareState()) }
+    init(crossword: Crossword) {
+        (0...crossword.grid.count - 1).forEach { index in
+            var acrossClue: String = ""
+            var downClue: String = ""
+            if (crossword.grid[index] != ".") {
+                acrossClue = crossword.clueNamesToCluesMap[crossword.tagsToCluesMap[index]["A"]!]!
+                downClue = crossword.clueNamesToCluesMap[crossword.tagsToCluesMap[index]["D"]!]!
+            }
+            models.append(SquareModel(acrossClue: acrossClue, downClue: downClue))
+        }
     }
 }
 
-struct MyCrosswordView: View {
+struct XWordView: View {
     var crossword: Crossword
-    let squareStateStore: SquareStateStore
-    @State var focusedSquareIndex: Int?
+    let squareModelStore: SquareModelStore
+    @State var focusedSquareIndex: Int
     @State var acrossFocused: Bool
+    @StateObject var xWordViewModel = XWordViewModel()
     
     var boxWidth: CGFloat {
         let maxSize: CGFloat = 40.0
@@ -32,50 +41,164 @@ struct MyCrosswordView: View {
         self.crossword = crossword
         self.focusedSquareIndex = 0
         self.acrossFocused = true
-        self.squareStateStore = SquareStateStore(count: crossword.grid.count)
+        self.squareModelStore = SquareModelStore(crossword: crossword)
+        self.changeFocus(index: 0)
     }
 
     func changeFocus(index: Int) -> Void {
-        squareStateStore.states[focusedSquareIndex!].change(to: false)
+        unsetHighlighting(index: focusedSquareIndex)
         focusedSquareIndex = index
-        squareStateStore.states[focusedSquareIndex!].change(to: true)
+        setHighlighting(index: focusedSquareIndex)
+        let newModel = squareModelStore.models[focusedSquareIndex]
+        newModel.change(to: .focused)
+        let newClue = acrossFocused ? newModel.acrossClue : newModel.downClue
+        xWordViewModel.change(to: newClue)
+        
+        //let currentClueName = crossword.tagsToCluesMap[focusedSquareIndex]["A"]
+        //currentClue.change(to: crossword.clueNamesToCluesMap[currentClueName!]!)
     }
     
-    func changeFocusInternal(index: Int) -> () -> Void {
-        func changeFocusInternalInternal() -> Void {
-            changeFocus(index: index)
+    func unsetHighlighting(index: Int) -> Void {
+        let clues: Dictionary<String, String> = (crossword.tagsToCluesMap[index])
+        let clueName = clues[acrossFocused ? "A" : "D"]
+        let clueTags: Array<Int> = (crossword.cluesToTagsMap[clueName!])!
+        for clueTag in clueTags {
+            squareModelStore.models[clueTag].change(to: .unfocused)
         }
-        return changeFocusInternalInternal
+    }
+    
+    func setHighlighting(index: Int) -> Void {
+        let clues: Dictionary<String, String> = (crossword.tagsToCluesMap[index])
+        let clueName = clues[acrossFocused ? "A" : "D"]
+        let clueTags: Array<Int> = (crossword.cluesToTagsMap[clueName!])!
+        for clueTag in clueTags {
+            squareModelStore.models[clueTag].change(to: .highlighted)
+        }
+    }
+    
+//    func changeFocusInternal(index: Int) -> () -> Void {
+//        func changeFocusInternalInternal() -> Void {
+//            changeFocus(index: index)
+//        }
+//        return changeFocusInternalInternal
+//    }
+    
+    func goUpASquare() -> Void {
+        var potentialNewIndex = focusedSquareIndex - crossword.cols
+        var newIndex: Int
+        if (focusedSquareIndex == 0) {
+            newIndex = crossword.grid.count - 1
+        } else {
+            newIndex = potentialNewIndex < 0
+                ? crossword.grid.count + potentialNewIndex - 1
+                : potentialNewIndex
+        }
+        while (crossword.grid[newIndex] == ".") {
+            potentialNewIndex = newIndex - crossword.cols
+            newIndex = potentialNewIndex < 0
+                ? crossword.grid.count + potentialNewIndex - 1
+                : potentialNewIndex
+        }
+        changeFocus(index: newIndex)
+    }
+    
+    func goDownASquare() -> Void{
+        var potentialNewIndex = focusedSquareIndex + crossword.cols
+        var newIndex: Int
+        if (focusedSquareIndex == crossword.grid.count - 1) {
+            newIndex = 0
+        } else {
+            newIndex = potentialNewIndex >= crossword.grid.count
+                ? potentialNewIndex - (crossword.grid.count - 1)
+                : potentialNewIndex
+        }
+        while (crossword.grid[newIndex] == ".") {
+            potentialNewIndex = newIndex + crossword.cols
+            newIndex = potentialNewIndex >= crossword.grid.count
+                ? potentialNewIndex - (crossword.grid.count - 1)
+                : potentialNewIndex
+        }
+        changeFocus(index: newIndex)
+    }
+    
+    func goLeftASquare() -> Void {
+        var potentialNewIndex = focusedSquareIndex - 1
+        var newIndex: Int = focusedSquareIndex == 0
+            ? crossword.grid.count - 1
+            : potentialNewIndex
+        while (crossword.grid[newIndex] == ".") {
+            potentialNewIndex = newIndex - 1
+            newIndex = focusedSquareIndex == 0
+                ? crossword.grid.count - 1
+                : potentialNewIndex
+        }
+        changeFocus(index: newIndex)
+    }
+    
+    func goRightASquare() -> Void {
+        var potentialNewIndex = focusedSquareIndex + 1
+        var newIndex: Int = focusedSquareIndex == crossword.grid.count - 1
+            ? 0
+            : potentialNewIndex
+        while (crossword.grid[newIndex] == ".") {
+            potentialNewIndex = newIndex + 1
+            newIndex = focusedSquareIndex == crossword.grid.count - 1
+                ? 0
+                : potentialNewIndex
+        }
+        changeFocus(index: newIndex)
+    }
+    
+    func changeOrientation() -> Void {
+        unsetHighlighting(index: focusedSquareIndex)
+        acrossFocused = !acrossFocused
+        setHighlighting(index: focusedSquareIndex)
+        squareModelStore.models[focusedSquareIndex].change(to: .focused)
+        let newModel = squareModelStore.models[focusedSquareIndex]
+        let newClue = acrossFocused ? newModel.acrossClue : newModel.downClue
+        xWordViewModel.change(to: newClue)
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(crossword.title)
-            VStack(spacing: 0) {
-                ForEach(0..<crossword.cols, id: \.self) { col in
-                    HStack(spacing: 0) {
-                        ForEach(0..<crossword.rows, id: \.self) { row in
-                            let index = col * crossword.rows + row
-                            if (crossword.grid[index] == ".") {
-                                CrosswordSquareBlackBox(width: boxWidth)
-                            } else {
-                                ZStack {
-                                    CrosswordSquareColorBox(width: boxWidth, squareState: squareStateStore.states[index], index: index /*changeFocus: changeFocus*/)
-                                    XwordSquareTextBox(width: boxWidth, answerText: crossword.grid[index], index: index, crossword: crossword, changeFocus: changeFocus, squareState: squareStateStore.states[index], givenText: "")
-                                }.onTapGesture(perform: changeFocusInternal(index: index))
+        NavigationView {
+            VStack(alignment: .leading, spacing: 0) {
+                Text(crossword.title)
+                VStack(spacing: 0) {
+                    ForEach(0..<crossword.cols, id: \.self) { col in
+                        HStack(spacing: 0) {
+                            ForEach(0..<crossword.rows, id: \.self) { row in
+                                let index = col * crossword.rows + row
+                                XWordSquare(
+                                    crossword: crossword,
+                                    index: index,
+                                    boxWidth: boxWidth,
+                                    squareModel: squareModelStore.models[index],
+                                    changeFocus: changeFocus
+                                )
                             }
                         }
                     }
                 }
+                .padding(.bottom, 10)
+                XWordViewToolbar(
+                    boxWidth: UIScreen.screenWidth / 15,
+                    goUpASquare: goUpASquare,
+                    goDownASquare: goDownASquare,
+                    goLeftASquare: goLeftASquare,
+                    goRightASquare: goRightASquare,
+                    changeOrientation: changeOrientation
+                )
             }
-            Spacer()
+            .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth + boxWidth * 3)
+            .position(x: UIScreen.screenWidth/2, y: 120)
         }
+        .environmentObject(xWordViewModel)
     }
 }
 
 struct MyCrosswordView_Previews: PreviewProvider {
     static var previews: some View {
-        MyCrosswordView(crossword: Crossword())
+        XWordView(crossword: Crossword())
     }
 }
 

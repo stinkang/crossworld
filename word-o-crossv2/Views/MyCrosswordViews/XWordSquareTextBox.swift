@@ -13,20 +13,20 @@ struct XwordSquareTextBox: UIViewRepresentable {
     let answerText: String
     let index: Int
     let crossword: Crossword
-    let changeFocus: (Int) -> Void
-    @ObservedObject var squareState: SquareState
+//    let changeFocus: (Int) -> Void
+    @ObservedObject var squareModel: SquareModel
     @State var givenText: String
 
-    func changeFocusInternal() -> Void {
-        changeFocus(index)
-    }
+//    func changeFocusInternal() -> Void {
+//        changeFocus(index)
+//    }
 
     func makeUIView(context: Context) -> XWordSquareTextField {
         let textField = XWordSquareTextField(frame: .zero)
-        textField.delegate = context.coordinator
+        //textField.delegate = context.coordinator
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .allCharacters
-        textField.addTarget(context.coordinator, action: #selector(context.coordinator.touchTextField), for: .allTouchEvents)
+//        textField.addTarget(context.coordinator, action: #selector(context.coordinator.touchTextField), for: .allTouchEvents)
         textField.font = UIFont(name: "Helvetica", size: CGFloat(70 * width / 100))
         //textField.addToolbar()
         //textField.becomeFirstResponder()
@@ -44,33 +44,33 @@ struct XwordSquareTextBox: UIViewRepresentable {
 //
 //    }
 
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    class Coordinator: NSObject, UITextFieldDelegate {
-        var parentTextBox: XwordSquareTextBox
-        @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-
-        init(_ parentTextBox: XwordSquareTextBox) {
-            self.parentTextBox = parentTextBox
-        }
-
-        @objc func touchTextField(textField: XWordSquareTextField) {
-            parentTextBox.changeFocusInternal()
-        }
-        
-        @objc func pressToggleButton(textField: XWordSquareTextField) {
-        }
-
-        @objc func goToNextClue(textField: XWordSquareTextField) {
-        }
-
-        @objc func goToPreviousClue(textField: XWordSquareTextField) {
-        }
-        
-        func didPressBackspace(_ textField: UITextField) {
-        }
-
-    }
+//    func makeCoordinator() -> Coordinator {
+//        Coordinator(self)
+//    }
+//
+//    class Coordinator: NSObject, UITextFieldDelegate {
+//        var parentTextBox: XwordSquareTextBox
+//        @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+//
+//        init(_ parentTextBox: XwordSquareTextBox) {
+//            self.parentTextBox = parentTextBox
+//        }
+//
+//        @objc func touchTextField(textField: XWordSquareTextField) {
+//            parentTextBox.changeFocusInternal()
+//        }
+//
+//        @objc func pressToggleButton(textField: XWordSquareTextField) {
+//        }
+//
+//        @objc func goToNextClue(textField: XWordSquareTextField) {
+//        }
+//
+//        @objc func goToPreviousClue(textField: XWordSquareTextField) {
+//        }
+//
+//        func didPressBackspace(_ textField: UITextField) {
+//        }
+//
+//    }
 }

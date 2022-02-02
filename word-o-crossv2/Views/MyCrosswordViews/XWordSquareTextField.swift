@@ -17,8 +17,8 @@ class XWordSquareTextField: UITextField {
     }
 
     override func deleteBackward() {
-        if let delegate = self.delegate as? XwordSquareTextBox.Coordinator {
-            delegate.didPressBackspace(self)
-        }
+//        if let delegate = self.delegate as? XwordSquareTextBox.Coordinator {
+//            delegate.didPressBackspace(self)
+//        }
     }
 }

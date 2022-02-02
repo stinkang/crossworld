@@ -21,7 +21,7 @@ struct LobbyView: View {
                 Label("Import file", systemImage: "folder")
             }
             .padding()
-            NavigationLink(destination: MyCrosswordView(crossword: crossword)) {
+            NavigationLink(destination: XWordView(crossword: crossword)) {
                 Text(crossword.title).padding()
             }
             .disabled(crossword.title == "")
