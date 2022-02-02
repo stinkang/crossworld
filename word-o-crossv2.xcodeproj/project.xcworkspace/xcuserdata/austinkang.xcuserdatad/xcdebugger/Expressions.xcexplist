@@ -3,66 +3,6 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "CrosswordTextFieldView.Coordinator.didPressBackspace(_:):CrosswordCellView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "crossword.entries[parent.focusedTag]">
-            </PersistentString>
-            <PersistentString
-               value = "crossword.entries[previousTag]">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "GLOBAL">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.cellObject.isHighlighted">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in CrosswordView.body.getter:CrosswordView.swift">
-      </ContextState>
-      <ContextState
-         contextName = "DocumentPickerCoordinator.init(fileContent:):DocumentPicker.swift">
-      </ContextState>
-      <ContextState
-         contextName = "MyCrosswordView.body.getter:MyCrosswordView.swift">
-      </ContextState>
-      <ContextState
-         contextName = "CrosswordViewModel.init(crossword:):MyCrosswordView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "crosswordSquareFocusStates">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "CrosswordTextFieldView.Coordinator.textField(_:shouldChangeCharactersIn:replacementString:):CrosswordCellView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "textField.text">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "static Crossword.squareShouldHaveAcrossClue(squareNumber:cols:grid:):CrosswordModel.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "isNotBlackSquare &amp;&amp; (isEdgeSquare || hasBlackSquareToTheLeft) &amp;&amp; hasAtLeastTwoWhiteSquaresToTheRight">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "static Crossword.buildClueNamesToCluesMap(gridNums:acrossClues:downClues:cols:grid:):CrosswordModel.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "squareShouldHaveAcrossClue(squareNumber: i, cols: cols, grid: grid)">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "closure #1 in LobbyView.body.getter:LobbyView.swift">
          <PersistentStrings>
             <PersistentString
@@ -71,13 +11,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "MyCrosswordView.changeFocus(index:):MyCrosswordView.swift">
-      </ContextState>
-      <ContextState
          contextName = "CrosswordTextFieldView.updateUIView(_:context:):CrosswordCellView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.cellObject.isHighlighted">
+               value = "uiTextField.gestureRecognizers">
             </PersistentString>
             <PersistentString
                value = "uiTextField.isFirstResponder">
@@ -89,26 +26,48 @@
                value = "uiTextField.text">
             </PersistentString>
             <PersistentString
-               value = "uiTextField.gestureRecognizers">
+               value = "self.cellObject.isHighlighted">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "CrosswordView.getCurrentClue():CrosswordView.swift">
-      </ContextState>
-      <ContextState
-         contextName = "CrosswordModelTests.testSquareShouldHaveAcrossClue():CrosswordModelTests.swift">
+         contextName = "CrosswordViewModel.init(crossword:):MyCrosswordView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "Crossword.squareShouldHaveAcrossClue(squareNumber: num, cols: cols, grid: grid)">
+               value = "crosswordSquareFocusStates">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "static Crossword.squareShouldHaveDownClue(squareNumber:cols:grid:):CrosswordModel.swift">
+         contextName = "MyCrosswordView.changeFocus(index:):MyCrosswordView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CrosswordTextFieldView.Coordinator.textField(_:shouldChangeCharactersIn:replacementString:):CrosswordCellView.swift">
          <PersistentStrings>
             <PersistentString
-               value = "isNotBlackSquare &amp;&amp; (isEdgeSquare || hasBlackSquareAbove) &amp;&amp; hasAtLeastTwoWhiteSquaresBelow">
+               value = "textField.text">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in SquareModelStore.init(crossword:):XWordView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "crossword.grid.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "loadJson(fileName:):CrosswordView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "url">
+            </PersistentString>
+            <PersistentString
+               value = "URL(string: &quot;file:///private/var/mobile/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Nov24th.json&quot;)">
+            </PersistentString>
+            <PersistentString
+               value = "url!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -127,21 +86,76 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "DocumentPickerCoordinator.init(fileContent:):DocumentPicker.swift">
+      </ContextState>
+      <ContextState
+         contextName = "XWordView.changeFocus(index:):XWordView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in CrosswordView.body.getter:CrosswordView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CrosswordModelTests.testSquareShouldHaveAcrossClue():CrosswordModelTests.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Crossword.squareShouldHaveAcrossClue(squareNumber: num, cols: cols, grid: grid)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Crossword.buildClueNamesToCluesMap(gridNums:acrossClues:downClues:cols:grid:):CrosswordModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "squareShouldHaveAcrossClue(squareNumber: i, cols: cols, grid: grid)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CrosswordView.getCurrentClue():CrosswordView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CrosswordTextFieldView.Coordinator.didPressBackspace(_:):CrosswordCellView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "crossword.entries[parent.focusedTag]">
+            </PersistentString>
+            <PersistentString
+               value = "crossword.entries[previousTag]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Crossword.squareShouldHaveAcrossClue(squareNumber:cols:grid:):CrosswordModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "isNotBlackSquare &amp;&amp; (isEdgeSquare || hasBlackSquareToTheLeft) &amp;&amp; hasAtLeastTwoWhiteSquaresToTheRight">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "GLOBAL">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.cellObject.isHighlighted">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static Crossword.squareShouldHaveDownClue(squareNumber:cols:grid:):CrosswordModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "isNotBlackSquare &amp;&amp; (isEdgeSquare || hasBlackSquareAbove) &amp;&amp; hasAtLeastTwoWhiteSquaresBelow">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "CrosswordView.body.getter:CrosswordView.swift">
       </ContextState>
       <ContextState
-         contextName = "loadJson(fileName:):CrosswordView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "url">
-            </PersistentString>
-            <PersistentString
-               value = "URL(string: &quot;file:///private/var/mobile/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Nov24th.json&quot;)">
-            </PersistentString>
-            <PersistentString
-               value = "url!">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "XWordView.init(crossword:):XWordView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MyCrosswordView.body.getter:MyCrosswordView.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

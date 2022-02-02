@@ -9,20 +9,23 @@ import Foundation
 import SwiftUI
 
 struct CrosswordSquareColorBox: View {
+    let boxAcrossClue: String
+    let boxDownClue: String
     let width: CGFloat
-    @ObservedObject var squareState: SquareState
+    @ObservedObject var squareModel: SquareModel
     let index: Int
-//    let changeFocus: (Int) -> Void
-//
-//    func changeFocusInternal() -> Void {
-//        changeFocus(self.index)
-//    }
+    let changeFocus: (Int) -> Void
+    //@EnvironmentObject var currentClue: XWordViewModel
+
+    func changeFocusInternal() -> Void {
+        changeFocus(self.index)
+    }
 
     var body: some View {
         Rectangle()
             .frame(width: width, height: width, alignment: Alignment.center)
             .border(Color.black)
-            .foregroundColor(squareState.state ? Color.blue : Color.white)
-            //.onTapGesture(perform: changeFocusInternal)
+            .foregroundColor(squareModel.state == .highlighted ? Color.lightBlue : (squareModel.state == .focused ? Color.blue : Color.white))
+            .onTapGesture(perform: changeFocusInternal)
     }
 }
