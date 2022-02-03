@@ -15,12 +15,12 @@ enum SquareState {
 
 class SquareModel: ObservableObject {
 
-    @Published var state: SquareState = .unfocused
+    @Published var squareState: SquareState = .unfocused
     var acrossClue: String = ""
     var downClue: String = ""
 
-    func change(to state: SquareState) {
-        self.state = state
+    func changeSquareState(to squareState: SquareState) {
+        self.squareState = squareState
     }
     
     init(acrossClue: String, downClue: String) {

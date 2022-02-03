@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+enum TextState {
+    case typedTo
+    case tappedOn
+    case letterTyped
+    case backspacedTo
+    case shouldGoBackOne
+}
+
 class SquareModelStore {
 
     var models: [SquareModel] = []
@@ -29,7 +37,9 @@ struct XWordView: View {
     let squareModelStore: SquareModelStore
     @State var focusedSquareIndex: Int
     @State var acrossFocused: Bool
-    @StateObject var xWordViewModel = XWordViewModel()
+    @State var textState: TextState
+    @StateObject var xWordViewModel: XWordViewModel = XWordViewModel()
+
     
     var boxWidth: CGFloat {
         let maxSize: CGFloat = 40.0
@@ -42,18 +52,22 @@ struct XWordView: View {
         self.focusedSquareIndex = 0
         self.acrossFocused = true
         self.squareModelStore = SquareModelStore(crossword: crossword)
+        self.textState = .typedTo
         self.changeFocus(index: 0)
     }
 
     func changeFocus(index: Int) -> Void {
-        unsetHighlighting(index: focusedSquareIndex)
-        focusedSquareIndex = index
-        setHighlighting(index: focusedSquareIndex)
-        let newModel = squareModelStore.models[focusedSquareIndex]
-        newModel.change(to: .focused)
-        let newClue = acrossFocused ? newModel.acrossClue : newModel.downClue
-        xWordViewModel.change(to: newClue)
-        
+        if (index == focusedSquareIndex) {
+            changeOrientation()
+        } else {
+            unsetHighlighting(index: focusedSquareIndex)
+            focusedSquareIndex = index
+            setHighlighting(index: focusedSquareIndex)
+            let newModel = squareModelStore.models[focusedSquareIndex]
+            newModel.changeSquareState(to: .focused)
+            let newClue = acrossFocused ? newModel.acrossClue : newModel.downClue
+            xWordViewModel.change(to: newClue)
+        }
         //let currentClueName = crossword.tagsToCluesMap[focusedSquareIndex]["A"]
         //currentClue.change(to: crossword.clueNamesToCluesMap[currentClueName!]!)
     }
@@ -63,7 +77,7 @@ struct XWordView: View {
         let clueName = clues[acrossFocused ? "A" : "D"]
         let clueTags: Array<Int> = (crossword.cluesToTagsMap[clueName!])!
         for clueTag in clueTags {
-            squareModelStore.models[clueTag].change(to: .unfocused)
+            squareModelStore.models[clueTag].changeSquareState(to: .unfocused)
         }
     }
     
@@ -72,16 +86,9 @@ struct XWordView: View {
         let clueName = clues[acrossFocused ? "A" : "D"]
         let clueTags: Array<Int> = (crossword.cluesToTagsMap[clueName!])!
         for clueTag in clueTags {
-            squareModelStore.models[clueTag].change(to: .highlighted)
+            squareModelStore.models[clueTag].changeSquareState(to: .highlighted)
         }
     }
-    
-//    func changeFocusInternal(index: Int) -> () -> Void {
-//        func changeFocusInternalInternal() -> Void {
-//            changeFocus(index: index)
-//        }
-//        return changeFocusInternalInternal
-//    }
     
     func goUpASquare() -> Void {
         var potentialNewIndex = focusedSquareIndex - crossword.cols
@@ -102,7 +109,7 @@ struct XWordView: View {
         changeFocus(index: newIndex)
     }
     
-    func goDownASquare() -> Void{
+    func goDownASquare() -> Void {
         var potentialNewIndex = focusedSquareIndex + crossword.cols
         var newIndex: Int
         if (focusedSquareIndex == crossword.grid.count - 1) {
@@ -153,10 +160,20 @@ struct XWordView: View {
         unsetHighlighting(index: focusedSquareIndex)
         acrossFocused = !acrossFocused
         setHighlighting(index: focusedSquareIndex)
-        squareModelStore.models[focusedSquareIndex].change(to: .focused)
+        squareModelStore.models[focusedSquareIndex].changeSquareState(to: .focused)
         let newModel = squareModelStore.models[focusedSquareIndex]
         let newClue = acrossFocused ? newModel.acrossClue : newModel.downClue
         xWordViewModel.change(to: newClue)
+    }
+    
+    func handleBackspace() -> Void {
+        if (acrossFocused) {
+            goLeftASquare()
+            self.textState = .backspacedTo
+        } else {
+            goUpASquare()
+            self.textState = .backspacedTo
+        }
     }
 
     var body: some View {
@@ -173,7 +190,9 @@ struct XWordView: View {
                                     index: index,
                                     boxWidth: boxWidth,
                                     squareModel: squareModelStore.models[index],
-                                    changeFocus: changeFocus
+                                    changeFocus: changeFocus,
+                                    handleBackspace: handleBackspace,
+                                    textState: $textState
                                 )
                             }
                         }
@@ -193,6 +212,23 @@ struct XWordView: View {
             .position(x: UIScreen.screenWidth/2, y: 120)
         }
         .environmentObject(xWordViewModel)
+        .onChange(of: textState, perform: { newState in
+            if (newState == .letterTyped) {
+                if (acrossFocused) {
+                    goRightASquare()
+                } else {
+                    goDownASquare()
+                }
+                textState = .typedTo
+            } else if (newState == .shouldGoBackOne) {
+                if (acrossFocused) {
+                    goLeftASquare()
+                } else {
+                    goUpASquare()
+                }
+                textState = .typedTo
+            }
+        })
     }
 }
 

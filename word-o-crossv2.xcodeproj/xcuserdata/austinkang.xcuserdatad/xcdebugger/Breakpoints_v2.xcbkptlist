@@ -1151,8 +1151,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
             landmarkName = "makeUIView(context:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1167,8 +1167,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
             landmarkName = "XwordSquareTextBox"
             landmarkType = "14">
          </BreakpointContent>
@@ -1183,10 +1183,10 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "XwordSquareTextBox"
-            landmarkType = "14">
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "makeCoordinator()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1215,8 +1215,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "updateUIView(_:context:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1225,7 +1225,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "20DECD06-8952-4D56-A35F-ADC8659473A6"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareColorBox.swift"
@@ -1233,8 +1233,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "21"
             endingLineNumber = "21"
-            landmarkName = "changeFocusInternal()"
-            landmarkType = "7">
+            landmarkName = "CrosswordSquareColorBox"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1247,8 +1247,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
             landmarkName = "makeUIView(context:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1263,41 +1263,9 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
             landmarkName = "updateUIView(_:context:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E2F16A22-569C-4E08-B58E-8A7F4538CB59"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
-            landmarkName = "XWordView"
-            landmarkType = "14">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "27D467AB-8FC9-4EC3-8274-314C0B92C51E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
-            landmarkName = "changeFocus(index:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1311,10 +1279,10 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "XwordSquareTextBox"
-            landmarkType = "14">
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "Coordinator"
+            landmarkType = "3">
             <Locations>
                <Location
                   uuid = "00F6310B-9BF8-42D5-8AEF-8D026722ECE2 - 9b5a7446712a3709"
@@ -1359,10 +1327,10 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "XwordSquareTextBox"
-            landmarkType = "14">
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "init(_:textState:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1432,22 +1400,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "21F9D464-E5F2-4439-A22E-3086ED4FA3BA"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "makeUIView(context:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "1524BFA4-69E8-4C41-B399-D2DD9156D8E6"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -1455,8 +1407,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "goUpASquare()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1487,8 +1439,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "goDownASquare()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1503,8 +1455,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "goDownASquare()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1519,8 +1471,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "changeFocus(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1544,22 +1496,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E9BE6F70-1729-423B-A8D3-C36D87797465"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "changeFocus(index:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "15E851E4-9CE0-41DE-BAE9-F093FC81B849"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -1567,8 +1503,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
             landmarkName = "init(crossword:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1583,8 +1519,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
             landmarkName = "init(crossword:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1599,8 +1535,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
             landmarkName = "init(crossword:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1615,8 +1551,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "changeOrientation()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1631,10 +1567,186 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "unsetHighlighting(index:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D41F27D3-F5A6-4A7C-95D8-B4638F647A18"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquare.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "changeFocusInternalInternal()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "246EAAF7-8F5E-467D-8DDC-B07250C47F07"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextField.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "deleteBackward()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "00845F90-A448-4A5C-BD0B-6C62B75FFBD4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "handleBackspace()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6A7801AE-0FCB-4494-8DF7-EC126479344E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "updateUIView(_:context:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B95CE50B-6003-46C3-9446-CA1FB31C8EAC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "changeFocus(index:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CA0127FC-073A-4B9F-A245-7ACE0A0E0066"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "changeFocus(index:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0782B035-2AB2-49C0-B378-37B868D901AE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "changeFocus(index:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "99BEE651-9AC8-44BF-B332-E4323AA5AC8D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "changeFocus(index:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FB790183-D11E-4BA6-9005-F82825B64AD1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "textField(_:shouldChangeCharactersIn:replacementString:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CE90CFED-A1DE-4379-8489-ECC6D5A2E656"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "62FB6195-34B6-4C3C-87F8-109895528E36"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "body"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
