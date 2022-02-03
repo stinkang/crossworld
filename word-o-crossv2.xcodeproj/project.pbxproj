@@ -208,11 +208,11 @@
 				964B9CF9274DCD4E00C73172 /* XWordView.swift */,
 				9673042127A904770063DF21 /* XWordViewToolbar.swift */,
 				9673042527AA39D00063DF21 /* XWordSquare.swift */,
-				96730410279A494C0063DF21 /* XWordSquareBlackBox.swift */,
-				96730412279A49760063DF21 /* XWordSquareColorBox.swift */,
 				96730414279A49940063DF21 /* XWordSquareTextBox.swift */,
-				96730416279A91BE0063DF21 /* XWordSquareTextField.swift */,
+				96730412279A49760063DF21 /* XWordSquareColorBox.swift */,
+				96730410279A494C0063DF21 /* XWordSquareBlackBox.swift */,
 				964B9D23274E027B00C73172 /* LobbyView.swift */,
+				96730416279A91BE0063DF21 /* XWordSquareTextField.swift */,
 			);
 			path = MyCrosswordViews;
 			sourceTree = "<group>";

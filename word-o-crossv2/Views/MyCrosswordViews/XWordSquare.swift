@@ -14,6 +14,16 @@ struct XWordSquare: View {
     let boxWidth: CGFloat
     let squareModel: SquareModel
     let changeFocus: (Int) -> Void
+    let handleBackspace: () -> Void
+    @Binding var textState: TextState
+    
+    func changeFocusInternal(index: Int) -> () -> Void {
+        func changeFocusInternalInternal() -> Void {
+            changeFocus(index)
+        }
+        return changeFocusInternalInternal
+    }
+
     var body: some View {
         if (crossword.grid[index] == ".") {
             CrosswordSquareBlackBox(width: boxWidth)
@@ -26,20 +36,22 @@ struct XWordSquare: View {
                     boxDownClue: downClue!,
                     width: boxWidth,
                     squareModel: squareModel,
-                    index: index,
-                    changeFocus: changeFocus
+                    index: index
+                    //changeFocus: changeFocus
                 )
                 XwordSquareTextBox(
                     width: boxWidth,
                     answerText: crossword.grid[index],
                     index: index,
                     crossword: crossword,
+                    handleBackspace: handleBackspace,
                     /*changeFocus: changeFocus,*/
                     squareModel: squareModel,
-                    givenText: ""
+                    givenText: "",
+                    textState: $textState
                 )
                 .frame(width: boxWidth, height: boxWidth, alignment: .center)
-            }//.onTapGesture(perform: changeFocusInternal(index: index))
+            }.onTapGesture(perform: changeFocusInternal(index: index))
         }
     }
 }
