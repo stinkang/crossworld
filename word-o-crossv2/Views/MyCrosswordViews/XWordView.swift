@@ -260,6 +260,8 @@ struct XWordView: View {
     }
 
     var body: some View {
+        ZStack {
+            //SocketManager()
             VStack(alignment: .leading, spacing: 0) {
                 Text(crossword.title)
                 VStack(spacing: 0) {
@@ -290,16 +292,17 @@ struct XWordView: View {
                     changeOrientation: changeOrientation
                 )
             }
-            .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth + boxWidth * 3)
-            .position(x: UIScreen.screenWidth/2, y: 220)
-            .environmentObject(xWordViewModel)
-            .onChange(of: textState, perform: { newState in
-                if (newState == .letterTyped) {
-                    handleLetterTyped()
-                } else if (newState == .shouldGoBackOne) {
-                    handleShouldBackspaceState()
-                }
-            })
+        }
+        .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth + boxWidth * 3)
+        .position(x: UIScreen.screenWidth/2, y: 220)
+        .environmentObject(xWordViewModel)
+        .onChange(of: textState, perform: { newState in
+            if (newState == .letterTyped) {
+                handleLetterTyped()
+            } else if (newState == .shouldGoBackOne) {
+                handleShouldBackspaceState()
+            }
+        })
     }
 }
 
