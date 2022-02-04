@@ -13,7 +13,7 @@ struct XwordSquareTextBox: UIViewRepresentable {
     let answerText: String
     let index: Int
     let crossword: Crossword
-//    let changeFocus: (Int) -> Void
+    //let changeFocus: (Int) -> Void
     let handleBackspace: () -> Void
     @ObservedObject var squareModel: SquareModel
     @State var givenText: String
@@ -28,7 +28,7 @@ struct XwordSquareTextBox: UIViewRepresentable {
         textField.delegate = context.coordinator
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .allCharacters
-//        textField.addTarget(context.coordinator, action: #selector(context.coordinator.touchTextField), for: .allTouchEvents)
+        //textField.addTarget(context.coordinator, action: #selector(context.coordinator.touchTextField), for: .allTouchEvents)
         textField.font = UIFont(name: "Helvetica Bold", size: CGFloat(70 * width / 100))
         textField.textColor = .black
         textField.textAlignment = .center;
@@ -53,18 +53,24 @@ struct XwordSquareTextBox: UIViewRepresentable {
 //    }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(self, textState: $textState)
+        Coordinator(self, /*changeFocusInternal: changeFocusInternal*/ textState: $textState)
     }
 //
     class Coordinator: NSObject, UITextFieldDelegate {
         @Binding var textState: TextState
+        //let changeFocusInternal: () -> Void
         var parentTextBox: XwordSquareTextBox
         @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
-        init(_ parentTextBox: XwordSquareTextBox, textState: Binding<TextState>) {
+        init(_ parentTextBox: XwordSquareTextBox, /*changeFocusInternal: @escaping () -> Void, */textState: Binding<TextState>) {
             self.parentTextBox = parentTextBox
+            //self.changeFocusInternal = changeFocusInternal
             self._textState = textState
         }
+        
+//        @objc func touchTextField(_ textField: UITextField) {
+//            changeFocusInternal()
+//        }
 
         func didPressBackspace(_ textField: UITextField) {
             if (textField.text == "") {
