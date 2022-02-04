@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "XWordView.goToNextDownClueSquare():XWordView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "crossword.grid[potentialNewIndex]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "XWordView.goToNextClueSquare():XWordView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "acrossFocused">
+            </PersistentString>
+            <PersistentString
+               value = "crossword.grid[newIndex] ">
+            </PersistentString>
+            <PersistentString
+               value = "(newIndex + 1) % crossword.cols">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

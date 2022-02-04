@@ -13,13 +13,13 @@ struct XWordSquare: View {
     let index: Int
     let boxWidth: CGFloat
     let squareModel: SquareModel
-    let changeFocus: (Int) -> Void
+    let changeFocus: (Int, Bool) -> Void
     let handleBackspace: () -> Void
     @Binding var textState: TextState
     
     func changeFocusInternal(index: Int) -> () -> Void {
         func changeFocusInternalInternal() -> Void {
-            changeFocus(index)
+            changeFocus(index, false)
         }
         return changeFocusInternalInternal
     }
@@ -51,7 +51,10 @@ struct XWordSquare: View {
                     textState: $textState
                 )
                 .frame(width: boxWidth, height: boxWidth, alignment: .center)
-            }.onTapGesture(perform: changeFocusInternal(index: index))
+            }
+            .contentShape(Rectangle())
+            .frame(width: boxWidth, height: boxWidth, alignment: .center)
+            .onTapGesture(perform: changeFocusInternal(index: index))
         }
     }
 }

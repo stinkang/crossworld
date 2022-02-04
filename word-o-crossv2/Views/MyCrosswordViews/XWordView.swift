@@ -56,8 +56,8 @@ struct XWordView: View {
         self.changeFocus(index: 0)
     }
 
-    func changeFocus(index: Int) -> Void {
-        if (index == focusedSquareIndex) {
+    func changeFocus(index: Int, keepOrientation: Bool = false) -> Void {
+        if (index == focusedSquareIndex && !keepOrientation) {
             changeOrientation()
         } else {
             unsetHighlighting(index: focusedSquareIndex)
@@ -156,6 +156,66 @@ struct XWordView: View {
         changeFocus(index: newIndex)
     }
     
+    func goToNextClueSquare() -> Void {
+        if (acrossFocused) {
+            goToNextAcrossClueSquare()
+        } else {
+            goToNextDownClueSquare()
+        }
+    }
+    
+    private func goToNextAcrossClueSquare() -> Void {
+        var newIndex = focusedSquareIndex
+        while (crossword.grid[newIndex] != ".") {
+            newIndex += 1
+            if ((newIndex + 1) % crossword.cols == 0) {
+                break
+            }
+        }
+        newIndex += 1
+        if (newIndex == crossword.grid.count) {
+            newIndex = 0
+            changeOrientation()
+        }
+        while (crossword.grid[newIndex] == ".") {
+            newIndex += 1
+        }
+        changeFocus(index: newIndex)
+    }
+    
+    private func goToNextDownClueSquare() -> Void {
+        var newIndex = focusedSquareIndex
+        // Get to the start of the down clue -- the top of the current word
+        while (newIndex >= crossword.cols) {
+            let potentialNewIndex = newIndex - crossword.cols
+            if (crossword.grid[potentialNewIndex] == ".") {
+                break
+            }
+            newIndex = newIndex - crossword.cols
+        }
+
+        // Start from the top of this word
+        changeFocus(index: newIndex, keepOrientation: true)
+        newIndex += 1
+
+        // Get to the next square if this is the first row
+        // or get to the first space with a black square above it from this point
+        while(newIndex != crossword.grid.count) {
+            if ((newIndex < crossword.cols || (crossword.grid[newIndex - crossword.cols] == "."))
+                && (crossword.grid[newIndex] != ".")) {
+                    changeFocus(index: newIndex, keepOrientation: true)
+                    return
+            }
+            newIndex += 1
+        }
+
+        // Start at the beginning of the puzzle again, with across oriented this time.
+        newIndex = 0
+        changeOrientation()
+        changeFocus(index: newIndex)
+        
+    }
+    
     func changeOrientation() -> Void {
         unsetHighlighting(index: focusedSquareIndex)
         acrossFocused = !acrossFocused
@@ -175,9 +235,31 @@ struct XWordView: View {
             self.textState = .backspacedTo
         }
     }
+    
+    func handleLetterTyped() -> Void {
+        if (acrossFocused) {
+            goRightASquare()
+        } else {
+            if (focusedSquareIndex > (crossword.grid.count - crossword.cols)
+                || crossword.grid[focusedSquareIndex + crossword.cols] == ".") {
+                goToNextDownClueSquare()
+            } else {
+                goDownASquare()
+            }
+        }
+        textState = .typedTo
+    }
+    
+    func handleShouldBackspaceState() -> Void {
+        if (acrossFocused) {
+            goLeftASquare()
+        } else {
+            goUpASquare()
+        }
+        textState = .typedTo
+    }
 
     var body: some View {
-        NavigationView {
             VStack(alignment: .leading, spacing: 0) {
                 Text(crossword.title)
                 VStack(spacing: 0) {
@@ -204,31 +286,20 @@ struct XWordView: View {
                     goUpASquare: goUpASquare,
                     goDownASquare: goDownASquare,
                     goLeftASquare: goLeftASquare,
-                    goRightASquare: goRightASquare,
+                    goRightASquare: goToNextClueSquare,
                     changeOrientation: changeOrientation
                 )
             }
             .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth + boxWidth * 3)
-            .position(x: UIScreen.screenWidth/2, y: 120)
-        }
-        .environmentObject(xWordViewModel)
-        .onChange(of: textState, perform: { newState in
-            if (newState == .letterTyped) {
-                if (acrossFocused) {
-                    goRightASquare()
-                } else {
-                    goDownASquare()
+            .position(x: UIScreen.screenWidth/2, y: 220)
+            .environmentObject(xWordViewModel)
+            .onChange(of: textState, perform: { newState in
+                if (newState == .letterTyped) {
+                    handleLetterTyped()
+                } else if (newState == .shouldGoBackOne) {
+                    handleShouldBackspaceState()
                 }
-                textState = .typedTo
-            } else if (newState == .shouldGoBackOne) {
-                if (acrossFocused) {
-                    goLeftASquare()
-                } else {
-                    goUpASquare()
-                }
-                textState = .typedTo
-            }
-        })
+            })
     }
 }
 
