@@ -16,6 +16,7 @@ struct XWordSquare: View {
     let changeFocus: (Int, Bool) -> Void
     let handleBackspace: () -> Void
     @Binding var textState: TextState
+    let clueNumber: Int
     
     func changeFocusInternal(index: Int) -> () -> Void {
         func changeFocusInternalInternal() -> Void {
@@ -36,8 +37,9 @@ struct XWordSquare: View {
                     boxDownClue: downClue!,
                     width: boxWidth,
                     squareModel: squareModel,
-                    index: index
+                    index: index,
                     //changeFocus: changeFocus
+                    clueNumber: clueNumber
                 )
                 XwordSquareTextBox(
                     width: boxWidth,

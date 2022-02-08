@@ -11,4 +11,5 @@ import SwiftUI
 extension Color {
     static let offWhite = Color("offWhite")
     static let lightBlue = Color("lightBlue")
+    static let focusedBlue = Color("focusedBlue")
 }

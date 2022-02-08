@@ -137,10 +137,13 @@ struct Crossword: Decodable {
         
         let acrossClues = try cluesContainer.decode([String].self, forKey: .acrossClues)
         let downClues = try cluesContainer.decode([String].self, forKey: .downClues)
+        
+        let trimmedAcrossClues = Crossword.getTrimmedClues(clues: acrossClues)
+        let trimmedDownClues = Crossword.getTrimmedClues(clues: downClues)
 
-        self.acrossClues = acrossClues
-        self.downClues = downClues
-        self.clueNamesToCluesMap = Crossword.buildClueNamesToCluesMap(gridNums: gridNums, acrossClues: acrossClues, downClues: downClues, cols: cols, grid: grid)
+        self.acrossClues = trimmedAcrossClues
+        self.downClues = trimmedDownClues
+        self.clueNamesToCluesMap = Crossword.buildClueNamesToCluesMap(gridNums: gridNums, acrossClues: trimmedAcrossClues, downClues: trimmedDownClues, cols: cols, grid: grid)
 
         let tagsToCluesMap = Crossword.buildTagsToCluesMap(gridNums: gridNums, cols: cols, grid: grid)
         self.tagsToCluesMap = tagsToCluesMap
@@ -163,6 +166,19 @@ struct Crossword: Decodable {
             }
         }
         self.entries = entries
+    }
+    
+    static func getTrimmedClues(clues: Array<String>) -> Array<String> {
+        var newClues: Array<String> = []
+        clues.forEach({ clue in
+            var i = 0
+            while (clue[i].isNumber || clue[i] == "." || clue[i] == " ") {
+                i += 1
+            }
+            let newClue = String(clue.suffix(clue.count - i))
+            newClues.append(newClue)
+        })
+        return newClues
     }
     
     // Naive
@@ -332,4 +348,10 @@ struct CrosswordClues: Decodable {
 struct CrosswordAnswers: Decodable {
     var across: [String]
     var down: [String]
+}
+
+extension StringProtocol {
+    subscript(offset: Int) -> Character {
+        self[index(startIndex, offsetBy: offset)]
+    }
 }

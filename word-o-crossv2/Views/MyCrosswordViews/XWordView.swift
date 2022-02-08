@@ -35,7 +35,6 @@ class SquareModelStore {
 struct XWordView: View {
     var crossword: Crossword
     let squareModelStore: SquareModelStore
-    @State var focusedSquareIndex: Int
     @State var acrossFocused: Bool
     @State var textState: TextState
     @StateObject var xWordViewModel: XWordViewModel = XWordViewModel()
@@ -49,7 +48,6 @@ struct XWordView: View {
     
     init(crossword: Crossword) {
         self.crossword = crossword
-        self.focusedSquareIndex = 0
         self.acrossFocused = true
         self.squareModelStore = SquareModelStore(crossword: crossword)
         self.textState = .typedTo
@@ -57,16 +55,16 @@ struct XWordView: View {
     }
 
     func changeFocus(index: Int, keepOrientation: Bool = false) -> Void {
-        if (index == focusedSquareIndex && !keepOrientation) {
+        if (index == xWordViewModel.focusedSquareIndex && !keepOrientation) {
             changeOrientation()
         } else {
-            unsetHighlighting(index: focusedSquareIndex)
-            focusedSquareIndex = index
-            setHighlighting(index: focusedSquareIndex)
-            let newModel = squareModelStore.models[focusedSquareIndex]
+            unsetHighlighting(index: xWordViewModel.focusedSquareIndex)
+            xWordViewModel.changeFocusedSquareIndex(to: index)
+            setHighlighting(index: xWordViewModel.focusedSquareIndex)
+            let newModel = squareModelStore.models[xWordViewModel.focusedSquareIndex]
             newModel.changeSquareState(to: .focused)
             let newClue = acrossFocused ? newModel.acrossClue : newModel.downClue
-            xWordViewModel.change(to: newClue)
+            xWordViewModel.changeClue(to: newClue)
         }
         //let currentClueName = crossword.tagsToCluesMap[focusedSquareIndex]["A"]
         //currentClue.change(to: crossword.clueNamesToCluesMap[currentClueName!]!)
@@ -91,9 +89,9 @@ struct XWordView: View {
     }
     
     func goUpASquare() -> Void {
-        var potentialNewIndex = focusedSquareIndex - crossword.cols
+        var potentialNewIndex = xWordViewModel.focusedSquareIndex - crossword.cols
         var newIndex: Int
-        if (focusedSquareIndex == 0) {
+        if (xWordViewModel.focusedSquareIndex == 0) {
             newIndex = crossword.grid.count - 1
         } else {
             newIndex = potentialNewIndex < 0
@@ -110,9 +108,9 @@ struct XWordView: View {
     }
     
     func goDownASquare() -> Void {
-        var potentialNewIndex = focusedSquareIndex + crossword.cols
+        var potentialNewIndex = xWordViewModel.focusedSquareIndex + crossword.cols
         var newIndex: Int
-        if (focusedSquareIndex == crossword.grid.count - 1) {
+        if (xWordViewModel.focusedSquareIndex == crossword.grid.count - 1) {
             newIndex = 0
         } else {
             newIndex = potentialNewIndex >= crossword.grid.count
@@ -129,13 +127,13 @@ struct XWordView: View {
     }
     
     func goLeftASquare() -> Void {
-        var potentialNewIndex = focusedSquareIndex - 1
-        var newIndex: Int = focusedSquareIndex == 0
+        var potentialNewIndex = xWordViewModel.focusedSquareIndex - 1
+        var newIndex: Int = xWordViewModel.focusedSquareIndex == 0
             ? crossword.grid.count - 1
             : potentialNewIndex
         while (crossword.grid[newIndex] == ".") {
             potentialNewIndex = newIndex - 1
-            newIndex = focusedSquareIndex == 0
+            newIndex = xWordViewModel.focusedSquareIndex == 0
                 ? crossword.grid.count - 1
                 : potentialNewIndex
         }
@@ -143,13 +141,13 @@ struct XWordView: View {
     }
     
     func goRightASquare() -> Void {
-        var potentialNewIndex = focusedSquareIndex + 1
-        var newIndex: Int = focusedSquareIndex == crossword.grid.count - 1
+        var potentialNewIndex = xWordViewModel.focusedSquareIndex + 1
+        var newIndex: Int = xWordViewModel.focusedSquareIndex == crossword.grid.count - 1
             ? 0
             : potentialNewIndex
         while (crossword.grid[newIndex] == ".") {
             potentialNewIndex = newIndex + 1
-            newIndex = focusedSquareIndex == crossword.grid.count - 1
+            newIndex = xWordViewModel.focusedSquareIndex == crossword.grid.count - 1
                 ? 0
                 : potentialNewIndex
         }
@@ -165,7 +163,7 @@ struct XWordView: View {
     }
     
     private func goToNextAcrossClueSquare() -> Void {
-        var newIndex = focusedSquareIndex
+        var newIndex = xWordViewModel.focusedSquareIndex
         while (crossword.grid[newIndex] != ".") {
             newIndex += 1
             if ((newIndex + 1) % crossword.cols == 0) {
@@ -184,7 +182,7 @@ struct XWordView: View {
     }
     
     private func goToNextDownClueSquare() -> Void {
-        var newIndex = focusedSquareIndex
+        var newIndex = xWordViewModel.focusedSquareIndex
         // Get to the start of the down clue -- the top of the current word
         while (newIndex >= crossword.cols) {
             let potentialNewIndex = newIndex - crossword.cols
@@ -217,13 +215,13 @@ struct XWordView: View {
     }
     
     func changeOrientation() -> Void {
-        unsetHighlighting(index: focusedSquareIndex)
+        unsetHighlighting(index: xWordViewModel.focusedSquareIndex)
         acrossFocused = !acrossFocused
-        setHighlighting(index: focusedSquareIndex)
-        squareModelStore.models[focusedSquareIndex].changeSquareState(to: .focused)
-        let newModel = squareModelStore.models[focusedSquareIndex]
+        setHighlighting(index: xWordViewModel.focusedSquareIndex)
+        squareModelStore.models[xWordViewModel.focusedSquareIndex].changeSquareState(to: .focused)
+        let newModel = squareModelStore.models[xWordViewModel.focusedSquareIndex]
         let newClue = acrossFocused ? newModel.acrossClue : newModel.downClue
-        xWordViewModel.change(to: newClue)
+        xWordViewModel.changeClue(to: newClue)
     }
     
     func handleBackspace() -> Void {
@@ -240,8 +238,8 @@ struct XWordView: View {
         if (acrossFocused) {
             goRightASquare()
         } else {
-            if (focusedSquareIndex > (crossword.grid.count - crossword.cols)
-                || crossword.grid[focusedSquareIndex + crossword.cols] == ".") {
+            if (xWordViewModel.focusedSquareIndex > (crossword.grid.count - crossword.cols)
+                || crossword.grid[xWordViewModel.focusedSquareIndex + crossword.cols] == ".") {
                 goToNextDownClueSquare()
             } else {
                 goDownASquare()
@@ -261,7 +259,7 @@ struct XWordView: View {
 
     var body: some View {
         ZStack {
-            //SocketManager()
+            SocketManager()
             VStack(alignment: .leading, spacing: 0) {
                 Text(crossword.title)
                 VStack(spacing: 0) {
@@ -269,6 +267,7 @@ struct XWordView: View {
                         HStack(spacing: 0) {
                             ForEach(0..<crossword.rows, id: \.self) { row in
                                 let index = col * crossword.rows + row
+                                let clueNumber = crossword.gridNums[index] != 0 ? crossword.gridNums[index] : 0
                                 XWordSquare(
                                     crossword: crossword,
                                     index: index,
@@ -276,7 +275,8 @@ struct XWordView: View {
                                     squareModel: squareModelStore.models[index],
                                     changeFocus: changeFocus,
                                     handleBackspace: handleBackspace,
-                                    textState: $textState
+                                    textState: $textState,
+                                    clueNumber: clueNumber
                                 )
                             }
                         }
@@ -303,6 +303,9 @@ struct XWordView: View {
                 handleShouldBackspaceState()
             }
         })
+//        .onChange(of: xWordViewModel.typedText, perform: { newTypedText in
+//            self.socketManager.sendMessage(xWordViewModel.typedText)
+//        })
     }
 }
 

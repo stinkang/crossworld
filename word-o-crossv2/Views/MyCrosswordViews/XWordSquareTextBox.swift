@@ -18,7 +18,7 @@ struct XwordSquareTextBox: UIViewRepresentable {
     @ObservedObject var squareModel: SquareModel
     @State var givenText: String
     @Binding var textState: TextState
-
+    @EnvironmentObject var xWordViewModel: XWordViewModel
 //    func changeFocusInternal() -> Void {
 //        changeFocus(index)
 //    }
@@ -29,9 +29,11 @@ struct XwordSquareTextBox: UIViewRepresentable {
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .allCharacters
         //textField.addTarget(context.coordinator, action: #selector(context.coordinator.touchTextField), for: .allTouchEvents)
-        textField.font = UIFont(name: "Helvetica Bold", size: CGFloat(70 * width / 100))
+        textField.addTarget(self, action: #selector(context.coordinator.textFieldDidChange), for: .editingChanged)
+        textField.font = UIFont(name: "Helvetica", size: CGFloat(width))
         textField.textColor = .black
         textField.textAlignment = .center;
+        textField.tintColor = UIColor.clear
         //textField.addToolbar()
         //textField.becomeFirstResponder()
 
@@ -47,6 +49,9 @@ struct XwordSquareTextBox: UIViewRepresentable {
             textState = .tappedOn
         }
     }
+    func updateTypedText(typedText: String) {
+        xWordViewModel.changeTypedText(to: typedText)
+    }
     
 //    static func dismantleUIView(_ uiTextField: XWordSquareTextField, coordinator: Coordinator) {
 //
@@ -58,6 +63,7 @@ struct XwordSquareTextBox: UIViewRepresentable {
 //
     class Coordinator: NSObject, UITextFieldDelegate {
         @Binding var textState: TextState
+
         //let changeFocusInternal: () -> Void
         var parentTextBox: XwordSquareTextBox
         @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -71,6 +77,12 @@ struct XwordSquareTextBox: UIViewRepresentable {
 //        @objc func touchTextField(_ textField: UITextField) {
 //            changeFocusInternal()
 //        }
+        
+        @objc func textFieldDidChange(_ textField: UITextField) {
+            let currentString: NSString = textField.text! as NSString
+            parentTextBox.updateTypedText(typedText: currentString as String)
+
+        }
 
         func didPressBackspace(_ textField: UITextField) {
             if (textField.text == "") {
@@ -92,5 +104,11 @@ struct XwordSquareTextBox: UIViewRepresentable {
             return newString.length <= maxLength
         }
 
+        func textFieldDidEndEditing(_ textField: UITextField) {
+            let currentString = textField.text!
+            if (parentTextBox.xWordViewModel.typedText != currentString) {
+                parentTextBox.updateTypedText(typedText: currentString)
+            }
+        }
     }
 }

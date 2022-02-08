@@ -49,7 +49,7 @@ struct XWordViewToolbarButton: View {
             Image(systemName: systemName)
                 .resizable()
                 .scaledToFit()
-                .frame(width: boxWidth, height: boxWidth)
+                .frame(width: boxWidth - 10, height: boxWidth - 10)
         }
         .padding(.horizontal)
     }
