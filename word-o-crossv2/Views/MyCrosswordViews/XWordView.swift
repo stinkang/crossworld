@@ -65,6 +65,7 @@ struct XWordView: View {
             newModel.changeSquareState(to: .focused)
             let newClue = acrossFocused ? newModel.acrossClue : newModel.downClue
             xWordViewModel.changeClue(to: newClue)
+            xWordViewModel.changeTypedText(to: "")
         }
         //let currentClueName = crossword.tagsToCluesMap[focusedSquareIndex]["A"]
         //currentClue.change(to: crossword.clueNamesToCluesMap[currentClueName!]!)
@@ -165,10 +166,10 @@ struct XWordView: View {
     private func goToNextAcrossClueSquare() -> Void {
         var newIndex = xWordViewModel.focusedSquareIndex
         while (crossword.grid[newIndex] != ".") {
-            newIndex += 1
             if ((newIndex + 1) % crossword.cols == 0) {
                 break
             }
+            newIndex += 1
         }
         newIndex += 1
         if (newIndex == crossword.grid.count) {
@@ -239,7 +240,7 @@ struct XWordView: View {
             goRightASquare()
         } else {
             if (xWordViewModel.focusedSquareIndex > (crossword.grid.count - crossword.cols)
-                || crossword.grid[xWordViewModel.focusedSquareIndex + crossword.cols] == ".") {
+                || (xWordViewModel.focusedSquareIndex + crossword.cols  < crossword.grid.count && crossword.grid[xWordViewModel.focusedSquareIndex + crossword.cols] == ".")) {
                 goToNextDownClueSquare()
             } else {
                 goDownASquare()
@@ -302,6 +303,9 @@ struct XWordView: View {
             } else if (newState == .shouldGoBackOne) {
                 handleShouldBackspaceState()
             }
+        })
+        .onChange(of: xWordViewModel.otherPlayersMove, perform: { moveData in
+            squareModelStore.models[moveData.index].changeTextFromOtherPlayer(to: moveData.text)
         })
 //        .onChange(of: xWordViewModel.typedText, perform: { newTypedText in
 //            self.socketManager.sendMessage(xWordViewModel.typedText)

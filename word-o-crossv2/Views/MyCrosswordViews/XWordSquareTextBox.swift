@@ -29,7 +29,7 @@ struct XwordSquareTextBox: UIViewRepresentable {
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .allCharacters
         //textField.addTarget(context.coordinator, action: #selector(context.coordinator.touchTextField), for: .allTouchEvents)
-        textField.addTarget(self, action: #selector(context.coordinator.textFieldDidChange), for: .editingChanged)
+        //textField.addTarget(self, action: #selector(context.coordinator.textFieldDidChange), for: .editingChanged)
         textField.font = UIFont(name: "Helvetica", size: CGFloat(width))
         textField.textColor = .black
         textField.textAlignment = .center;
@@ -48,8 +48,14 @@ struct XwordSquareTextBox: UIViewRepresentable {
             uiTextField.text = ""
             textState = .tappedOn
         }
+        if (squareModel.textFromOtherPlayer != "") {
+            uiTextField.text = squareModel.textFromOtherPlayer
+            squareModel.changeTextFromOtherPlayer(to: "")
+        }
     }
+
     func updateTypedText(typedText: String) {
+        xWordViewModel.changeShouldSendMessage(to: true)
         xWordViewModel.changeTypedText(to: typedText)
     }
     
@@ -77,12 +83,6 @@ struct XwordSquareTextBox: UIViewRepresentable {
 //        @objc func touchTextField(_ textField: UITextField) {
 //            changeFocusInternal()
 //        }
-        
-        @objc func textFieldDidChange(_ textField: UITextField) {
-            let currentString: NSString = textField.text! as NSString
-            parentTextBox.updateTypedText(typedText: currentString as String)
-
-        }
 
         func didPressBackspace(_ textField: UITextField) {
             if (textField.text == "") {

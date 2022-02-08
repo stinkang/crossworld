@@ -7,7 +7,12 @@
 
 import Foundation
 
-struct TypedTextData: Codable {
+struct TypedTextData: Codable, Equatable {
     var text: String
     var index: Int
+    
+    static func == (lhs: TypedTextData, rhs: TypedTextData) -> Bool {
+        lhs.text == rhs.text &&
+        lhs.index == rhs.index
+    }
 }

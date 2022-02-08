@@ -13,26 +13,40 @@ import Starscream
 struct SocketManager: UIViewControllerRepresentable {
     @EnvironmentObject var xWordViewModel: XWordViewModel
     func makeUIViewController(context: Context) -> SocketManagerViewController {
-        return SocketManagerViewController()
+        return SocketManagerViewController(xWordViewModel: xWordViewModel)
     }
 
     func updateUIViewController(_ uiViewController: SocketManagerViewController, context: Context) {
-        do {
-            let typedTextData = TypedTextData(
-                text: xWordViewModel.typedText,
-                index: xWordViewModel.previousFocusedSquareIndex
-            )
-            try uiViewController.sendMessage(typedTextData)
-        } catch {
-            print("Unexpected error: \(error).")
+        if (xWordViewModel.shouldSendMessage) {
+            do {
+                let typedTextData = TypedTextData(
+                    text: xWordViewModel.typedText,
+                    index: xWordViewModel.previousFocusedSquareIndex
+                )
+                try uiViewController.sendMessage(typedTextData)
+            } catch {
+                print("Unexpected error: \(error).")
+            }
+            xWordViewModel.changeShouldSendMessage(to: false)
         }
     }
 }
 
 final class SocketManagerViewController: UIViewController {
+    @ObservedObject var xWordViewModel: XWordViewModel
     private var isConnected = false
     let socket = WebSocket(request: URLRequest(url: URL(string: "http://192.168.86.199:8082")!))
     let encoder = JSONEncoder()
+    let decoder = JSONDecoder()
+    
+    init(xWordViewModel: XWordViewModel) {
+        self.xWordViewModel = xWordViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,33 +62,37 @@ final class SocketManagerViewController: UIViewController {
 
 extension SocketManagerViewController : WebSocketDelegate {
     func didReceive(event: WebSocketEvent, client: WebSocket) {
-        func didReceive(event: WebSocketEvent, client: WebSocket) {
-            switch event {
-            case .connected(let headers):
-                isConnected = true
-                print("websocket is connected: \(headers)")
-            case .disconnected(let reason, let code):
-                isConnected = false
-                print("websocket is disconnected: \(reason) with code: \(code)")
-            case .text(let string):
-                print("Received text: \(string)")
-            case .binary(let data):
-                print("Received data: \(data.count)")
-            case .ping(_):
-                break
-            case .pong(_):
-                break
-            case .viabilityChanged(_):
-                break
-            case .reconnectSuggested(_):
-                break
-            case .cancelled:
-                isConnected = false
-            case .error(let error):
-                isConnected = false
-                print(error);
-                //handleError(error)
+        switch event {
+        case .connected(let headers):
+            isConnected = true
+            print("websocket is connected: \(headers)")
+        case .disconnected(let reason, let code):
+            isConnected = false
+            print("websocket is disconnected: \(reason) with code: \(code)")
+        case .text(let string):
+            print("Received text: \(string)")
+        case .binary(let data):
+            var typedTextData: TypedTextData
+            do {
+                try typedTextData = self.decoder.decode(TypedTextData.self, from: data)
+                xWordViewModel.changeOtherPlayersMove(to: typedTextData)
+            } catch {
+                print("error decoding data")
             }
+        case .ping(_):
+            break
+        case .pong(_):
+            break
+        case .viabilityChanged(_):
+            break
+        case .reconnectSuggested(_):
+            break
+        case .cancelled:
+            isConnected = false
+        case .error(let error):
+            isConnected = false
+            print(error);
+            //handleError(error)
         }
     }
 
