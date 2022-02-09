@@ -11,6 +11,31 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "XwordSquareTextBox.Coordinator.textField(_:shouldChangeCharactersIn:replacementString:):XWordSquareTextBox.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SocketManager.updateUIViewController(_:context:):SocketManager.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "xWordViewModel.shouldSendMessage">
+            </PersistentString>
+            <PersistentString
+               value = "xWordViewModel.previousFocusedSquareIndex">
+            </PersistentString>
+            <PersistentString
+               value = "xWordViewModel.typedText">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "XwordSquareTextBox.updateTypedText(typedText:):XWordSquareTextBox.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "xWordViewModel.shouldSendMessage">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "XWordView.goToNextClueSquare():XWordView.swift">
          <PersistentStrings>
             <PersistentString
@@ -21,6 +46,25 @@
             </PersistentString>
             <PersistentString
                value = "(newIndex + 1) % crossword.cols">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "XWordView.goToNextAcrossClueSquare():XWordView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "xWordViewModel.focusedSquareIndex">
+            </PersistentString>
+            <PersistentString
+               value = "crossword.grid.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "XwordSquareTextBox.updateUIView(_:context:):XWordSquareTextBox.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "textState">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

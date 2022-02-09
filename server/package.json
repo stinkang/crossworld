@@ -1,0 +1,23 @@
+{
+  "name": "word-o-crossv2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stinkang/crossworld.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stinkang/crossworld/issues"
+  },
+  "homepage": "https://github.com/stinkang/crossworld#readme",
+  "dependencies": {
+    "ws": "^8.5.0"
+  }
+}

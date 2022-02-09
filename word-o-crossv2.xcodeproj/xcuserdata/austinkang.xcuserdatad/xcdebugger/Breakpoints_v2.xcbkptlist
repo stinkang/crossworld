@@ -14,8 +14,8 @@
             filePath = "word-o-crossv2/Models/CrosswordModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "247"
-            endingLineNumber = "247"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
             landmarkName = "buildTagsToCluesMap(gridNums:cols:grid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "word-o-crossv2/Models/CrosswordModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
             landmarkName = "squareShouldHaveDownClue(squareNumber:cols:grid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "word-o-crossv2/Models/CrosswordModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
             landmarkName = "squareShouldHaveDownClue(squareNumber:cols:grid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "word-o-crossv2/Models/CrosswordModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
             landmarkName = "getAcrossClueForSquare(squareNumber:cols:gridNums:grid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "word-o-crossv2/Models/CrosswordModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
             landmarkName = "getAcrossClueForSquare(squareNumber:cols:gridNums:grid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "word-o-crossv2/Models/CrosswordModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "227"
+            endingLineNumber = "227"
             landmarkName = "getAcrossClueForSquare(squareNumber:cols:gridNums:grid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "word-o-crossv2/Models/CrosswordModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "getAcrossClueForSquare(squareNumber:cols:gridNums:grid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "word-o-crossv2/Models/CrosswordModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
             landmarkName = "getAcrossClueForSquare(squareNumber:cols:gridNums:grid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "word-o-crossv2/Models/CrosswordModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "squareShouldHaveAcrossClue(squareNumber:cols:grid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "word-o-crossv2/Models/CrosswordModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
             landmarkName = "squareShouldHaveAcrossClue(squareNumber:cols:grid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -174,8 +174,8 @@
             filePath = "word-o-crossv2/Models/CrosswordModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "261"
-            endingLineNumber = "261"
+            startingLineNumber = "277"
+            endingLineNumber = "277"
             landmarkName = "buildTagsToCluesMap(gridNums:cols:grid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1033,7 +1033,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "0A62C0DD-BC18-484C-A5BE-3888974DE161"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../omni-crosswords/crosswords/Views/CrosswordView.swift"
@@ -1129,7 +1129,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "3F185F93-6104-43D1-8259-D44DA9F1E0E5"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "word-o-crossv2/Views/MyCrosswordView.swift"
@@ -1183,8 +1183,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "makeCoordinator()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1193,7 +1193,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "EDE1AA2F-C921-41F2-B413-1167501351E0"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../omni-crosswords/crosswords/Views/CrosswordCellView.swift"
@@ -1215,8 +1215,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "updateUIView(_:context:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1225,14 +1225,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "20DECD06-8952-4D56-A35F-ADC8659473A6"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareColorBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
             landmarkName = "CrosswordSquareColorBox"
             landmarkType = "14">
          </BreakpointContent>
@@ -1263,8 +1263,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
             landmarkName = "updateUIView(_:context:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1279,8 +1279,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
             landmarkName = "Coordinator"
             landmarkType = "3">
             <Locations>
@@ -1327,8 +1327,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "init(_:textState:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1368,38 +1368,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8B2D85A4-C395-409B-93F0-E132F63726F0"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareColorBox.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "991C25FC-56DB-4D79-A429-75B0CF9F6B3E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareColorBox.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "1524BFA4-69E8-4C41-B399-D2DD9156D8E6"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -1407,8 +1375,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
             landmarkName = "goUpASquare()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1439,8 +1407,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "goDownASquare()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1455,8 +1423,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "goDownASquare()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1471,8 +1439,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "changeFocus(index:keepOrientation:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1487,8 +1455,8 @@
             filePath = "word-o-crossv2/Models/CrosswordModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "263"
-            endingLineNumber = "263"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
             landmarkName = "buildTagsToCluesMap(gridNums:cols:grid:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1551,8 +1519,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
             landmarkName = "changeOrientation()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1567,8 +1535,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "unsetHighlighting(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1583,8 +1551,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquare.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
             landmarkName = "changeFocusInternalInternal()"
             landmarkType = "9">
          </BreakpointContent>
@@ -1615,8 +1583,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "231"
+            endingLineNumber = "231"
             landmarkName = "handleBackspace()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1631,8 +1599,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "updateUIView(_:context:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1647,8 +1615,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "changeFocus(index:keepOrientation:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1663,8 +1631,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "changeFocus(index:keepOrientation:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1679,8 +1647,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "changeFocus(index:keepOrientation:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1695,25 +1663,9 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "changeFocus(index:keepOrientation:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "FB790183-D11E-4BA6-9005-F82825B64AD1"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquareTextBox.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "textField(_:shouldChangeCharactersIn:replacementString:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1727,8 +1679,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquare.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
             landmarkName = "changeFocusInternal(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1743,8 +1695,8 @@
             filePath = "word-o-crossv2/Views/MyCrosswordViews/XWordSquare.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
             landmarkName = "changeFocusInternalInternal()"
             landmarkType = "9">
          </BreakpointContent>
