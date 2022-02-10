@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Crossword: Decodable {
+struct Crossword: Codable {
     var title: String
     var author: String
     var editor: String
