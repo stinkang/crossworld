@@ -8,16 +8,22 @@
 import SwiftUI
 
 struct CrossWorldView: View {
-    @State var currentUserId: Int = 0
+    @StateObject var userViewModel: UserViewModel = UserViewModel()
 
     var body: some View {
         ZStack {
-            if (currentUserId == 0) {
-                CreateUserView(currentUserId: $currentUserId)
+            if (userViewModel.currentUserId == 0) {
+                CreateUserOrLoginView()
             } else {
                 LobbyView()
+                    .toolbar {
+                        NavigationLink(destination: ProfileView().environmentObject(userViewModel)) {
+                            Text("Logged in as " + userViewModel.currentUserName)
+                        }
+                    }
             }
         }
+        .environmentObject(userViewModel)
     }
 }
 
