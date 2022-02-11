@@ -14,10 +14,8 @@ struct XwordSquareTextBox: UIViewRepresentable {
     let index: Int
     let crossword: Crossword
     //let changeFocus: (Int) -> Void
-    let handleBackspace: () -> Void
     @ObservedObject var squareModel: SquareModel
     @State var givenText: String
-    @Binding var textState: TextState
     @EnvironmentObject var xWordViewModel: XWordViewModel
 //    func changeFocusInternal() -> Void {
 //        changeFocus(index)
@@ -34,6 +32,8 @@ struct XwordSquareTextBox: UIViewRepresentable {
         textField.textColor = .black
         textField.textAlignment = .center;
         textField.tintColor = UIColor.clear
+        textField.keyboardType = .asciiCapable
+        //textField.inputView = UIInputView(frame: .init(x: 0, y: 0, width: UIScreen.screenWidth, height: 200), inputViewStyle: .keyboard)
         //textField.addToolbar()
         //textField.becomeFirstResponder()
 
@@ -44,9 +44,9 @@ struct XwordSquareTextBox: UIViewRepresentable {
         if (squareModel.squareState == .focused) {
             uiTextField.becomeFirstResponder()
         }
-        if (squareModel.squareState == .focused && textState == .backspacedTo) {
+        if (squareModel.squareState == .focused && xWordViewModel.textState == .backspacedTo) {
             uiTextField.text = ""
-            textState = .tappedOn
+            xWordViewModel.changeTextState(to: .tappedOn)
         }
         if (squareModel.textFromOtherPlayer != "") {
             uiTextField.text = squareModel.textFromOtherPlayer
@@ -59,25 +59,33 @@ struct XwordSquareTextBox: UIViewRepresentable {
         xWordViewModel.changeTypedText(to: typedText)
     }
     
+    func handleBackspace() {
+        xWordViewModel.handleBackspace()
+    }
+    
+    func handleShouldGoBackOne() {
+        xWordViewModel.changeTextState(to: .shouldGoBackOne)
+    }
+    
+    func handleLetterTyped() {
+        xWordViewModel.changeTextState(to: .letterTyped)
+    }
+    
 //    static func dismantleUIView(_ uiTextField: XWordSquareTextField, coordinator: Coordinator) {
 //
 //    }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(self, /*changeFocusInternal: changeFocusInternal*/ textState: $textState)
+        Coordinator(self /*changeFocusInternal: changeFocusInternal*/)
     }
 //
     class Coordinator: NSObject, UITextFieldDelegate {
-        @Binding var textState: TextState
-
         //let changeFocusInternal: () -> Void
         var parentTextBox: XwordSquareTextBox
         @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
-        init(_ parentTextBox: XwordSquareTextBox, /*changeFocusInternal: @escaping () -> Void, */textState: Binding<TextState>) {
+        init(_ parentTextBox: XwordSquareTextBox /*changeFocusInternal: @escaping () -> Void, */) {
             self.parentTextBox = parentTextBox
-            //self.changeFocusInternal = changeFocusInternal
-            self._textState = textState
         }
         
 //        @objc func touchTextField(_ textField: UITextField) {
@@ -90,7 +98,7 @@ struct XwordSquareTextBox: UIViewRepresentable {
             }
             else {
                 textField.text = ""
-                parentTextBox.textState = .shouldGoBackOne
+                parentTextBox.handleShouldGoBackOne()
             }
         }
         
@@ -100,7 +108,7 @@ struct XwordSquareTextBox: UIViewRepresentable {
             let maxLength = 1
             let currentString: NSString = textField.text! as NSString
             let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
-            parentTextBox.textState = .letterTyped
+            parentTextBox.handleLetterTyped()
             return newString.length <= maxLength
         }
 

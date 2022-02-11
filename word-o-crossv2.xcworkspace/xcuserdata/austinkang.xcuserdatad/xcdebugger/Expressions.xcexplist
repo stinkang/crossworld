@@ -11,21 +11,59 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "XwordSquareTextBox.Coordinator.textField(_:shouldChangeCharactersIn:replacementString:):XWordSquareTextBox.swift">
-      </ContextState>
-      <ContextState
          contextName = "SocketManager.updateUIViewController(_:context:):SocketManager.swift">
          <PersistentStrings>
             <PersistentString
-               value = "xWordViewModel.shouldSendMessage">
+               value = "xWordViewModel.typedText">
             </PersistentString>
             <PersistentString
                value = "xWordViewModel.previousFocusedSquareIndex">
             </PersistentString>
             <PersistentString
-               value = "xWordViewModel.typedText">
+               value = "xWordViewModel.shouldSendMessage">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in closure #1 in XWordView.body.getter:XWordView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "xWordViewModel.squareModels">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "GLOBAL">
+         <PersistentStrings>
+            <PersistentString
+               value = "boxWidth">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "XwordSquareTextBox.Coordinator.textFieldDidEndEditing(_:):XWordSquareTextBox.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "parentTextBox.xWordViewModel.typedText">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "XWordSquare.changeFocus():XWordSquare.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "xWordViewModel.focusedSquareIndex ">
+            </PersistentString>
+            <PersistentString
+               value = "index">
+            </PersistentString>
+            <PersistentString
+               value = "xWordViewModel">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "XwordSquareTextBox.Coordinator.textField(_:shouldChangeCharactersIn:replacementString:):XWordSquareTextBox.swift">
       </ContextState>
       <ContextState
          contextName = "XwordSquareTextBox.updateTypedText(typedText:):XWordSquareTextBox.swift">
@@ -50,6 +88,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "XWordView.init(crossword:):XWordView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "XWordView.unsetHighlighting(index:):XWordView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "squareModels">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "XWordView.goToNextAcrossClueSquare():XWordView.swift">
          <PersistentStrings>
             <PersistentString
@@ -65,6 +114,14 @@
          <PersistentStrings>
             <PersistentString
                value = "textState">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "XWordView.boxWidth.getter:XWordView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "boxWidth">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

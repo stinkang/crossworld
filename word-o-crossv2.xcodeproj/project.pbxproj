@@ -35,6 +35,11 @@
 		96EBB0B82760712100EBA2BC /* NavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0B52760712000EBA2BC /* NavigationBarModifier.swift */; };
 		96EBB0B92760712100EBA2BC /* KeyboardHeightHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0B62760712000EBA2BC /* KeyboardHeightHelper.swift */; };
 		96EBB0BA2760712100EBA2BC /* UITextField+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0B72760712000EBA2BC /* UITextField+Toolbar.swift */; };
+		96EE140E27B32F9D00AA7D7F /* Keyboard.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96EE140D27B32F9D00AA7D7F /* Keyboard.xib */; };
+		96EE141027B337A700AA7D7F /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EE140F27B337A700AA7D7F /* Keyboard.swift */; };
+		96EE141327B3405A00AA7D7F /* TextState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EE141227B3405A00AA7D7F /* TextState.swift */; };
+		96EE141727B3711200AA7D7F /* XWordSquareTextBoxV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EE141627B3711200AA7D7F /* XWordSquareTextBoxV2.swift */; };
+		96EE141927B3888A00AA7D7F /* PermanentKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EE141827B3888A00AA7D7F /* PermanentKeyboard.swift */; };
 		E400A96F43A970A76B228299 /* Pods_word_o_crossv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712A523C9B6F36E5462252BA /* Pods_word_o_crossv2.framework */; };
 		E5DE52BB29AB19D1D9CA53AA /* Pods_word_o_crossv2_word_o_crossv2UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247040E1FF070BD3E275EC8C /* Pods_word_o_crossv2_word_o_crossv2UITests.framework */; };
 /* End PBXBuildFile section */
@@ -98,6 +103,11 @@
 		96EBB0B52760712000EBA2BC /* NavigationBarModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationBarModifier.swift; path = "../../../omni-crosswords/crosswords/Utils/NavigationBarModifier.swift"; sourceTree = "<group>"; };
 		96EBB0B62760712000EBA2BC /* KeyboardHeightHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardHeightHelper.swift; path = "../../../omni-crosswords/crosswords/Utils/KeyboardHeightHelper.swift"; sourceTree = "<group>"; };
 		96EBB0B72760712000EBA2BC /* UITextField+Toolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITextField+Toolbar.swift"; path = "../../../omni-crosswords/crosswords/Utils/UITextField+Toolbar.swift"; sourceTree = "<group>"; };
+		96EE140D27B32F9D00AA7D7F /* Keyboard.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Keyboard.xib; sourceTree = "<group>"; };
+		96EE140F27B337A700AA7D7F /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
+		96EE141227B3405A00AA7D7F /* TextState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextState.swift; sourceTree = "<group>"; };
+		96EE141627B3711200AA7D7F /* XWordSquareTextBoxV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordSquareTextBoxV2.swift; sourceTree = "<group>"; };
+		96EE141827B3888A00AA7D7F /* PermanentKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermanentKeyboard.swift; sourceTree = "<group>"; };
 		A7ED3E1DA555E61EC6A4BE66 /* Pods-word_o_crossv2Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-word_o_crossv2Tests.release.xcconfig"; path = "Target Support Files/Pods-word_o_crossv2Tests/Pods-word_o_crossv2Tests.release.xcconfig"; sourceTree = "<group>"; };
 		B88EF70D264E9555C18DE214 /* Pods-word_o_crossv2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-word_o_crossv2.debug.xcconfig"; path = "Target Support Files/Pods-word_o_crossv2/Pods-word_o_crossv2.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -175,6 +185,7 @@
 				964B9D2A274F281200C73172 /* Views */,
 				9673041827A518AB0063DF21 /* ViewModels */,
 				964B9D29274F280C00C73172 /* Models */,
+				96EE141127B33FD300AA7D7F /* Enums */,
 				964B9D302754AE1900C73172 /* Utils */,
 				964B9CFD274DCD5200C73172 /* Preview Content */,
 			);
@@ -234,6 +245,7 @@
 				964B9D25274E10B000C73172 /* CrosswordDocumentPicker.swift */,
 				96EBB0AD2755F65C00EBA2BC /* ColorExtensions.swift */,
 				9673042727ABB21C0063DF21 /* SocketManager.swift */,
+				96EE141827B3888A00AA7D7F /* PermanentKeyboard.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -249,6 +261,9 @@
 				96730410279A494C0063DF21 /* XWordSquareBlackBox.swift */,
 				964B9D23274E027B00C73172 /* LobbyView.swift */,
 				96730416279A91BE0063DF21 /* XWordSquareTextField.swift */,
+				96EE140D27B32F9D00AA7D7F /* Keyboard.xib */,
+				96EE140F27B337A700AA7D7F /* Keyboard.swift */,
+				96EE141627B3711200AA7D7F /* XWordSquareTextBoxV2.swift */,
 			);
 			path = MyCrosswordViews;
 			sourceTree = "<group>";
@@ -256,8 +271,8 @@
 		9673041827A518AB0063DF21 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				9673041927A518DF0063DF21 /* SquareModel.swift */,
 				9673042327AA26010063DF21 /* XWordViewModel.swift */,
+				9673041927A518DF0063DF21 /* SquareModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -271,6 +286,14 @@
 				9673041F27A519190063DF21 /* CrosswordView.swift */,
 			);
 			path = TheirCrosswordViews;
+			sourceTree = "<group>";
+		};
+		96EE141127B33FD300AA7D7F /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				96EE141227B3405A00AA7D7F /* TextState.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 		A4E3A763D05F42E4A48C23C2 /* Frameworks */ = {
@@ -395,6 +418,7 @@
 			files = (
 				964B9D322754B43300C73172 /* nyt_crosswords-master in Resources */,
 				964B9CFF274DCD5200C73172 /* Preview Assets.xcassets in Resources */,
+				96EE140E27B32F9D00AA7D7F /* Keyboard.xib in Resources */,
 				964B9CFC274DCD5200C73172 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,8 +549,10 @@
 			files = (
 				96730413279A49760063DF21 /* XWordSquareColorBox.swift in Sources */,
 				964B9D26274E10B000C73172 /* CrosswordDocumentPicker.swift in Sources */,
+				96EE141327B3405A00AA7D7F /* TextState.swift in Sources */,
 				9673042427AA26010063DF21 /* XWordViewModel.swift in Sources */,
 				96EBB0B82760712100EBA2BC /* NavigationBarModifier.swift in Sources */,
+				96EE141927B3888A00AA7D7F /* PermanentKeyboard.swift in Sources */,
 				9673042227A904780063DF21 /* XWordViewToolbar.swift in Sources */,
 				9673042027A519CA0063DF21 /* AppDelegate.swift in Sources */,
 				9673042827ABB21C0063DF21 /* SocketManager.swift in Sources */,
@@ -539,6 +565,8 @@
 				96EBB0BA2760712100EBA2BC /* UITextField+Toolbar.swift in Sources */,
 				964B9D2C274F282A00C73172 /* CrosswordModel.swift in Sources */,
 				9673041A27A518E00063DF21 /* SquareModel.swift in Sources */,
+				96EE141727B3711200AA7D7F /* XWordSquareTextBoxV2.swift in Sources */,
+				96EE141027B337A700AA7D7F /* Keyboard.swift in Sources */,
 				96730415279A49940063DF21 /* XWordSquareTextBox.swift in Sources */,
 				96730417279A91BE0063DF21 /* XWordSquareTextField.swift in Sources */,
 				964B9D24274E027B00C73172 /* LobbyView.swift in Sources */,

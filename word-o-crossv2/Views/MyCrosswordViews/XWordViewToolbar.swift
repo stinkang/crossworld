@@ -15,23 +15,23 @@ struct XWordViewToolbar: View {
     let goLeftASquare: () -> Void
     let goRightASquare: () -> Void
     let changeOrientation: () -> Void
-    @EnvironmentObject var currentClue: XWordViewModel
+    @EnvironmentObject var xWordViewModel: XWordViewModel
 
     var body: some View {
         HStack(spacing: 10) {
             VStack {
-                XWordViewToolbarButton(boxWidth: boxWidth, systemName: "arrow.down", action: goDownASquare)
+                XWordViewToolbarButton(boxWidth: boxWidth, systemName: "arrow.down", action: xWordViewModel.goDownASquare)
                 Spacer()
-                XWordViewToolbarButton(boxWidth: boxWidth, systemName: "arrow.left", action: goLeftASquare)
+                XWordViewToolbarButton(boxWidth: boxWidth, systemName: "arrow.left", action: xWordViewModel.goLeftASquare)
             }
             Spacer()
-            Text(currentClue.clue)
+            Text(xWordViewModel.clue)
                 .onTapGesture(perform: changeOrientation)
             Spacer()
             VStack {
-                XWordViewToolbarButton(boxWidth: boxWidth, systemName: "arrow.up", action: goUpASquare)
+                XWordViewToolbarButton(boxWidth: boxWidth, systemName: "arrow.up", action: xWordViewModel.goUpASquare)
                 Spacer()
-                XWordViewToolbarButton(boxWidth: boxWidth, systemName: "arrow.right", action: goRightASquare)
+                XWordViewToolbarButton(boxWidth: boxWidth, systemName: "arrow.right", action: xWordViewModel.goRightASquare)
             }
         }
         .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth / 8, alignment: .center)

@@ -12,9 +12,9 @@ struct CrosswordSquareColorBox: View {
     let boxAcrossClue: String
     let boxDownClue: String
     let width: CGFloat
-    @ObservedObject var squareModel: SquareModel
     let index: Int
     let clueNumber: Int
+    @EnvironmentObject var xWordViewModel: XWordViewModel
     //let changeFocus: (Int) -> Void
     //@EnvironmentObject var currentClue: XWordViewModel
 
@@ -24,10 +24,17 @@ struct CrosswordSquareColorBox: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
+            let color = xWordViewModel.squareModels[index].squareState == .highlighted
+                ? Color.lightBlue
+                : (xWordViewModel.squareModels[index].squareState == .focused
+                   ? Color.focusedBlue
+                   : (xWordViewModel.squareModels[index].squareState == .correct
+                      ? Color.green
+                      : Color.white ))
             Rectangle()
                 .frame(width: width, height: width, alignment: Alignment.center)
                 .border(Color.black)
-                .foregroundColor(squareModel.squareState == .highlighted ? Color.lightBlue : (squareModel.squareState == .focused ? Color.focusedBlue : Color.white))
+                .foregroundColor(color)
                 //.onTapGesture(perform: changeFocusInternal)
             if (clueNumber != 0) {
                 VStack {

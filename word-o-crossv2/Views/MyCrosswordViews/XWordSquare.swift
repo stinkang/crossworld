@@ -12,17 +12,17 @@ struct XWordSquare: View {
     let crossword: Crossword
     let index: Int
     let boxWidth: CGFloat
-    let squareModel: SquareModel
-    let changeFocus: (Int, Bool) -> Void
-    let handleBackspace: () -> Void
-    @Binding var textState: TextState
+    //let squareModel: SquareModel
     let clueNumber: Int
     
-    func changeFocusInternal(index: Int) -> () -> Void {
-        func changeFocusInternalInternal() -> Void {
-            changeFocus(index, false)
+    @EnvironmentObject var xWordViewModel: XWordViewModel
+    
+    func changeFocus() -> Void {
+        if (xWordViewModel.focusedSquareIndex == index) {
+            xWordViewModel.changeAcrossFocused(to: !xWordViewModel.acrossFocused)
+        } else {
+            xWordViewModel.changeFocusedSquareIndex(to: index)
         }
-        return changeFocusInternalInternal
     }
 
     var body: some View {
@@ -36,27 +36,28 @@ struct XWordSquare: View {
                     boxAcrossClue: acrossClue!,
                     boxDownClue: downClue!,
                     width: boxWidth,
-                    squareModel: squareModel,
+                    //squareModel: xWordViewModel.squareModels[index],
                     index: index,
-                    //changeFocus: changeFocus
                     clueNumber: clueNumber
                 )
-                XwordSquareTextBox(
-                    width: boxWidth,
+                XWordSquareTextBoxV2(
                     answerText: crossword.grid[index],
                     index: index,
-                    crossword: crossword,
-                    handleBackspace: handleBackspace,
-                    /*changeFocus: changeFocus,*/
-                    squareModel: squareModel,
-                    givenText: "",
-                    textState: $textState
+                    previousText: ""
                 )
+//                XwordSquareTextBox(
+//                    width: boxWidth,
+//                    answerText: crossword.grid[index],
+//                    index: index,
+//                    crossword: crossword,
+//                    squareModel: xWordViewModel.squareModels[index],
+//                    givenText: ""
+//                )
                 .frame(width: boxWidth, height: boxWidth, alignment: .center)
             }
             .contentShape(Rectangle())
             .frame(width: boxWidth, height: boxWidth, alignment: .center)
-            .onTapGesture(perform: changeFocusInternal(index: index))
+            .onTapGesture(perform: changeFocus)
         }
     }
 }

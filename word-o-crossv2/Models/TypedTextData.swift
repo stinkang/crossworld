@@ -10,9 +10,12 @@ import Foundation
 struct TypedTextData: Codable, Equatable {
     var text: String
     var index: Int
+    //var moveNumber: Int
+    //var acrossFocused: Bool
     
     static func == (lhs: TypedTextData, rhs: TypedTextData) -> Bool {
         lhs.text == rhs.text &&
-        lhs.index == rhs.index
+        lhs.index == rhs.index //&&
+        //lhs.moveNumber == rhs.moveNumber
     }
 }
