@@ -1,0 +1,908 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6EA9ADF2FC53F66382A6458A /* Pods_word_o_crossv2Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61238237515D8641734F570C /* Pods_word_o_crossv2Tests.framework */; };
+		96107EDC27B21AAB00D95DA3 /* TypedTextData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96107EDB27B21AAB00D95DA3 /* TypedTextData.swift */; };
+		964B9CF8274DCD4E00C73172 /* word_o_crossv2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9CF7274DCD4E00C73172 /* word_o_crossv2App.swift */; };
+		964B9CFA274DCD4E00C73172 /* XWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9CF9274DCD4E00C73172 /* XWordView.swift */; };
+		964B9CFC274DCD5200C73172 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 964B9CFB274DCD5200C73172 /* Assets.xcassets */; };
+		964B9CFF274DCD5200C73172 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 964B9CFE274DCD5200C73172 /* Preview Assets.xcassets */; };
+		964B9D09274DCD5200C73172 /* word_o_crossv2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9D08274DCD5200C73172 /* word_o_crossv2Tests.swift */; };
+		964B9D13274DCD5200C73172 /* word_o_crossv2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9D12274DCD5200C73172 /* word_o_crossv2UITests.swift */; };
+		964B9D15274DCD5200C73172 /* word_o_crossv2UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9D14274DCD5200C73172 /* word_o_crossv2UITestsLaunchTests.swift */; };
+		964B9D24274E027B00C73172 /* LobbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9D23274E027B00C73172 /* LobbyView.swift */; };
+		964B9D26274E10B000C73172 /* CrosswordDocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9D25274E10B000C73172 /* CrosswordDocumentPicker.swift */; };
+		964B9D2C274F282A00C73172 /* CrosswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964B9D2B274F282A00C73172 /* CrosswordModel.swift */; };
+		964B9D322754B43300C73172 /* nyt_crosswords-master in Resources */ = {isa = PBXBuildFile; fileRef = 964B9D312754B43200C73172 /* nyt_crosswords-master */; };
+		96730411279A494C0063DF21 /* XWordSquareBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96730410279A494C0063DF21 /* XWordSquareBlackBox.swift */; };
+		96730413279A49760063DF21 /* XWordSquareColorBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96730412279A49760063DF21 /* XWordSquareColorBox.swift */; };
+		96730415279A49940063DF21 /* XWordSquareTextBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96730414279A49940063DF21 /* XWordSquareTextBox.swift */; };
+		96730417279A91BE0063DF21 /* XWordSquareTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96730416279A91BE0063DF21 /* XWordSquareTextField.swift */; };
+		9673041A27A518E00063DF21 /* SquareModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673041927A518DF0063DF21 /* SquareModel.swift */; };
+		9673042027A519CA0063DF21 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673041D27A5190B0063DF21 /* AppDelegate.swift */; };
+		9673042227A904780063DF21 /* XWordViewToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673042127A904770063DF21 /* XWordViewToolbar.swift */; };
+		9673042427AA26010063DF21 /* XWordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673042327AA26010063DF21 /* XWordViewModel.swift */; };
+		9673042627AA39D00063DF21 /* XWordSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673042527AA39D00063DF21 /* XWordSquare.swift */; };
+		9673042827ABB21C0063DF21 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9673042727ABB21C0063DF21 /* SocketManager.swift */; };
+		96EBB0AE2755F65C00EBA2BC /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0AD2755F65C00EBA2BC /* ColorExtensions.swift */; };
+		96EBB0B4275F2F5100EBA2BC /* CrosswordModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0B3275F2F5100EBA2BC /* CrosswordModelTests.swift */; };
+		96EBB0B82760712100EBA2BC /* NavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0B52760712000EBA2BC /* NavigationBarModifier.swift */; };
+		96EBB0B92760712100EBA2BC /* KeyboardHeightHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0B62760712000EBA2BC /* KeyboardHeightHelper.swift */; };
+		96EBB0BA2760712100EBA2BC /* UITextField+Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EBB0B72760712000EBA2BC /* UITextField+Toolbar.swift */; };
+		E400A96F43A970A76B228299 /* Pods_word_o_crossv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712A523C9B6F36E5462252BA /* Pods_word_o_crossv2.framework */; };
+		E5DE52BB29AB19D1D9CA53AA /* Pods_word_o_crossv2_word_o_crossv2UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247040E1FF070BD3E275EC8C /* Pods_word_o_crossv2_word_o_crossv2UITests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		964B9D05274DCD5200C73172 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 964B9CEC274DCD4E00C73172 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 964B9CF3274DCD4E00C73172;
+			remoteInfo = "word-o-crossv2";
+		};
+		964B9D0F274DCD5200C73172 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 964B9CEC274DCD4E00C73172 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 964B9CF3274DCD4E00C73172;
+			remoteInfo = "word-o-crossv2";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		247040E1FF070BD3E275EC8C /* Pods_word_o_crossv2_word_o_crossv2UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_word_o_crossv2_word_o_crossv2UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4008784BFE935ADA47AA20B4 /* Pods-word_o_crossv2Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-word_o_crossv2Tests.debug.xcconfig"; path = "Target Support Files/Pods-word_o_crossv2Tests/Pods-word_o_crossv2Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		53A90C8F2B74B5F872C4A869 /* Pods-word_o_crossv2-word_o_crossv2UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-word_o_crossv2-word_o_crossv2UITests.debug.xcconfig"; path = "Target Support Files/Pods-word_o_crossv2-word_o_crossv2UITests/Pods-word_o_crossv2-word_o_crossv2UITests.debug.xcconfig"; sourceTree = "<group>"; };
+		598BC91F26324EFB9F2FFD6F /* Pods-word_o_crossv2-word_o_crossv2UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-word_o_crossv2-word_o_crossv2UITests.release.xcconfig"; path = "Target Support Files/Pods-word_o_crossv2-word_o_crossv2UITests/Pods-word_o_crossv2-word_o_crossv2UITests.release.xcconfig"; sourceTree = "<group>"; };
+		61238237515D8641734F570C /* Pods_word_o_crossv2Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_word_o_crossv2Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		712A523C9B6F36E5462252BA /* Pods_word_o_crossv2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_word_o_crossv2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B88063653F9B3D0F8EE4FC9 /* Pods-word_o_crossv2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-word_o_crossv2.release.xcconfig"; path = "Target Support Files/Pods-word_o_crossv2/Pods-word_o_crossv2.release.xcconfig"; sourceTree = "<group>"; };
+		96107EDB27B21AAB00D95DA3 /* TypedTextData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypedTextData.swift; sourceTree = "<group>"; };
+		964B9CF4274DCD4E00C73172 /* CrossWorld!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CrossWorld!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		964B9CF7274DCD4E00C73172 /* word_o_crossv2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = word_o_crossv2App.swift; sourceTree = "<group>"; };
+		964B9CF9274DCD4E00C73172 /* XWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordView.swift; sourceTree = "<group>"; };
+		964B9CFB274DCD5200C73172 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		964B9CFE274DCD5200C73172 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		964B9D04274DCD5200C73172 /* word_o_crossv2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = word_o_crossv2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		964B9D08274DCD5200C73172 /* word_o_crossv2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = word_o_crossv2Tests.swift; sourceTree = "<group>"; };
+		964B9D0E274DCD5200C73172 /* word_o_crossv2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = word_o_crossv2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		964B9D12274DCD5200C73172 /* word_o_crossv2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = word_o_crossv2UITests.swift; sourceTree = "<group>"; };
+		964B9D14274DCD5200C73172 /* word_o_crossv2UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = word_o_crossv2UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		964B9D23274E027B00C73172 /* LobbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyView.swift; sourceTree = "<group>"; };
+		964B9D25274E10B000C73172 /* CrosswordDocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosswordDocumentPicker.swift; sourceTree = "<group>"; };
+		964B9D2B274F282A00C73172 /* CrosswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosswordModel.swift; sourceTree = "<group>"; };
+		964B9D2D274F5D3A00C73172 /* word-o-crossv2.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "word-o-crossv2.entitlements"; sourceTree = "<group>"; };
+		964B9D312754B43200C73172 /* nyt_crosswords-master */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "nyt_crosswords-master"; path = "../../../Downloads/nyt_crosswords-master"; sourceTree = "<group>"; };
+		96730410279A494C0063DF21 /* XWordSquareBlackBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordSquareBlackBox.swift; sourceTree = "<group>"; };
+		96730412279A49760063DF21 /* XWordSquareColorBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordSquareColorBox.swift; sourceTree = "<group>"; };
+		96730414279A49940063DF21 /* XWordSquareTextBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordSquareTextBox.swift; sourceTree = "<group>"; };
+		96730416279A91BE0063DF21 /* XWordSquareTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordSquareTextField.swift; sourceTree = "<group>"; };
+		9673041927A518DF0063DF21 /* SquareModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareModel.swift; sourceTree = "<group>"; };
+		9673041C27A519090063DF21 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		9673041D27A5190B0063DF21 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9673041E27A5190F0063DF21 /* CrosswordCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosswordCellView.swift; sourceTree = "<group>"; };
+		9673041F27A519190063DF21 /* CrosswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosswordView.swift; sourceTree = "<group>"; };
+		9673042127A904770063DF21 /* XWordViewToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordViewToolbar.swift; sourceTree = "<group>"; };
+		9673042327AA26010063DF21 /* XWordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordViewModel.swift; sourceTree = "<group>"; };
+		9673042527AA39D00063DF21 /* XWordSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XWordSquare.swift; sourceTree = "<group>"; };
+		9673042727ABB21C0063DF21 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		96EBB0AD2755F65C00EBA2BC /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
+		96EBB0B3275F2F5100EBA2BC /* CrosswordModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosswordModelTests.swift; sourceTree = "<group>"; };
+		96EBB0B52760712000EBA2BC /* NavigationBarModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationBarModifier.swift; path = "../../../omni-crosswords/crosswords/Utils/NavigationBarModifier.swift"; sourceTree = "<group>"; };
+		96EBB0B62760712000EBA2BC /* KeyboardHeightHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardHeightHelper.swift; path = "../../../omni-crosswords/crosswords/Utils/KeyboardHeightHelper.swift"; sourceTree = "<group>"; };
+		96EBB0B72760712000EBA2BC /* UITextField+Toolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITextField+Toolbar.swift"; path = "../../../omni-crosswords/crosswords/Utils/UITextField+Toolbar.swift"; sourceTree = "<group>"; };
+		A7ED3E1DA555E61EC6A4BE66 /* Pods-word_o_crossv2Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-word_o_crossv2Tests.release.xcconfig"; path = "Target Support Files/Pods-word_o_crossv2Tests/Pods-word_o_crossv2Tests.release.xcconfig"; sourceTree = "<group>"; };
+		B88EF70D264E9555C18DE214 /* Pods-word_o_crossv2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-word_o_crossv2.debug.xcconfig"; path = "Target Support Files/Pods-word_o_crossv2/Pods-word_o_crossv2.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		964B9CF1274DCD4E00C73172 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E400A96F43A970A76B228299 /* Pods_word_o_crossv2.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		964B9D01274DCD5200C73172 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EA9ADF2FC53F66382A6458A /* Pods_word_o_crossv2Tests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		964B9D0B274DCD5200C73172 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5DE52BB29AB19D1D9CA53AA /* Pods_word_o_crossv2_word_o_crossv2UITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1ECD6506FD39CEEE6E23F70F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B88EF70D264E9555C18DE214 /* Pods-word_o_crossv2.debug.xcconfig */,
+				8B88063653F9B3D0F8EE4FC9 /* Pods-word_o_crossv2.release.xcconfig */,
+				53A90C8F2B74B5F872C4A869 /* Pods-word_o_crossv2-word_o_crossv2UITests.debug.xcconfig */,
+				598BC91F26324EFB9F2FFD6F /* Pods-word_o_crossv2-word_o_crossv2UITests.release.xcconfig */,
+				4008784BFE935ADA47AA20B4 /* Pods-word_o_crossv2Tests.debug.xcconfig */,
+				A7ED3E1DA555E61EC6A4BE66 /* Pods-word_o_crossv2Tests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		964B9CEB274DCD4E00C73172 = {
+			isa = PBXGroup;
+			children = (
+				964B9CF6274DCD4E00C73172 /* word-o-crossv2 */,
+				964B9D07274DCD5200C73172 /* word-o-crossv2Tests */,
+				964B9D11274DCD5200C73172 /* word-o-crossv2UITests */,
+				964B9CF5274DCD4E00C73172 /* Products */,
+				1ECD6506FD39CEEE6E23F70F /* Pods */,
+				A4E3A763D05F42E4A48C23C2 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		964B9CF5274DCD4E00C73172 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				964B9CF4274DCD4E00C73172 /* CrossWorld!.app */,
+				964B9D04274DCD5200C73172 /* word_o_crossv2Tests.xctest */,
+				964B9D0E274DCD5200C73172 /* word_o_crossv2UITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		964B9CF6274DCD4E00C73172 /* word-o-crossv2 */ = {
+			isa = PBXGroup;
+			children = (
+				964B9D312754B43200C73172 /* nyt_crosswords-master */,
+				964B9D2D274F5D3A00C73172 /* word-o-crossv2.entitlements */,
+				964B9CFB274DCD5200C73172 /* Assets.xcassets */,
+				964B9CF7274DCD4E00C73172 /* word_o_crossv2App.swift */,
+				964B9D2A274F281200C73172 /* Views */,
+				9673041827A518AB0063DF21 /* ViewModels */,
+				964B9D29274F280C00C73172 /* Models */,
+				964B9D302754AE1900C73172 /* Utils */,
+				964B9CFD274DCD5200C73172 /* Preview Content */,
+			);
+			path = "word-o-crossv2";
+			sourceTree = "<group>";
+		};
+		964B9CFD274DCD5200C73172 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				964B9CFE274DCD5200C73172 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		964B9D07274DCD5200C73172 /* word-o-crossv2Tests */ = {
+			isa = PBXGroup;
+			children = (
+				964B9D08274DCD5200C73172 /* word_o_crossv2Tests.swift */,
+				96EBB0B3275F2F5100EBA2BC /* CrosswordModelTests.swift */,
+			);
+			path = "word-o-crossv2Tests";
+			sourceTree = "<group>";
+		};
+		964B9D11274DCD5200C73172 /* word-o-crossv2UITests */ = {
+			isa = PBXGroup;
+			children = (
+				964B9D12274DCD5200C73172 /* word_o_crossv2UITests.swift */,
+				964B9D14274DCD5200C73172 /* word_o_crossv2UITestsLaunchTests.swift */,
+			);
+			path = "word-o-crossv2UITests";
+			sourceTree = "<group>";
+		};
+		964B9D29274F280C00C73172 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				964B9D2B274F282A00C73172 /* CrosswordModel.swift */,
+				96107EDB27B21AAB00D95DA3 /* TypedTextData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		964B9D2A274F281200C73172 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9673040F279A48FB0063DF21 /* MyCrosswordViews */,
+				9673041B27A518F80063DF21 /* TheirCrosswordViews */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		964B9D302754AE1900C73172 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				96EBB0B62760712000EBA2BC /* KeyboardHeightHelper.swift */,
+				96EBB0B52760712000EBA2BC /* NavigationBarModifier.swift */,
+				96EBB0B72760712000EBA2BC /* UITextField+Toolbar.swift */,
+				964B9D25274E10B000C73172 /* CrosswordDocumentPicker.swift */,
+				96EBB0AD2755F65C00EBA2BC /* ColorExtensions.swift */,
+				9673042727ABB21C0063DF21 /* SocketManager.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		9673040F279A48FB0063DF21 /* MyCrosswordViews */ = {
+			isa = PBXGroup;
+			children = (
+				964B9CF9274DCD4E00C73172 /* XWordView.swift */,
+				9673042127A904770063DF21 /* XWordViewToolbar.swift */,
+				9673042527AA39D00063DF21 /* XWordSquare.swift */,
+				96730414279A49940063DF21 /* XWordSquareTextBox.swift */,
+				96730412279A49760063DF21 /* XWordSquareColorBox.swift */,
+				96730410279A494C0063DF21 /* XWordSquareBlackBox.swift */,
+				964B9D23274E027B00C73172 /* LobbyView.swift */,
+				96730416279A91BE0063DF21 /* XWordSquareTextField.swift */,
+			);
+			path = MyCrosswordViews;
+			sourceTree = "<group>";
+		};
+		9673041827A518AB0063DF21 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				9673041927A518DF0063DF21 /* SquareModel.swift */,
+				9673042327AA26010063DF21 /* XWordViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9673041B27A518F80063DF21 /* TheirCrosswordViews */ = {
+			isa = PBXGroup;
+			children = (
+				9673041D27A5190B0063DF21 /* AppDelegate.swift */,
+				9673041C27A519090063DF21 /* SceneDelegate.swift */,
+				9673041E27A5190F0063DF21 /* CrosswordCellView.swift */,
+				9673041F27A519190063DF21 /* CrosswordView.swift */,
+			);
+			path = TheirCrosswordViews;
+			sourceTree = "<group>";
+		};
+		A4E3A763D05F42E4A48C23C2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				712A523C9B6F36E5462252BA /* Pods_word_o_crossv2.framework */,
+				247040E1FF070BD3E275EC8C /* Pods_word_o_crossv2_word_o_crossv2UITests.framework */,
+				61238237515D8641734F570C /* Pods_word_o_crossv2Tests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		964B9CF3274DCD4E00C73172 /* word_o_crossv2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 964B9D18274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word_o_crossv2" */;
+			buildPhases = (
+				0C177D028EA02C4898A1DB10 /* [CP] Check Pods Manifest.lock */,
+				964B9CF0274DCD4E00C73172 /* Sources */,
+				964B9CF1274DCD4E00C73172 /* Frameworks */,
+				964B9CF2274DCD4E00C73172 /* Resources */,
+				002F35474F0AB0EE0E34C31F /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = word_o_crossv2;
+			productName = "word-o-crossv2";
+			productReference = 964B9CF4274DCD4E00C73172 /* CrossWorld!.app */;
+			productType = "com.apple.product-type.application";
+		};
+		964B9D03274DCD5200C73172 /* word_o_crossv2Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 964B9D1B274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word_o_crossv2Tests" */;
+			buildPhases = (
+				D50C57A1E07FD537A7A30EAA /* [CP] Check Pods Manifest.lock */,
+				964B9D00274DCD5200C73172 /* Sources */,
+				964B9D01274DCD5200C73172 /* Frameworks */,
+				964B9D02274DCD5200C73172 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				964B9D06274DCD5200C73172 /* PBXTargetDependency */,
+			);
+			name = word_o_crossv2Tests;
+			productName = "word-o-crossv2Tests";
+			productReference = 964B9D04274DCD5200C73172 /* word_o_crossv2Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		964B9D0D274DCD5200C73172 /* word_o_crossv2UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 964B9D1E274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word_o_crossv2UITests" */;
+			buildPhases = (
+				05737EA1E9D206629958562D /* [CP] Check Pods Manifest.lock */,
+				964B9D0A274DCD5200C73172 /* Sources */,
+				964B9D0B274DCD5200C73172 /* Frameworks */,
+				964B9D0C274DCD5200C73172 /* Resources */,
+				F5FA3586DA8B13F6FE085834 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				964B9D10274DCD5200C73172 /* PBXTargetDependency */,
+			);
+			name = word_o_crossv2UITests;
+			productName = "word-o-crossv2UITests";
+			productReference = 964B9D0E274DCD5200C73172 /* word_o_crossv2UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		964B9CEC274DCD4E00C73172 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1310;
+				LastUpgradeCheck = 1310;
+				TargetAttributes = {
+					964B9CF3274DCD4E00C73172 = {
+						CreatedOnToolsVersion = 13.1;
+						LastSwiftMigration = 1310;
+					};
+					964B9D03274DCD5200C73172 = {
+						CreatedOnToolsVersion = 13.1;
+						TestTargetID = 964B9CF3274DCD4E00C73172;
+					};
+					964B9D0D274DCD5200C73172 = {
+						CreatedOnToolsVersion = 13.1;
+						TestTargetID = 964B9CF3274DCD4E00C73172;
+					};
+				};
+			};
+			buildConfigurationList = 964B9CEF274DCD4E00C73172 /* Build configuration list for PBXProject "word-o-crossv2" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 964B9CEB274DCD4E00C73172;
+			productRefGroup = 964B9CF5274DCD4E00C73172 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				964B9CF3274DCD4E00C73172 /* word_o_crossv2 */,
+				964B9D03274DCD5200C73172 /* word_o_crossv2Tests */,
+				964B9D0D274DCD5200C73172 /* word_o_crossv2UITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		964B9CF2274DCD4E00C73172 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				964B9D322754B43300C73172 /* nyt_crosswords-master in Resources */,
+				964B9CFF274DCD5200C73172 /* Preview Assets.xcassets in Resources */,
+				964B9CFC274DCD5200C73172 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		964B9D02274DCD5200C73172 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		964B9D0C274DCD5200C73172 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		002F35474F0AB0EE0E34C31F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-word_o_crossv2/Pods-word_o_crossv2-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-word_o_crossv2/Pods-word_o_crossv2-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-word_o_crossv2/Pods-word_o_crossv2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		05737EA1E9D206629958562D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-word_o_crossv2-word_o_crossv2UITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0C177D028EA02C4898A1DB10 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-word_o_crossv2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D50C57A1E07FD537A7A30EAA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-word_o_crossv2Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5FA3586DA8B13F6FE085834 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-word_o_crossv2-word_o_crossv2UITests/Pods-word_o_crossv2-word_o_crossv2UITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-word_o_crossv2-word_o_crossv2UITests/Pods-word_o_crossv2-word_o_crossv2UITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-word_o_crossv2-word_o_crossv2UITests/Pods-word_o_crossv2-word_o_crossv2UITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		964B9CF0274DCD4E00C73172 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96730413279A49760063DF21 /* XWordSquareColorBox.swift in Sources */,
+				964B9D26274E10B000C73172 /* CrosswordDocumentPicker.swift in Sources */,
+				9673042427AA26010063DF21 /* XWordViewModel.swift in Sources */,
+				96EBB0B82760712100EBA2BC /* NavigationBarModifier.swift in Sources */,
+				9673042227A904780063DF21 /* XWordViewToolbar.swift in Sources */,
+				9673042027A519CA0063DF21 /* AppDelegate.swift in Sources */,
+				9673042827ABB21C0063DF21 /* SocketManager.swift in Sources */,
+				964B9CFA274DCD4E00C73172 /* XWordView.swift in Sources */,
+				9673042627AA39D00063DF21 /* XWordSquare.swift in Sources */,
+				964B9CF8274DCD4E00C73172 /* word_o_crossv2App.swift in Sources */,
+				96730411279A494C0063DF21 /* XWordSquareBlackBox.swift in Sources */,
+				96107EDC27B21AAB00D95DA3 /* TypedTextData.swift in Sources */,
+				96EBB0B92760712100EBA2BC /* KeyboardHeightHelper.swift in Sources */,
+				96EBB0BA2760712100EBA2BC /* UITextField+Toolbar.swift in Sources */,
+				964B9D2C274F282A00C73172 /* CrosswordModel.swift in Sources */,
+				9673041A27A518E00063DF21 /* SquareModel.swift in Sources */,
+				96730415279A49940063DF21 /* XWordSquareTextBox.swift in Sources */,
+				96730417279A91BE0063DF21 /* XWordSquareTextField.swift in Sources */,
+				964B9D24274E027B00C73172 /* LobbyView.swift in Sources */,
+				96EBB0AE2755F65C00EBA2BC /* ColorExtensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		964B9D00274DCD5200C73172 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96EBB0B4275F2F5100EBA2BC /* CrosswordModelTests.swift in Sources */,
+				964B9D09274DCD5200C73172 /* word_o_crossv2Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		964B9D0A274DCD5200C73172 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				964B9D13274DCD5200C73172 /* word_o_crossv2UITests.swift in Sources */,
+				964B9D15274DCD5200C73172 /* word_o_crossv2UITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		964B9D06274DCD5200C73172 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 964B9CF3274DCD4E00C73172 /* word_o_crossv2 */;
+			targetProxy = 964B9D05274DCD5200C73172 /* PBXContainerItemProxy */;
+		};
+		964B9D10274DCD5200C73172 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 964B9CF3274DCD4E00C73172 /* word_o_crossv2 */;
+			targetProxy = 964B9D0F274DCD5200C73172 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		964B9D16274DCD5300C73172 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		964B9D17274DCD5300C73172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		964B9D19274DCD5300C73172 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B88EF70D264E9555C18DE214 /* Pods-word_o_crossv2.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "word-o-crossv2/word-o-crossv2.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"word-o-crossv2/Preview Content\"";
+				DEVELOPMENT_TEAM = RS4G7N7VG4;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.word-o-crossv2";
+				PRODUCT_NAME = "CrossWorld!";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		964B9D1A274DCD5300C73172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8B88063653F9B3D0F8EE4FC9 /* Pods-word_o_crossv2.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "word-o-crossv2/word-o-crossv2.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"word-o-crossv2/Preview Content\"";
+				DEVELOPMENT_TEAM = RS4G7N7VG4;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.word-o-crossv2";
+				PRODUCT_NAME = "CrossWorld!";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		964B9D1C274DCD5300C73172 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4008784BFE935ADA47AA20B4 /* Pods-word_o_crossv2Tests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RS4G7N7VG4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.word-o-crossv2Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/word-o-crossv2.app/word-o-crossv2";
+			};
+			name = Debug;
+		};
+		964B9D1D274DCD5300C73172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A7ED3E1DA555E61EC6A4BE66 /* Pods-word_o_crossv2Tests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RS4G7N7VG4;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.word-o-crossv2Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/word-o-crossv2.app/word-o-crossv2";
+			};
+			name = Release;
+		};
+		964B9D1F274DCD5300C73172 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53A90C8F2B74B5F872C4A869 /* Pods-word_o_crossv2-word_o_crossv2UITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RS4G7N7VG4;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.word-o-crossv2UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "word-o-crossv2";
+			};
+			name = Debug;
+		};
+		964B9D20274DCD5300C73172 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 598BC91F26324EFB9F2FFD6F /* Pods-word_o_crossv2-word_o_crossv2UITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RS4G7N7VG4;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.word-o-crossv2UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "word-o-crossv2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		964B9CEF274DCD4E00C73172 /* Build configuration list for PBXProject "word-o-crossv2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				964B9D16274DCD5300C73172 /* Debug */,
+				964B9D17274DCD5300C73172 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		964B9D18274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word_o_crossv2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				964B9D19274DCD5300C73172 /* Debug */,
+				964B9D1A274DCD5300C73172 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		964B9D1B274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word_o_crossv2Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				964B9D1C274DCD5300C73172 /* Debug */,
+				964B9D1D274DCD5300C73172 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		964B9D1E274DCD5300C73172 /* Build configuration list for PBXNativeTarget "word_o_crossv2UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				964B9D1F274DCD5300C73172 /* Debug */,
+				964B9D20274DCD5300C73172 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 964B9CEC274DCD4E00C73172 /* Project object */;
+}
