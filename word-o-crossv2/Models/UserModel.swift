@@ -15,7 +15,7 @@ class User: ObservableObject, Codable {
     
     init(userName: String, email: String, pw: String) {
         // TODO: backend should generate new user Id instead and set
-        self.id = .random(in: 0..<10000)
+        self.id = 1
         self.userName = userName
         self.email = email
         self.pw = pw

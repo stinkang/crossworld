@@ -71,6 +71,7 @@ class UserViewModel: ObservableObject {
         // TODO: send this object to the backend
         let user = User(userName: userName, email: email, pw: pw)
         currentUserId = user.id
+        currentUserName = user.userName
         return true
     }
     
