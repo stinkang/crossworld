@@ -82,7 +82,6 @@ struct XwordSquareTextBox: UIViewRepresentable {
     class Coordinator: NSObject, UITextFieldDelegate {
         //let changeFocusInternal: () -> Void
         var parentTextBox: XwordSquareTextBox
-        @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
         init(_ parentTextBox: XwordSquareTextBox /*changeFocusInternal: @escaping () -> Void, */) {
             self.parentTextBox = parentTextBox
