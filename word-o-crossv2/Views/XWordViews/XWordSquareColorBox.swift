@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct CrosswordSquareColorBox: View {
+struct XWordSquareColorBox: View {
     let boxAcrossClue: String
     let boxDownClue: String
     let width: CGFloat
