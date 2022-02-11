@@ -12,7 +12,7 @@ struct word_o_crossv2App: App {
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                LobbyView()
+                CrossWorldView()
             }
         }
     }
