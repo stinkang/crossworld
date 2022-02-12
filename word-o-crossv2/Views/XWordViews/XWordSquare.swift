@@ -32,11 +32,10 @@ struct XWordSquare: View {
             let acrossClue = crossword.clueNamesToCluesMap[crossword.tagsToCluesMap[index]["A"]!]
             let downClue = crossword.clueNamesToCluesMap[crossword.tagsToCluesMap[index]["D"]!]
             ZStack {
-                CrosswordSquareColorBox(
+                XWordSquareColorBox(
                     boxAcrossClue: acrossClue!,
                     boxDownClue: downClue!,
                     width: boxWidth,
-                    //squareModel: xWordViewModel.squareModels[index],
                     index: index,
                     clueNumber: clueNumber
                 )
@@ -45,14 +44,6 @@ struct XWordSquare: View {
                     index: index,
                     previousText: ""
                 )
-//                XwordSquareTextBox(
-//                    width: boxWidth,
-//                    answerText: crossword.grid[index],
-//                    index: index,
-//                    crossword: crossword,
-//                    squareModel: xWordViewModel.squareModels[index],
-//                    givenText: ""
-//                )
                 .frame(width: boxWidth, height: boxWidth, alignment: .center)
             }
             .contentShape(Rectangle())

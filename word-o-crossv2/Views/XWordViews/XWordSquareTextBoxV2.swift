@@ -13,9 +13,9 @@ struct XWordSquareTextBoxV2: View {
     var previousText = ""
     @EnvironmentObject var xWordViewModel: XWordViewModel
     var text: String {
-            get {
-                xWordViewModel.squareModels[index].currentText
-            }
+        get {
+            xWordViewModel.squareModels[index].currentText
+        }
     }
     
     var body: some View {

@@ -21,7 +21,6 @@ struct PermanentKeyboard: UIViewRepresentable {
         }
         
         func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-            
             //Async to prevent updating state during view update
             DispatchQueue.main.async { [self] in
                 if let last = string.last {
@@ -44,14 +43,19 @@ struct PermanentKeyboard: UIViewRepresentable {
             
             return false
         }
+        
+        func textFieldDidDelete(_ textField: UITextField) -> Void {
+            parent.xWordViewModel.handleBackspace()
+        }
+
     }
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
     
-    func makeUIView(context: Context) -> UITextField {
-        let textfield = UITextField()
+    func makeUIView(context: Context) -> PermanentTextField {
+        let textfield = PermanentTextField()
         textfield.delegate = context.coordinator
         
         //Makes textfield invisible
@@ -61,7 +65,7 @@ struct PermanentKeyboard: UIViewRepresentable {
         return textfield
     }
     
-    func updateUIView(_ uiView: UITextField, context: Context) {
+    func updateUIView(_ uiView: PermanentTextField, context: Context) {
         uiView.text = text
         
         //Makes keyboard permanent
@@ -72,5 +76,14 @@ struct PermanentKeyboard: UIViewRepresentable {
         //Reduces space textfield takes up as much as possible
         uiView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         uiView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    }
+}
+
+class PermanentTextField: UITextField {
+    override func deleteBackward() {
+        if let delegate = self.delegate as? PermanentKeyboard.Coordinator {
+            
+            delegate.textFieldDidDelete(self)
+        }
     }
 }
