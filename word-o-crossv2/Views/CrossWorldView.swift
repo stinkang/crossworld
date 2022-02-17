@@ -12,7 +12,7 @@ struct CrossWorldView: View {
 
     var body: some View {
         ZStack {
-            if (userViewModel.currentUserId == 0) {
+            if (userViewModel.currentUserId == "") {
                 CreateUserOrLoginView()
             } else {
                 LobbyView()

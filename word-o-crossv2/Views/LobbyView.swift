@@ -25,6 +25,9 @@ struct LobbyView: View {
                 Text(crossword.title).padding()
             }
             .disabled(crossword.title == "")
+            NavigationLink(destination: CrosswordListView()) {
+                Text("Crossword Archive").padding()
+            }
         }
         .sheet(isPresented: self.$showDocumentPicker) {
             CrosswordDocumentPicker(crossword: $crossword)
