@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 class CrosswordListViewModel: ObservableObject {
-    @Published var crosswordListItems: [CrosswordListItem] = []
     @Published var crosswords: [Crossword] = []
 
     func getCrossword(id: String, completion: @escaping (Crossword) -> Void) -> Bool {
@@ -53,11 +52,11 @@ class CrosswordListViewModel: ObservableObject {
         return true
     }
     
-    func getCrosswords(completion: @escaping ([Crossword]) -> Void) -> Bool {
+    func getCrosswords(completion: @escaping ([String]) -> Void) -> Bool {
         let request = UrlBuilder.createRequest(method: "GET", route: "/boards/", body: nil)
         
         let session = URLSession.shared
-        var crosswords: [Crossword] = []
+        var crosswords: [String] = []
 
         let task = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
