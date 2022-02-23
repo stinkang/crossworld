@@ -11,12 +11,8 @@ struct CrosswordListView: View {
     @StateObject var viewModel: CrosswordListViewModel = CrosswordListViewModel()
     
     func getCrosswords() -> Void {
-        viewModel.getCrosswords() { crosswordIds in
-            var crosswordListItems:[CrosswordListItem] = []
-            for (index, crossword) in crosswordIds.enumerated() {
-                crosswordListItems.append(CrosswordListItem(id: index, name: "Crossword " + String(index), boardId: crossword))
-            }
-            viewModel.crosswords = crosswordListItems
+        viewModel.getCrosswords() { crosswords in
+            viewModel.crosswords = crosswords
         }
     }
 
@@ -27,11 +23,11 @@ struct CrosswordListView: View {
             }) {
                 Text("Refresh Crosswords")
             }
-            List(viewModel.crosswords) { crossword in
-    //            NavigationLink {
-    //
-    //            }
-                Text(crossword.name)
+            List(viewModel.crosswords.indices, id: \.self) { index in
+                let crossword = viewModel.crosswords[index]
+                NavigationLink(destination: XWordView(crossword: crossword)) {
+                    Text(crossword.title ?? "Crossword")
+                }
             }
         }.onAppear(perform: {
             getCrosswords()

@@ -9,12 +9,13 @@ import Foundation
 import SwiftUI
 
 class CrosswordListViewModel: ObservableObject {
-    @Published var crosswords: [CrosswordListItem] = []
-    
-    func getCrossword(completion: @escaping (Crossword)->()) -> Crossword {
+    @Published var crosswordListItems: [CrosswordListItem] = []
+    @Published var crosswords: [Crossword] = []
+
+    func getCrossword(id: String, completion: @escaping (Crossword) -> Void) -> Bool {
         
         var crossword: Crossword = Crossword()
-        let request = UrlBuilder.createRequest(method: "GET", route: "/board/372d955e-d2a2-4b5e-9014-8d21e21adb7e", body: nil)
+        let request = UrlBuilder.createRequest(method: "GET", route: "/board/" + id, body: nil)
         
         let session = URLSession.shared
 
@@ -25,6 +26,8 @@ class CrosswordListViewModel: ObservableObject {
             } else if let data = data {
                 // Handle HTTP request response
                 do {
+                    let jsonString = String(data: data, encoding: .utf8)!
+                    print(jsonString)
                     crossword = try JSONDecoder().decode(Crossword.self, from: data)
                 } catch DecodingError.dataCorrupted(let context) {
                     print(context)
@@ -43,17 +46,18 @@ class CrosswordListViewModel: ObservableObject {
             } else {
                 // Handle unexpected error
             }
+            completion(crossword)
         }
         task.resume()
 
-        return crossword
+        return true
     }
     
-    func getCrosswords(completion: @escaping ([String]) -> Void) -> Bool {
+    func getCrosswords(completion: @escaping ([Crossword]) -> Void) -> Bool {
         let request = UrlBuilder.createRequest(method: "GET", route: "/boards/", body: nil)
         
         let session = URLSession.shared
-        var crosswordIds: [String] = []
+        var crosswords: [Crossword] = []
 
         let task = session.dataTask(with: request) { (data, response, error) in
             if let error = error {
@@ -64,7 +68,7 @@ class CrosswordListViewModel: ObservableObject {
                 do {
                     let jsonString = String(data: data, encoding: .utf8)!
                     print(jsonString)
-                    crosswordIds = try JSONDecoder().decode([String].self, from: data)
+                    crosswords = try JSONDecoder().decode([Crossword].self, from: data)
                 } catch DecodingError.dataCorrupted(let context) {
                     print(context)
                 } catch DecodingError.keyNotFound(let key, let context) {
@@ -82,7 +86,7 @@ class CrosswordListViewModel: ObservableObject {
             } else {
                 // Handle unexpected error
             }
-            completion(crosswordIds)
+            completion(crosswords)
         }
         task.resume()
 

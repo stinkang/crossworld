@@ -8,17 +8,17 @@
 import Foundation
 
 struct Crossword: Codable {
-    var title: String
-    var author: String
-    var editor: String
-    var copyright: String
-    var publisher: String
-    var date: String
-    var dow: String
+    var title: String?
+    var author: String?
+    var editor: String?
+    var copyright: String?
+    var publisher: String?
+    var date: String?
+    var dow: String?
     var target: String?
     var valid: Bool?
     var uniClue: Bool?
-    var admin: Bool
+    var admin: Bool?
     var hasTitle: Bool?
     var navigate: Bool?
     var auto: Bool?
@@ -35,8 +35,8 @@ struct Crossword: Codable {
     var acrossAnswers: [String]
     var downAnswers: [String]
     var notes: String?
-    var solved: Bool
-    var entries: [String]
+    var solved: Bool?
+    var entries: [String]?
     
     enum OuterKeys: String, CodingKey {
         case title, author, editor, copyright, publisher, date, dow,
@@ -70,14 +70,42 @@ struct Crossword: Codable {
         let sizeContainer = try outerContainer.nestedContainer(keyedBy: SizeKeys.self, forKey: .size)
         let cluesContainer = try outerContainer.nestedContainer(keyedBy: CluesKeys.self, forKey: .clues)
         let answersContainer = try outerContainer.nestedContainer(keyedBy: AnswersKeys.self, forKey: .answers)
-        
-        self.title = try outerContainer.decode(String.self, forKey: .title)
-        self.author = try outerContainer.decode(String.self, forKey: .author)
-        self.editor = try outerContainer.decode(String.self, forKey: .editor)
-        self.copyright = try outerContainer.decode(String.self, forKey: .copyright)
-        self.publisher = try outerContainer.decode(String.self, forKey: .publisher)
-        self.date = try outerContainer.decode(String.self, forKey: .date)
-        self.dow = try outerContainer.decode(String.self, forKey: .dow)
+
+        if let title = try outerContainer.decodeIfPresent(String.self, forKey: .title) {
+            self.title = title
+        } else {
+            self.title = nil
+        }
+        if let author = try outerContainer.decodeIfPresent(String.self, forKey: .author) {
+            self.author = author
+        } else {
+            self.author = nil
+        }
+        if let editor = try outerContainer.decodeIfPresent(String.self, forKey: .editor) {
+            self.editor = editor
+        } else {
+            self.editor = nil
+        }
+        if let copyright = try outerContainer.decodeIfPresent(String.self, forKey: .copyright) {
+            self.copyright = copyright
+        } else {
+            self.copyright = nil
+        }
+        if let publisher = try outerContainer.decodeIfPresent(String.self, forKey: .publisher) {
+            self.publisher = publisher
+        } else {
+            self.publisher = nil
+        }
+        if let date = try outerContainer.decodeIfPresent(String.self, forKey: .date) {
+            self.date = date
+        } else {
+            self.date = nil
+        }
+        if let dow = try outerContainer.decodeIfPresent(String.self, forKey: .dow) {
+            self.dow = dow
+        } else {
+            self.dow = nil
+        }
 
         if let target = try outerContainer.decodeIfPresent(String.self, forKey: .target) {
             self.target = target
@@ -96,8 +124,12 @@ struct Crossword: Codable {
         } else {
             self.uniClue = nil
         }
-
-        self.admin = try outerContainer.decode(Bool.self, forKey: .admin)
+        
+        if let admin = try outerContainer.decodeIfPresent(Bool.self, forKey: .admin) {
+            self.admin = admin
+        } else {
+            self.admin = nil
+        }
 
         if let hasTitle = try outerContainer.decodeIfPresent(Bool.self, forKey: .hasTitle) {
             self.hasTitle = hasTitle

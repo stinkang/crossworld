@@ -22,7 +22,7 @@ struct LobbyView: View {
             }
             .padding()
             NavigationLink(destination: XWordView(crossword: crossword)) {
-                Text(crossword.title).padding()
+                Text(crossword.title ?? "Crossword").padding()
             }
             .disabled(crossword.title == "")
             NavigationLink(destination: CrosswordListView()) {

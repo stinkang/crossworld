@@ -35,7 +35,7 @@ struct XWordView: View {
             SocketManager()
             PermanentKeyboard(text: selectedInputBinding)
             VStack(alignment: .leading, spacing: 0) {
-                Text(crossword.title)
+                Text(crossword.title ?? "Crossword")
                 VStack(spacing: 0) {
                     ForEach(0..<crossword.cols, id: \.self) { col in
                         HStack(spacing: 0) {
