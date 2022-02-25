@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import GameKit
 
 struct XWordView: View {
     var crossword: Crossword
+    var xWordMatch: GKMatch
     var boxWidth: CGFloat {
         let maxSize: CGFloat = 40.0
         let defaultSize: CGFloat = (UIScreen.screenWidth-5)/CGFloat(crossword.cols)
@@ -25,14 +27,15 @@ struct XWordView: View {
         )
     }
     
-    init(crossword: Crossword) {
+    init(crossword: Crossword, xWordMatch: GKMatch) {
         self.crossword = crossword
+        self.xWordMatch = xWordMatch
         _xWordViewModel = StateObject(wrappedValue: XWordViewModel(crossword: crossword))
     }
 
     var body: some View {
         ZStack {
-            SocketManager()
+            GameView(xWordMatch: xWordMatch)
             PermanentKeyboard(text: selectedInputBinding)
             VStack(alignment: .leading, spacing: 0) {
                 Text(crossword.title)
@@ -70,13 +73,25 @@ struct XWordView: View {
             }
         })
         .onChange(of: xWordViewModel.otherPlayersMove, perform: { moveData in
-            xWordViewModel.squareModels[moveData.index].changeCurrentText(to: moveData.text)
+            xWordViewModel.squareModels[moveData.previousIndex].changeCurrentText(to: moveData.text)
+            xWordViewModel.changeOtherPlayersFocusedSquareIndex(to: moveData.currentIndex)
+            xWordViewModel.changeOtherPlayersAcrossFocused(to: moveData.acrossFocused)
+            xWordViewModel.changeOtherPlayersFocus()
         })
         .onChange(of: xWordViewModel.focusedSquareIndex, perform: { focusedSquareIndex in
-            xWordViewModel.changeFocus(index: focusedSquareIndex)
+            xWordViewModel.changeFocus()
+            //if (xWordViewModel.textState == .tappedOn) {
+                //xWordViewModel.changeShouldSendMessage(to: true)
+                //xWordViewModel.textState = .typedTo
+            //}
         })
         .onChange(of: xWordViewModel.acrossFocused, perform: { _ in
-            xWordViewModel.changeOrientation()
+            xWordViewModel.changeHighlightingAndClue()
+            xWordViewModel.changeShouldSendMessage(to: true)
+        })
+        .onChange(of: xWordViewModel.otherPlayersAcrossFocused, perform: { _ in
+            xWordViewModel.changeOtherPlayersHighlighting()
+            //xWordViewModel.changeShouldSendMessage(to: true)
         })
 //        .onChange(of: xWordViewModel.typedText, perform: { newTypedText in
 //            self.socketManager.sendMessage(xWordViewModel.typedText)
@@ -86,7 +101,7 @@ struct XWordView: View {
 
 struct MyCrosswordView_Previews: PreviewProvider {
     static var previews: some View {
-        XWordView(crossword: Crossword())
+        XWordView(crossword: Crossword(), xWordMatch: GKMatch())
     }
 }
 

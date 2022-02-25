@@ -13,10 +13,13 @@ class XWordViewModel: ObservableObject {
     @Published var typedText: String
     @Published var focusedSquareIndex: Int
     @Published var acrossFocused: Bool
-    @Published var otherPlayersMove: TypedTextData
+    @Published var otherPlayersMove: MoveData
+    @Published var otherPlayersFocusedSquareIndex: Int
+    @Published var otherPlayersAcrossFocused: Bool
     @Published var textState: TextState
     var shouldSendMessage: Bool
     var previousFocusedSquareIndex: Int
+    var otherPlayersPreviousFocusedSquareIndex: Int
     var crosswordWidth: Int
     var crosswordSize: Int
     var crossword: Crossword
@@ -28,9 +31,12 @@ class XWordViewModel: ObservableObject {
         typedText = ""
         focusedSquareIndex = 0
         acrossFocused = true
-        otherPlayersMove = TypedTextData(text: "", index: 0)
+        otherPlayersMove = MoveData(text: "", previousIndex: 0, currentIndex: 0, acrossFocused: true, wasTappedOn: false)
+        otherPlayersFocusedSquareIndex = 0
+        otherPlayersAcrossFocused = true
         shouldSendMessage = false
         previousFocusedSquareIndex = 0
+        otherPlayersPreviousFocusedSquareIndex = 0
         crosswordWidth = 0
         crosswordSize = 0
         textState = .typedTo
@@ -91,19 +97,28 @@ class XWordViewModel: ObservableObject {
         self.shouldSendMessage = shouldSendMessage
     }
     
-    func changeOtherPlayersMove(to otherPlayersMove: TypedTextData) {
+    func changeOtherPlayersMove(to otherPlayersMove: MoveData) {
         self.otherPlayersMove = otherPlayersMove
     }
-    
+
+    func changeOtherPlayersFocusedSquareIndex(to otherPlayersfocusedSquareIndex: Int) {
+        self.otherPlayersPreviousFocusedSquareIndex = self.otherPlayersFocusedSquareIndex
+        self.otherPlayersFocusedSquareIndex = otherPlayersfocusedSquareIndex
+    }
+
     func changeAcrossFocused(to acrossFocused: Bool) {
         self.acrossFocused = acrossFocused
+    }
+    
+    func changeOtherPlayersAcrossFocused(to otherPlayersAcrossFocused: Bool) {
+        self.otherPlayersAcrossFocused = otherPlayersAcrossFocused
     }
     
     func changeTextState(to textState: TextState) {
         self.textState = textState
     }
     
-    func changeFocus(index: Int) -> Void {
+    func changeFocus() -> Void {
         unsetPreviousHighlighting(acrossFocusedChanged: false)
         setCurrentHighlighting()
         setCurrentClue()
@@ -222,7 +237,7 @@ class XWordViewModel: ObservableObject {
         newIndex += 1
         if (newIndex == crosswordSize) {
             newIndex = 0
-            changeOrientation()
+            changeHighlightingAndClue()
         }
         while (crossword.grid[newIndex] == ".") {
             newIndex += 1
@@ -242,7 +257,7 @@ class XWordViewModel: ObservableObject {
         }
 
         // Start from the top of this word
-        changeFocusedSquareIndex(to: newIndex)
+        //changeFocusedSquareIndex(to: newIndex)
         newIndex += 1
 
         // Get to the next square if this is the first row
@@ -258,7 +273,7 @@ class XWordViewModel: ObservableObject {
 
         // Start at the beginning of the puzzle again, with across oriented this time.
         newIndex = 0
-        changeOrientation()
+        changeHighlightingAndClue()
         changeFocusedSquareIndex(to: newIndex)
         
     }
@@ -269,7 +284,7 @@ class XWordViewModel: ObservableObject {
         changeClue(to: newClue)
     }
     
-    func changeOrientation() -> Void {
+    func changeHighlightingAndClue() -> Void {
         unsetPreviousHighlighting(acrossFocusedChanged: true)
         setCurrentHighlighting()
         setCurrentClue()
@@ -316,4 +331,44 @@ class XWordViewModel: ObservableObject {
             })
         }
     }
+    
+    
+    // MARK: OTHER PLAYER'S CHANGES
+    func changeOtherPlayersFocus() -> Void {
+        unsetOtherPlayersPreviousHighlighting(acrossFocusedChanged: false)
+        setOtherPlayersCurrentHighlighting()
+    }
+
+    func unsetOtherPlayersPreviousHighlighting(acrossFocusedChanged: Bool) -> Void {
+        // if acrossFocused was changed, get the one it changed from
+        let indexToUnset = acrossFocusedChanged
+            ? otherPlayersFocusedSquareIndex
+            : otherPlayersPreviousFocusedSquareIndex
+        let orientationToUnset = acrossFocusedChanged
+            ? !otherPlayersAcrossFocused
+            : otherPlayersAcrossFocused
+
+        let clues: Dictionary<String, String> = (crossword.tagsToCluesMap[indexToUnset])
+        let clueName = clues[orientationToUnset ? "A" : "D"]
+        let clueTags: Array<Int> = (crossword.cluesToTagsMap[clueName!])!
+        for clueTag in clueTags {
+            squareModels[clueTag].changeSquareState(to: .unfocused)
+        }
+    }
+    
+    func setOtherPlayersCurrentHighlighting() -> Void {
+        let clues: Dictionary<String, String> = (crossword.tagsToCluesMap[otherPlayersFocusedSquareIndex])
+        let clueName = clues[otherPlayersAcrossFocused ? "A" : "D"]
+        let clueTags: Array<Int> = (crossword.cluesToTagsMap[clueName!])!
+        for clueTag in clueTags {
+            squareModels[clueTag].changeSquareState(to: .otherPlayerHighlighted)
+        }
+        squareModels[otherPlayersFocusedSquareIndex].changeSquareState(to: .otherPlayerFocused)
+    }
+    
+    func changeOtherPlayersHighlighting() -> Void {
+        unsetOtherPlayersPreviousHighlighting(acrossFocusedChanged: true)
+        setOtherPlayersCurrentHighlighting()
+    }
+
 }

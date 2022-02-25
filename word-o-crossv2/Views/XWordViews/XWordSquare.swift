@@ -18,6 +18,7 @@ struct XWordSquare: View {
     @EnvironmentObject var xWordViewModel: XWordViewModel
     
     func changeFocus() -> Void {
+        xWordViewModel.changeShouldSendMessage(to: true)
         if (xWordViewModel.focusedSquareIndex == index) {
             xWordViewModel.changeAcrossFocused(to: !xWordViewModel.acrossFocused)
         } else {

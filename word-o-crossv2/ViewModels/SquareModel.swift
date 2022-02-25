@@ -12,6 +12,8 @@ enum SquareState {
     case highlighted
     case unfocused
     case correct
+    case otherPlayerFocused
+    case otherPlayerHighlighted
 }
 
 class SquareModel: ObservableObject {
