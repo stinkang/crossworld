@@ -16,7 +16,10 @@ struct CreateUserOrLoginView: View {
                 userViewModel: userViewModel
             )
             Button(action: {
-                userViewModel.createUser()
+                userViewModel.createUser() { user in
+                    userViewModel.currentUserId = user.userId!
+                    userViewModel.currentUserName = user.userName
+                }
             }) {
                 Text("Create User")
             }

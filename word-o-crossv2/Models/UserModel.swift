@@ -8,14 +8,25 @@
 import Foundation
 
 class User: ObservableObject, Codable {
-    var id: Int = 0
-    var userName: String
-    var email: String
-    var pw: String
+    var userId: String? = ""
+    var userName: String = ""
+    var email: String = ""
+    var pw: String = ""
     
     init(userName: String, email: String, pw: String) {
-        // TODO: backend should generate new user Id instead and set
-        self.id = 1
+        self.userId = ""
+        self.userName = userName
+        self.email = email
+        self.pw = pw
+    }
+}
+
+class CreateUserRequest: ObservableObject, Codable {
+    var userName: String = ""
+    var email: String = ""
+    var pw: String = ""
+    
+    init(userName: String, email: String, pw: String) {
         self.userName = userName
         self.email = email
         self.pw = pw
