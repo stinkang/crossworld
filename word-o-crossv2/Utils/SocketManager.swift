@@ -19,9 +19,12 @@ struct SocketManager: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: SocketManagerViewController, context: Context) {
         if (xWordViewModel.shouldSendMessage) {
             do {
-                let typedTextData = TypedTextData(
+                let typedTextData = MoveData(
                     text: xWordViewModel.typedText,
-                    index: xWordViewModel.previousFocusedSquareIndex
+                    previousIndex: xWordViewModel.previousFocusedSquareIndex,
+                    currentIndex: xWordViewModel.focusedSquareIndex,
+                    acrossFocused: xWordViewModel.acrossFocused,
+                    wasTappedOn: xWordViewModel.textState == .tappedOn
                 )
                 try uiViewController.sendMessage(typedTextData)
             } catch {
@@ -72,9 +75,9 @@ extension SocketManagerViewController : WebSocketDelegate {
         case .text(let string):
             print("Received text: \(string)")
         case .binary(let data):
-            var typedTextData: TypedTextData
+            var typedTextData: MoveData
             do {
-                try typedTextData = self.decoder.decode(TypedTextData.self, from: data)
+                try typedTextData = self.decoder.decode(MoveData.self, from: data)
                 xWordViewModel.changeOtherPlayersMove(to: typedTextData)
             } catch {
                 print("error decoding data")
@@ -96,7 +99,7 @@ extension SocketManagerViewController : WebSocketDelegate {
         }
     }
 
-    public func sendMessage(_ data: TypedTextData) throws {
+    public func sendMessage(_ data: MoveData) throws {
         var json: Data
         try json = self.encoder.encode(data)
         socket.write(data: json)

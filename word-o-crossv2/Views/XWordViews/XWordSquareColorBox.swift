@@ -22,15 +22,30 @@ struct XWordSquareColorBox: View {
 //        changeFocus(self.index)
 //    }
 
+
     var body: some View {
         ZStack(alignment: .topLeading) {
+//            var color: Color
+//            switch xWordViewModel.squareModels[index].squareState {
+//            case .highlighted:
+//                color = .lightBlue
+//            case .focused:
+//                color = .focusedBlue
+//            case .correct:
+//                color = .green
+//            case .otherPlayerFocused:
+//                color = .yellow
+//            default:
+//                color = .white
+//            }
             let color = xWordViewModel.squareModels[index].squareState == .highlighted
                 ? Color.lightBlue
                 : (xWordViewModel.squareModels[index].squareState == .focused
                    ? Color.focusedBlue
-                   : (xWordViewModel.squareModels[index].squareState == .correct
-                      ? Color.green
-                      : Color.white ))
+                   : (xWordViewModel.squareModels[index].squareState == .otherPlayerFocused
+                      ? Color.yellow
+                      : (xWordViewModel.squareModels[index].squareState == .otherPlayerHighlighted
+                         ? Color.lightYellow : Color.white)))
             Rectangle()
                 .frame(width: width, height: width, alignment: Alignment.center)
                 .border(Color.black)

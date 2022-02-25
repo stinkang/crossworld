@@ -1,0 +1,90 @@
+//
+//  MenuViewController.swift
+//  word_o_crossv2
+//
+//  Created by Austin Kang on 2/23/22.
+//
+
+import UIKit
+import GameKit
+import SwiftUI
+
+struct MenuView: UIViewControllerRepresentable {
+    @Binding var isShowingXWordView: Bool
+    @Binding var xWordMatch: GKMatch
+    @Binding var crossword: Crossword
+    func makeUIViewController(context: Context) -> MenuViewController {
+        return MenuViewController(isShowingXWordView: $isShowingXWordView, xWordMatch: $xWordMatch, crossword: $crossword)
+    }
+
+    func updateUIViewController(_ uiViewController: MenuViewController, context: Context) {    }
+}
+
+class MenuViewController: UIViewController {
+    @Binding var isShowingXWordView: Bool
+    @Binding var xWordMatch: GKMatch
+    @Binding var crossword: Crossword
+
+    init(isShowingXWordView: Binding<Bool>, xWordMatch: Binding<GKMatch>, crossword: Binding<Crossword>) {
+        self._isShowingXWordView = isShowingXWordView
+        self._xWordMatch = xWordMatch
+        self._crossword = crossword
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private var gameCenterHelper: GameCenterHelper!
+    var buttonMultiplayer: UIButton?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        buttonMultiplayer?.isEnabled = crossword.title != ""
+        buttonMultiplayer = UIButton(frame: CGRect(x: UIScreen.screenWidth/2 - 64, y: UIScreen.screenHeight/2, width: 128, height: 64))
+        buttonMultiplayer!.setTitle("Find Friends", for: .normal)
+        buttonMultiplayer!.setTitleColor(.link, for: .normal)
+        buttonMultiplayer!.isEnabled = false
+        buttonMultiplayer!.layer.cornerRadius = 10
+        buttonMultiplayer!.addTarget(self, action: #selector(buttonMultiplayerPressed), for: .touchUpInside)
+        self.view.addSubview(buttonMultiplayer!)
+
+        gameCenterHelper = GameCenterHelper()
+        gameCenterHelper.delegate = self
+        gameCenterHelper.authenticatePlayer()
+    }
+
+    @objc func buttonMultiplayerPressed() {
+        gameCenterHelper.presentMatchmaker()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let vc = segue.destination as? GameViewController,
+              let match = sender as? GKMatch else { return }
+
+        vc.match = match
+    }
+}
+
+extension MenuViewController: GameCenterHelperDelegate {
+    func didChangeAuthStatus(isAuthenticated: Bool) {
+        buttonMultiplayer!.isEnabled = isAuthenticated
+    }
+    
+    func presentGameCenterAuth(viewController: UIViewController?) {
+        guard let vc = viewController else {return}
+        self.present(vc, animated: true)
+    }
+    
+    func presentMatchmaking(viewController: UIViewController?) {
+        guard let vc = viewController else {return}
+        self.present(vc, animated: true)
+    }
+    
+    func presentGame(match: GKMatch) {
+        xWordMatch = match
+        isShowingXWordView = true
+        //performSegue(withIdentifier: "showGame", sender: match)
+    }
+}
