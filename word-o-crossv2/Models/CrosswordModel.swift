@@ -312,8 +312,8 @@ struct Crossword: Codable {
         self.hasTitle = true
         self.navigate = true
         self.auto = true
-        self.rows = 15
-        self.cols = 15
+        self.rows = 0
+        self.cols = 0
         let grid = [""]
         self.grid = grid
         self.gridNums = [1]

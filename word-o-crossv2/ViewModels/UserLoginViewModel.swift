@@ -13,7 +13,7 @@ class UserViewModel: ObservableObject {
     @Published var email = ""
     @Published var errorMessage = ""
     @Published var hidePassword = true
-    @Published var currentUserId = 0
+    @Published var currentUserId = ""
     @Published var currentUserName = ""
     
     func login() -> Bool {
@@ -36,12 +36,12 @@ class UserViewModel: ObservableObject {
         }
         // get User from backend instead
         let user = User(userName: "loggedInGuy", email: "loganlogin@gmail.com", pw: "poopypassword1")
-        currentUserId = user.id
+        currentUserId = user.userId!
         currentUserName = user.userName
         return true
     }
     
-    func createUser() -> Bool {
+    func createUser(completion: @escaping (User) -> Void) -> Bool {
         errorMessage = ""
         if (email.isEmpty) {
             errorMessage = "Email is empty"
@@ -68,15 +68,53 @@ class UserViewModel: ObservableObject {
             errorMessage = "Email is not valid"
             return false
         }
-        // TODO: send this object to the backend
-        let user = User(userName: userName, email: email, pw: pw)
-        currentUserId = user.id
-        currentUserName = user.userName
+
+        let userRequest = CreateUserRequest(userName: userName, email: email, pw: pw)
+        var user: User = User(userName: "", email: "", pw: "")
+        let userData = try? JSONEncoder().encode(userRequest)
+        print(String(data: userData!, encoding: .utf8)!)
+        let request = UrlBuilder.createRequest(method: "POST", route: "/user/", body: userData!)
+        
+        let session = URLSession.shared
+
+        let task = session.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                // Handle HTTP request error
+                self.errorMessage = error.localizedDescription
+            } else if let data = data {
+                // Handle HTTP request response
+                do {
+                    user = try JSONDecoder().decode(User.self, from: data)
+                } catch DecodingError.dataCorrupted(let context) {
+                    print(context)
+                } catch DecodingError.keyNotFound(let key, let context) {
+                    print("Key '\(key)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch DecodingError.valueNotFound(let value, let context) {
+                    print("Value '\(value)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch DecodingError.typeMismatch(let type, let context) {
+                    print("Type '\(type)' mismatch:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch {
+                    print("error: ", error)
+                }
+            } else {
+                // Handle unexpected error
+            }
+            completion(user)
+        }
+        task.resume()
+
+        if (errorMessage != "") {
+            return false
+        }
+
         return true
     }
     
     func logOut() -> Bool {
-        currentUserId = 0
+        currentUserId = ""
         currentUserName = ""
         return true
     }
