@@ -57,7 +57,7 @@ struct PermanentKeyboard: UIViewRepresentable {
     func makeUIView(context: Context) -> PermanentTextField {
         let textfield = PermanentTextField()
         textfield.delegate = context.coordinator
-        
+        textfield.autocorrectionType = .no
         //Makes textfield invisible
         textfield.tintColor = .clear
         textfield.textColor = .clear

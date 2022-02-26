@@ -10,46 +10,34 @@ import SwiftUI
 
 struct XWordViewToolbar: View {
     let boxWidth: CGFloat
-    let goUpASquare: () -> Void
-    let goDownASquare: () -> Void
-    let goLeftASquare: () -> Void
-    let goRightASquare: () -> Void
-    let changeOrientation: () -> Void
+    @ObservedObject var keyboardHeightHelper: KeyboardHeightHelper = KeyboardHeightHelper()
     @EnvironmentObject var xWordViewModel: XWordViewModel
 
     var body: some View {
         HStack(spacing: 10) {
-            VStack {
-                XWordViewToolbarButton(boxWidth: boxWidth, systemName: "arrow.down", action: xWordViewModel.goDownASquare)
-                Spacer()
-                XWordViewToolbarButton(boxWidth: boxWidth, systemName: "arrow.left", action: xWordViewModel.goLeftASquare)
-            }
+            XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.goLeftASquare)
             Spacer()
             Text(xWordViewModel.clue)
-                .onTapGesture(perform: changeOrientation)
+                .onTapGesture(perform: xWordViewModel.changeOrientation)
             Spacer()
-            VStack {
-                XWordViewToolbarButton(boxWidth: boxWidth, systemName: "arrow.up", action: xWordViewModel.goUpASquare)
-                Spacer()
-                XWordViewToolbarButton(boxWidth: boxWidth, systemName: "arrow.right", action: xWordViewModel.goRightASquare)
-            }
+            XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.goToNextClueSquare)
         }
-        .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth / 8, alignment: .center)
+        //.frame(width: UIScreen.screenWidth, height: self.keyboardHeightHelper.keyboardHeight, alignment: .center)
+        .offset(y: UIScreen.screenHeight > 700 ? boxWidth : 0)
     }
 }
 
 struct XWordViewToolbarButton: View {
     let boxWidth: CGFloat
-    let systemName: String
     let action: () -> Void
     var body: some View {
         Button(action: {
             action()
         }) {
-            Image(systemName: systemName)
-                .resizable()
+            Rectangle()
+                .foregroundColor(.clear)
                 .scaledToFit()
-                .frame(width: boxWidth - 10, height: boxWidth - 10)
+                .frame(width: boxWidth * 2, height: boxWidth * 2)
         }
         .padding(.horizontal)
     }
