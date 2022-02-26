@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GameKit
+import UIKit
 
 struct XWordView: View {
     var crossword: Crossword
@@ -35,10 +36,12 @@ struct XWordView: View {
 
     var body: some View {
         ZStack {
-            GameView(xWordMatch: xWordMatch)
+            GameView(xWordMatch: xWordMatch/*, crossword: crossword*/)
             PermanentKeyboard(text: selectedInputBinding)
             VStack(alignment: .leading, spacing: 0) {
-                Text(crossword.title)
+                if (UIScreen.screenHeight > 700) {
+                    Text(crossword.title)
+                }
                 VStack(spacing: 0) {
                     ForEach(0..<crossword.cols, id: \.self) { col in
                         HStack(spacing: 0) {
@@ -57,13 +60,15 @@ struct XWordView: View {
                     }
                 }
                 .padding(.bottom, 10)
-//                XWordViewToolbar(
-//                    boxWidth: UIScreen.screenWidth / 15
-//                )
+                XWordViewToolbar(
+                    boxWidth: UIScreen.screenWidth / 15
+                )
             }
         }
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
         .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth + boxWidth * 3)
-        .position(x: UIScreen.screenWidth / 2, y: UIScreen.screenHeight / 5)
+        .position(x: UIScreen.screenWidth / 2, y: (UIScreen.screenWidth + boxWidth * 3) / 2)
         .environmentObject(xWordViewModel)
         .onChange(of: xWordViewModel.textState, perform: { newState in
             if (newState == .letterTyped) {
@@ -73,7 +78,9 @@ struct XWordView: View {
             }
         })
         .onChange(of: xWordViewModel.otherPlayersMove, perform: { moveData in
-            xWordViewModel.squareModels[moveData.previousIndex].changeCurrentText(to: moveData.text)
+            if (!moveData.wasTappedOn) {
+                xWordViewModel.squareModels[moveData.previousIndex].changeCurrentText(to: moveData.text)
+            }
             xWordViewModel.changeOtherPlayersFocusedSquareIndex(to: moveData.currentIndex)
             xWordViewModel.changeOtherPlayersAcrossFocused(to: moveData.acrossFocused)
             xWordViewModel.changeOtherPlayersFocus()
@@ -91,8 +98,11 @@ struct XWordView: View {
         })
         .onChange(of: xWordViewModel.otherPlayersAcrossFocused, perform: { _ in
             xWordViewModel.changeOtherPlayersHighlighting()
-            //xWordViewModel.changeShouldSendMessage(to: true)
+            xWordViewModel.changeShouldSendMessage(to: true)
         })
+//        .onChange(of: crossword.title) { _ in
+//            xWordViewModel.crossword = crossword
+//        }
 //        .onChange(of: xWordViewModel.typedText, perform: { newTypedText in
 //            self.socketManager.sendMessage(xWordViewModel.typedText)
 //        })
@@ -109,4 +119,11 @@ extension UIScreen {
    static let screenWidth = UIScreen.main.bounds.size.width
    static let screenHeight = UIScreen.main.bounds.size.height
    static let screenSize = UIScreen.main.bounds.size
+}
+
+extension UINavigationController {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = nil
+    }
 }

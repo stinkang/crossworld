@@ -18,6 +18,7 @@ class XWordViewModel: ObservableObject {
     @Published var otherPlayersAcrossFocused: Bool
     @Published var textState: TextState
     var shouldSendMessage: Bool
+    var shouldSendCrossword: Bool
     var previousFocusedSquareIndex: Int
     var otherPlayersPreviousFocusedSquareIndex: Int
     var crosswordWidth: Int
@@ -35,6 +36,7 @@ class XWordViewModel: ObservableObject {
         otherPlayersFocusedSquareIndex = 0
         otherPlayersAcrossFocused = true
         shouldSendMessage = false
+        shouldSendCrossword = false
         previousFocusedSquareIndex = 0
         otherPlayersPreviousFocusedSquareIndex = 0
         crosswordWidth = 0
@@ -95,6 +97,10 @@ class XWordViewModel: ObservableObject {
     
     func changeShouldSendMessage(to shouldSendMessage: Bool) {
         self.shouldSendMessage = shouldSendMessage
+    }
+    
+    func changeShouldSendCrossword(to shouldSendCrossword: Bool) {
+        self.shouldSendCrossword = shouldSendCrossword
     }
     
     func changeOtherPlayersMove(to otherPlayersMove: MoveData) {
@@ -226,7 +232,7 @@ class XWordViewModel: ObservableObject {
         }
     }
     
-    private func goToNextAcrossClueSquare() -> Void {
+    func goToNextAcrossClueSquare() -> Void {
         var newIndex = focusedSquareIndex
         while (crossword.grid[newIndex] != ".") {
             if ((newIndex + 1) % crosswordWidth == 0) {
@@ -245,7 +251,7 @@ class XWordViewModel: ObservableObject {
         changeFocusedSquareIndex(to: newIndex)
     }
     
-    private func goToNextDownClueSquare() -> Void {
+    func goToNextDownClueSquare() -> Void {
         var newIndex = focusedSquareIndex
         // Get to the start of the down clue -- the top of the current word
         while (newIndex >= crosswordWidth) {
@@ -290,6 +296,12 @@ class XWordViewModel: ObservableObject {
         setCurrentClue()
     }
     
+    
+    func changeOrientation() {
+        changeAcrossFocused(to: !acrossFocused)
+        changeHighlightingAndClue()
+    }
+    
     func handleBackspace() -> Void {
         if (acrossFocused) {
             goLeftASquare()
@@ -313,6 +325,7 @@ class XWordViewModel: ObservableObject {
             }
         }
         textState = .typedTo
+        checkCrossword()
     }
     
     func handleShouldBackspaceState() -> Void {

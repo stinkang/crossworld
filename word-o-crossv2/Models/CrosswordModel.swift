@@ -335,6 +335,16 @@ struct Crossword: Codable {
     }
 }
 
+extension Crossword {
+    func encode() -> Data? {
+        return try? JSONEncoder().encode(self)
+    }
+    
+    static func decode(data: Data) -> Crossword? {
+        return try? JSONDecoder().decode(Crossword.self, from: data)
+    }
+}
+
 struct CrosswordSize: Decodable {
     var rows: Int
     var cols: Int

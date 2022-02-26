@@ -14,13 +14,19 @@ struct MoveData: Codable, Equatable {
     //var moveNumber: Int
     var acrossFocused: Bool
     var wasTappedOn: Bool
+    var crossword: Crossword?
     
     static func == (lhs: MoveData, rhs: MoveData) -> Bool {
-        lhs.text == rhs.text &&
+        var crosswordCondition = true
+        if (lhs.crossword != nil && rhs.crossword != nil) {
+            crosswordCondition = lhs.crossword!.title == rhs.crossword!.title
+        }
+        return lhs.text == rhs.text &&
         lhs.previousIndex == rhs.previousIndex &&
         lhs.currentIndex == rhs.currentIndex &&
         lhs.acrossFocused == rhs.acrossFocused &&
-        lhs.wasTappedOn == rhs.wasTappedOn
+        lhs.wasTappedOn == rhs.wasTappedOn &&
+        crosswordCondition
     }
 }
 

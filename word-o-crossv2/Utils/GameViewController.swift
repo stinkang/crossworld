@@ -11,33 +11,39 @@ import SwiftUI
 
 struct GameView: UIViewControllerRepresentable {
     var xWordMatch: GKMatch
+    //@Binding var crossword: Crossword
     @EnvironmentObject var xWordViewModel: XWordViewModel
     func makeUIViewController(context: Context) -> GameViewController {
-        return GameViewController(xWordViewModel: xWordViewModel, match: xWordMatch)
+        return GameViewController(/*crossword: $crossword, */xWordViewModel: xWordViewModel, match: xWordMatch)
     }
 
     func updateUIViewController(_ uiViewController: GameViewController, context: Context) {
         if (xWordViewModel.shouldSendMessage) {
-                let typedTextData = MoveData(
-                    text: xWordViewModel.typedText,
-                    previousIndex: xWordViewModel.previousFocusedSquareIndex,
-                    currentIndex: xWordViewModel.focusedSquareIndex,
-                    acrossFocused: xWordViewModel.acrossFocused,
-                    wasTappedOn: xWordViewModel.textState == .tappedOn
-                )
-                uiViewController.sendData(data: typedTextData)
+            let typedTextData = MoveData(
+                text: xWordViewModel.typedText,
+                previousIndex: xWordViewModel.previousFocusedSquareIndex,
+                currentIndex: xWordViewModel.focusedSquareIndex,
+                acrossFocused: xWordViewModel.acrossFocused,
+                wasTappedOn: xWordViewModel.textState == .tappedOn
+            )
+            uiViewController.sendData(data: typedTextData)
             xWordViewModel.changeShouldSendMessage(to: false)
         }
+//        if (xWordViewModel.shouldSendCrossword) {
+//            uiViewController.sendData(data: crossword)
+//        }
     }
 }
 
 class GameViewController: UIViewController {
+    //@Binding var crossword: Crossword
     @ObservedObject var xWordViewModel: XWordViewModel
     var match: GKMatch
     
-    init(xWordViewModel: XWordViewModel, match: GKMatch) {
+    init(/*crossword: Crossword, */xWordViewModel: XWordViewModel, match: GKMatch) {
         self.xWordViewModel = xWordViewModel
         self.match = match
+//        self.crossword = crossword
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,6 +62,12 @@ class GameViewController: UIViewController {
     private var gameModel: MoveData! {
         didSet {
             updateUI()
+        }
+    }
+    
+    private var crosswordModel: Crossword! {
+        didSet {
+            updateCrossword()
         }
     }
 
@@ -110,6 +122,11 @@ class GameViewController: UIViewController {
     private func updateUI() {
         xWordViewModel.changeOtherPlayersMove(to: gameModel)
     }
+    
+    private func updateCrossword() {
+        // TODO: should dosomething when crossword is a binding
+        //crossword = crosswordModel
+    }
 
 //    @IBAction func buttonAttackPressed() {
 //        let localPlayer = getLocalPlayerType()
@@ -130,7 +147,16 @@ class GameViewController: UIViewController {
 
     func sendData(data: MoveData) {
         //guard let match = match else { return }
-
+        do {
+            guard let dataToSend = data.encode() else { return }
+            try match.sendData(toAllPlayers: dataToSend, with: .reliable)
+        } catch {
+            print("Send data failed")
+        }
+    }
+    
+    func sendData(data: Crossword) {
+        //guard let match = match else { return }
         do {
             guard let dataToSend = data.encode() else { return }
             try match.sendData(toAllPlayers: dataToSend, with: .reliable)
@@ -142,7 +168,14 @@ class GameViewController: UIViewController {
 
 extension GameViewController: GKMatchDelegate {
     func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
-        guard let model = MoveData.decode(data: data) else { return }
-        gameModel = model
+        var model = MoveData.decode(data: data)
+        if (model != nil) {
+            gameModel = model
+            return
+        }
+        var crosswordDecodedModel = Crossword.decode(data: data)
+        if (crosswordDecodedModel != nil) {
+            crosswordModel = crosswordDecodedModel
+        }
     }
 }

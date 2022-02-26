@@ -14,6 +14,7 @@ struct word_o_crossv2App: App {
             NavigationView {
                 LobbyView()
             }
+            //.environment(\.colorScheme, .dark)
         }
     }
 }
