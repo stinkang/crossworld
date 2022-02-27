@@ -16,12 +16,18 @@ struct LobbyView: View {
     @State var xWordMatch: GKMatch = GKMatch()
     @State var gcButtonPressed: Bool = false
     @State var gcAuthenticated: Bool = false
+    @State var shouldSendGoBackToLobbyMessage = false
     var xWordViewModel: XWordViewModel = XWordViewModel(crossword: Crossword())
 
     var body: some View {
             VStack {
                 Text("CrossWorld!").font(.largeTitle)
-                NavigationLink(destination: XWordView(crossword: crossword, xWordMatch: xWordMatch), isActive: $isShowingXWordView) {
+                NavigationLink(destination:
+                    XWordView(
+                        crossword: crossword,
+                        xWordMatch: xWordMatch,
+                        shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage
+                    ), isActive: $isShowingXWordView) {
                     Text(crossword.title).padding()
                 }
                 .foregroundColor(Color(UIColor.link))
@@ -59,6 +65,9 @@ struct LobbyView: View {
             .sheet(isPresented: self.$showDocumentPicker) {
                 CrosswordDocumentPicker(crossword: $crossword)
             }
+            .onAppear(perform: {
+                shouldSendGoBackToLobbyMessage = true
+            })
     }
 }
 

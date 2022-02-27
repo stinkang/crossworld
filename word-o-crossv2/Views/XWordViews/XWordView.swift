@@ -12,10 +12,13 @@ import UIKit
 struct XWordView: View {
     var crossword: Crossword
     var xWordMatch: GKMatch
+    @Binding var shouldSendGoBackToLobbyMessage: Bool
+    @State var shouldGoBackToLobby: Bool = false
     var boxWidth: CGFloat {
         let maxSize: CGFloat = 40.0
         let defaultSize: CGFloat = (UIScreen.screenWidth-5)/CGFloat(crossword.cols)
         return min(defaultSize, maxSize) }
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var xWordViewModel: XWordViewModel
     var selectedInputBinding: Binding<String> {
         Binding<String>(
@@ -28,15 +31,16 @@ struct XWordView: View {
         )
     }
     
-    init(crossword: Crossword, xWordMatch: GKMatch) {
+    init(crossword: Crossword, xWordMatch: GKMatch, shouldSendGoBackToLobbyMessage: Binding<Bool>) {
         self.crossword = crossword
         self.xWordMatch = xWordMatch
+        self._shouldSendGoBackToLobbyMessage = shouldSendGoBackToLobbyMessage
         _xWordViewModel = StateObject(wrappedValue: XWordViewModel(crossword: crossword))
     }
 
     var body: some View {
         ZStack {
-            GameView(xWordMatch: xWordMatch/*, crossword: crossword*/)
+            GameView(xWordMatch: xWordMatch, shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage, shouldGoBackToLobby: $shouldGoBackToLobby)
             PermanentKeyboard(text: selectedInputBinding)
             VStack(alignment: .leading, spacing: 0) {
                 if (UIScreen.screenHeight > 700) {
@@ -59,7 +63,6 @@ struct XWordView: View {
                         }
                     }
                 }
-                .padding(.bottom, 10)
                 XWordViewToolbar(
                     boxWidth: UIScreen.screenWidth / 15
                 )
@@ -100,6 +103,15 @@ struct XWordView: View {
             xWordViewModel.changeOtherPlayersHighlighting()
             xWordViewModel.changeShouldSendMessage(to: true)
         })
+        .onChange(of: shouldGoBackToLobby, perform: { _ in
+            if (shouldGoBackToLobby) {
+                self.presentationMode.wrappedValue.dismiss()
+                shouldGoBackToLobby = false
+            }
+        })
+//        .onDisappear(perform: {
+//            shouldSendGoBackToLobbyMessage = true
+//        })
 //        .onChange(of: crossword.title) { _ in
 //            xWordViewModel.crossword = crossword
 //        }
@@ -111,7 +123,7 @@ struct XWordView: View {
 
 struct MyCrosswordView_Previews: PreviewProvider {
     static var previews: some View {
-        XWordView(crossword: Crossword(), xWordMatch: GKMatch())
+        XWordView(crossword: Crossword(), xWordMatch: GKMatch(), shouldSendGoBackToLobbyMessage: .constant(true))
     }
 }
 
