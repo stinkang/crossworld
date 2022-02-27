@@ -11,10 +11,11 @@ import SwiftUI
 
 struct GameView: UIViewControllerRepresentable {
     var xWordMatch: GKMatch
-    //@Binding var crossword: Crossword
+    @Binding var shouldSendGoBackToLobbyMessage: Bool
+    @Binding var shouldGoBackToLobby: Bool
     @EnvironmentObject var xWordViewModel: XWordViewModel
     func makeUIViewController(context: Context) -> GameViewController {
-        return GameViewController(/*crossword: $crossword, */xWordViewModel: xWordViewModel, match: xWordMatch)
+        return GameViewController(xWordViewModel: xWordViewModel, match: xWordMatch, shouldGoBackToLobby: $shouldGoBackToLobby)
     }
 
     func updateUIViewController(_ uiViewController: GameViewController, context: Context) {
@@ -29,21 +30,22 @@ struct GameView: UIViewControllerRepresentable {
             uiViewController.sendData(data: typedTextData)
             xWordViewModel.changeShouldSendMessage(to: false)
         }
-//        if (xWordViewModel.shouldSendCrossword) {
-//            uiViewController.sendData(data: crossword)
-//        }
+        if (shouldSendGoBackToLobbyMessage) {
+            uiViewController.sendData(data: shouldSendGoBackToLobbyMessage)
+            shouldSendGoBackToLobbyMessage = false
+        }
     }
 }
 
 class GameViewController: UIViewController {
-    //@Binding var crossword: Crossword
+    @Binding var shouldGoBackToLobby: Bool
     @ObservedObject var xWordViewModel: XWordViewModel
     var match: GKMatch
     
-    init(/*crossword: Crossword, */xWordViewModel: XWordViewModel, match: GKMatch) {
+    init(xWordViewModel: XWordViewModel, match: GKMatch, shouldGoBackToLobby: Binding<Bool>) {
         self.xWordViewModel = xWordViewModel
         self.match = match
-//        self.crossword = crossword
+        self._shouldGoBackToLobby = shouldGoBackToLobby
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -51,12 +53,6 @@ class GameViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-//    @IBOutlet weak var player1: UIImageView!
-//    @IBOutlet weak var progressPlayer1: UIProgressView!
-//    @IBOutlet weak var player2: UIImageView!
-//    @IBOutlet weak var progressPlayer2: UIProgressView!
-//    @IBOutlet weak var buttonAttack: UIButton!
-//    @IBOutlet weak var labelTime: UILabel!
     private var timer: Timer!
 
     private var gameModel: MoveData! {
@@ -164,6 +160,16 @@ class GameViewController: UIViewController {
             print("Send data failed")
         }
     }
+    
+    func sendData(data: Bool) {
+        //guard let match = match else { return }
+        do {
+            guard let dataToSend = try? JSONEncoder().encode(data) else { return }
+            try match.sendData(toAllPlayers: dataToSend, with: .reliable)
+        } catch {
+            print("Send data failed")
+        }
+    }
 }
 
 extension GameViewController: GKMatchDelegate {
@@ -171,6 +177,11 @@ extension GameViewController: GKMatchDelegate {
         var model = MoveData.decode(data: data)
         if (model != nil) {
             gameModel = model
+            return
+        }
+        var shouldGoBackToLobbyDecodedModel = try? JSONDecoder().decode(Bool.self, from: data)
+        if (shouldGoBackToLobbyDecodedModel != nil) {
+            shouldGoBackToLobby = shouldGoBackToLobbyDecodedModel!
             return
         }
         var crosswordDecodedModel = Crossword.decode(data: data)
