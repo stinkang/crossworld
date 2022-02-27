@@ -24,7 +24,8 @@ struct SocketManager: UIViewControllerRepresentable {
                     previousIndex: xWordViewModel.previousFocusedSquareIndex,
                     currentIndex: xWordViewModel.focusedSquareIndex,
                     acrossFocused: xWordViewModel.acrossFocused,
-                    wasTappedOn: xWordViewModel.textState == .tappedOn
+                    wasTappedOn: xWordViewModel.textState == .tappedOn,
+                    wentBackToLobby: false
                 )
                 try uiViewController.sendMessage(typedTextData)
             } catch {

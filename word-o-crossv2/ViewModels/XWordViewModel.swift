@@ -32,7 +32,7 @@ class XWordViewModel: ObservableObject {
         typedText = ""
         focusedSquareIndex = 0
         acrossFocused = true
-        otherPlayersMove = MoveData(text: "", previousIndex: 0, currentIndex: 0, acrossFocused: true, wasTappedOn: false)
+        otherPlayersMove = MoveData(text: "", previousIndex: 0, currentIndex: 0, acrossFocused: true, wasTappedOn: false, wentBackToLobby: false)
         otherPlayersFocusedSquareIndex = 0
         otherPlayersAcrossFocused = true
         shouldSendMessage = false

@@ -11,7 +11,9 @@ import UIKit
 
 struct XWordView: View {
     var crossword: Crossword
-    var xWordMatch: GKMatch
+    @Binding var xWordMatch: GKMatch
+    @State var showLobbyView: Bool = false
+    @State var shouldSendGoBackToLobby: Bool = false
     var boxWidth: CGFloat {
         let maxSize: CGFloat = 40.0
         let defaultSize: CGFloat = (UIScreen.screenWidth-5)/CGFloat(crossword.cols)
@@ -28,15 +30,20 @@ struct XWordView: View {
         )
     }
     
-    init(crossword: Crossword, xWordMatch: GKMatch) {
+    init(crossword: Crossword, xWordMatch: Binding<GKMatch>) {
         self.crossword = crossword
-        self.xWordMatch = xWordMatch
+        self._xWordMatch = xWordMatch
         _xWordViewModel = StateObject(wrappedValue: XWordViewModel(crossword: crossword))
     }
 
     var body: some View {
         ZStack {
-            GameView(xWordMatch: xWordMatch/*, crossword: crossword*/)
+            NavigationLink(destination: LobbyView(), isActive: $showLobbyView) {
+                Text("Lobby")
+            }
+            .foregroundColor(Color(UIColor.clear))
+            .disabled(true)
+            GameView(xWordMatch: $xWordMatch/*, shouldSendGoBackToLobby: $shouldSendGoBackToLobby*/)
             PermanentKeyboard(text: selectedInputBinding)
             VStack(alignment: .leading, spacing: 0) {
                 if (UIScreen.screenHeight > 700) {
@@ -63,6 +70,7 @@ struct XWordView: View {
                 XWordViewToolbar(
                     boxWidth: UIScreen.screenWidth / 15
                 )
+                Spacer()
             }
         }
         .navigationBarTitle("")
@@ -111,7 +119,7 @@ struct XWordView: View {
 
 struct MyCrosswordView_Previews: PreviewProvider {
     static var previews: some View {
-        XWordView(crossword: Crossword(), xWordMatch: GKMatch())
+        XWordView(crossword: Crossword(), xWordMatch: .constant(GKMatch()))
     }
 }
 

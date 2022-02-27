@@ -14,6 +14,7 @@ struct MoveData: Codable, Equatable {
     //var moveNumber: Int
     var acrossFocused: Bool
     var wasTappedOn: Bool
+    var wentBackToLobby: Bool
     var crossword: Crossword?
     
     static func == (lhs: MoveData, rhs: MoveData) -> Bool {
@@ -26,6 +27,7 @@ struct MoveData: Codable, Equatable {
         lhs.currentIndex == rhs.currentIndex &&
         lhs.acrossFocused == rhs.acrossFocused &&
         lhs.wasTappedOn == rhs.wasTappedOn &&
+        lhs.wentBackToLobby == rhs.wentBackToLobby &&
         crosswordCondition
     }
 }

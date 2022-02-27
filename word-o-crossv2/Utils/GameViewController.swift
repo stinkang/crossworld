@@ -2,7 +2,7 @@
 //  GameViewController.swift
 //  GameCenterMultiplayer
 //
-//  Created by Pedro Contine on 29/06/20.
+//  Created by Austin Kang on 25/02/22.
 //
 
 import UIKit
@@ -10,40 +10,42 @@ import GameKit
 import SwiftUI
 
 struct GameView: UIViewControllerRepresentable {
-    var xWordMatch: GKMatch
+    @Binding var xWordMatch: GKMatch
     //@Binding var crossword: Crossword
+    //@Binding var shouldSendCrossword: Bool
+    //@Binding var shouldSendGoBackToLobby: Bool
     @EnvironmentObject var xWordViewModel: XWordViewModel
     func makeUIViewController(context: Context) -> GameViewController {
-        return GameViewController(/*crossword: $crossword, */xWordViewModel: xWordViewModel, match: xWordMatch)
+        return GameViewController(xWordViewModel: xWordViewModel, match: $xWordMatch)
     }
 
     func updateUIViewController(_ uiViewController: GameViewController, context: Context) {
-        if (xWordViewModel.shouldSendMessage) {
+        if (xWordViewModel.shouldSendMessage /*|| shouldSendGoBackToLobby*/) {
             let typedTextData = MoveData(
                 text: xWordViewModel.typedText,
                 previousIndex: xWordViewModel.previousFocusedSquareIndex,
                 currentIndex: xWordViewModel.focusedSquareIndex,
                 acrossFocused: xWordViewModel.acrossFocused,
-                wasTappedOn: xWordViewModel.textState == .tappedOn
+                wasTappedOn: xWordViewModel.textState == .tappedOn,
+                wentBackToLobby: false
             )
             uiViewController.sendData(data: typedTextData)
             xWordViewModel.changeShouldSendMessage(to: false)
         }
-//        if (xWordViewModel.shouldSendCrossword) {
-//            uiViewController.sendData(data: crossword)
-//        }
     }
 }
 
 class GameViewController: UIViewController {
-    //@Binding var crossword: Crossword
     @ObservedObject var xWordViewModel: XWordViewModel
-    var match: GKMatch
+    //@Binding var crossword: Crossword
+    @Binding var match: GKMatch
+    //@Binding var showLobbyView: Bool
     
-    init(/*crossword: Crossword, */xWordViewModel: XWordViewModel, match: GKMatch) {
+    init(xWordViewModel: XWordViewModel, match: Binding<GKMatch>/*, showLobbyView: Binding<Bool>*//*, crossword: Binding<Crossword>*/) {
         self.xWordViewModel = xWordViewModel
-        self.match = match
-//        self.crossword = crossword
+        self._match = match
+        //self._showLobbyView = showLobbyView
+        //self._crossword = crossword
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -51,12 +53,6 @@ class GameViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-//    @IBOutlet weak var player1: UIImageView!
-//    @IBOutlet weak var progressPlayer1: UIProgressView!
-//    @IBOutlet weak var player2: UIImageView!
-//    @IBOutlet weak var progressPlayer2: UIProgressView!
-//    @IBOutlet weak var buttonAttack: UIButton!
-//    @IBOutlet weak var labelTime: UILabel!
     private var timer: Timer!
 
     private var gameModel: MoveData! {
@@ -70,21 +66,13 @@ class GameViewController: UIViewController {
             updateCrossword()
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        gameModel = MoveData(text: "", previousIndex: 0, currentIndex: 0, acrossFocused: true, wasTappedOn: false)
+        gameModel = MoveData(text: "", previousIndex: 0, currentIndex: 0, acrossFocused: true, wasTappedOn: false, wentBackToLobby: false)
+        crosswordModel = Crossword()
         match.delegate = self
-
-        //Mirror player 2 images
-        //player2.transform = CGAffineTransform(scaleX: -1, y: 1)
-
-        //savePlayers()
-
-//        if getLocalPlayerType() == .one, timer == nil {
-//            self.initTimer()
-//        }
     }
 
 //    private func initTimer() {
@@ -122,28 +110,6 @@ class GameViewController: UIViewController {
     private func updateUI() {
         xWordViewModel.changeOtherPlayersMove(to: gameModel)
     }
-    
-    private func updateCrossword() {
-        // TODO: should dosomething when crossword is a binding
-        //crossword = crosswordModel
-    }
-
-//    @IBAction func buttonAttackPressed() {
-//        let localPlayer = getLocalPlayerType()
-//
-//        //Change status to attacking
-//        gameModel.players[localPlayer.index()].status = .attack
-//        gameModel.players[localPlayer.enemyIndex()].status = .hit
-//        gameModel.players[localPlayer.enemyIndex()].life -= 10
-//        sendData()
-//
-//        //Reset status after 1 second
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            self.gameModel.players[localPlayer.index()].status = .idle
-//            self.gameModel.players[localPlayer.enemyIndex()].status = .idle
-//            self.sendData()
-//        }
-//    }
 
     func sendData(data: MoveData) {
         //guard let match = match else { return }
@@ -155,27 +121,47 @@ class GameViewController: UIViewController {
         }
     }
     
-    func sendData(data: Crossword) {
-        //guard let match = match else { return }
-        do {
-            guard let dataToSend = data.encode() else { return }
-            try match.sendData(toAllPlayers: dataToSend, with: .reliable)
-        } catch {
-            print("Send data failed")
-        }
+    private func updateCrossword() {
+        // TODO: should dosomething when crossword is a binding
+        //crossword = crosswordModel
     }
+    
+//    func sendData(data: Crossword) {
+//        //guard let match = match else { return }
+//        do {
+//            let dataToSend = Data()
+//            //guard /*data.encode()*/ else { return }
+//            try match.sendData(toAllPlayers: dataToSend, with: .reliable)
+//        } catch let error {
+//            print("crossword send data failed with error: \(error)")
+//        }
+//    }
+//
+//    func sendData(data: Bool) {
+//        //guard let match = match else { return }
+//        do {
+//            guard let dataToSend = try? JSONEncoder().encode(data) else { return }
+//            try match.sendData(toAllPlayers: dataToSend, with: .reliable)
+//        } catch {
+//            print("Send data failed")
+//        }
+//    }
 }
 
 extension GameViewController: GKMatchDelegate {
     func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
-        var model = MoveData.decode(data: data)
+        let model = MoveData.decode(data: data)
         if (model != nil) {
             gameModel = model
             return
         }
-        var crosswordDecodedModel = Crossword.decode(data: data)
+        let crosswordDecodedModel = Crossword.decode(data: data)
         if (crosswordDecodedModel != nil) {
             crosswordModel = crosswordDecodedModel
         }
+//        let shouldGoBackToLobby = try? JSONDecoder().decode(Bool.self, from: data)
+//        if (shouldGoBackToLobby != nil) {
+//            showLobbyView = shouldGoBackToLobby!
+//        }
     }
 }
