@@ -110,6 +110,7 @@ struct XWordView: View {
         })
         .onChange(of: xWordViewModel.otherPlayersMove, perform: { moveData in
             if (!moveData.wasTappedOn) {
+                xWordViewModel.changeCurrentlyOtherPlayersChanges(currentlyOtherPlayersChanges: true)
                 xWordViewModel.squareModels[moveData.previousIndex].changeCurrentText(to: moveData.text)
             }
             xWordViewModel.changeOtherPlayersFocusedSquareIndex(to: moveData.currentIndex)
@@ -145,6 +146,9 @@ struct XWordView: View {
 //        .onChange(of: xWordViewModel.typedText, perform: { newTypedText in
 //            self.socketManager.sendMessage(xWordViewModel.typedText)
 //        })
+        .sheet(isPresented: $xWordViewModel.solved) {
+            StatsSheetView(crossword: crossword, xWordViewModel: xWordViewModel)
+        }
     }
 }
 

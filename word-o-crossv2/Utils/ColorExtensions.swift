@@ -14,4 +14,6 @@ extension Color {
     static let focusedBlue = Color("focusedBlue")
     static let redFocused = Color("redFocused")
     static let redHighlighted = Color("redHighlighted")
+    static let correctGreen = Color("correctGreen")
+
 }

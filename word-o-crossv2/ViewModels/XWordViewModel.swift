@@ -17,15 +17,18 @@ class XWordViewModel: ObservableObject {
     @Published var otherPlayersFocusedSquareIndex: Int
     @Published var otherPlayersAcrossFocused: Bool
     @Published var textState: TextState
+    @Published var solved: Bool
     var shouldSendMessage: Bool
     var shouldSendCrossword: Bool
     var previousFocusedSquareIndex: Int
     var otherPlayersPreviousFocusedSquareIndex: Int
+    var currentlyOtherPlayersChanges: Bool
     var crosswordWidth: Int
     var crosswordSize: Int
     var crossword: Crossword
     var squareModels: [SquareModel]
     var correctSquares: Int
+    var totalSpaces: Int
 
     init(crossword: Crossword) {
         clue = ""
@@ -39,12 +42,15 @@ class XWordViewModel: ObservableObject {
         shouldSendCrossword = false
         previousFocusedSquareIndex = 0
         otherPlayersPreviousFocusedSquareIndex = 0
+        currentlyOtherPlayersChanges = false
+        solved = false
         crosswordWidth = 0
         crosswordSize = 0
         textState = .typedTo
         self.crossword = Crossword()
         squareModels = []
         correctSquares = 0
+        totalSpaces = 0
         crosswordWidth = crossword.size.cols
         crosswordSize = crossword.grid.count
         self.crossword = crossword
@@ -58,12 +64,15 @@ class XWordViewModel: ObservableObject {
             }
             squareModels.append(SquareModel(acrossClue: acrossClue, downClue: downClue))
         }
+        
+        var startingCorrectness = 0
         (0...crosswordSize - 1).forEach { index in
             if (crossword.grid[index] == ".") {
-                correctSquares += 1
+                startingCorrectness += 1
             }
         }
-        //self.changeFocus(index: 0)
+        self.correctSquares = startingCorrectness
+        self.totalSpaces = crossword.grid.count - startingCorrectness
     }
 //    
 //    func addCrossword(_ crossword: Crossword) {
@@ -118,6 +127,10 @@ class XWordViewModel: ObservableObject {
     
     func changeOtherPlayersAcrossFocused(to otherPlayersAcrossFocused: Bool) {
         self.otherPlayersAcrossFocused = otherPlayersAcrossFocused
+    }
+    
+    func changeCurrentlyOtherPlayersChanges( currentlyOtherPlayersChanges: Bool) {
+        self.currentlyOtherPlayersChanges = currentlyOtherPlayersChanges
     }
     
     func changeTextState(to textState: TextState) {
@@ -337,11 +350,20 @@ class XWordViewModel: ObservableObject {
         textState = .typedTo
     }
     
+    func incrementCorrectSquares() -> Void {
+        correctSquares += 1
+    }
+    
+    func decrementCorrectSquares() -> Void {
+        correctSquares -= 1
+    }
+    
     func checkCrossword() -> Void {
         if (correctSquares == crosswordSize) {
             squareModels.forEach({ squareModel in
                 squareModel.squareState = .correct
             })
+            solved = true
         }
     }
     

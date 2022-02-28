@@ -19,21 +19,26 @@ enum SquareState {
 class SquareModel: ObservableObject {
 
     @Published var squareState: SquareState = .unfocused
-    @Published var textFromOtherPlayer: String = ""
     @Published var currentText: String = ""
     var acrossClue: String = ""
     var downClue: String = ""
+    var hasBeenCorrect: Bool = false
+    var solvedByMe: Bool = false
 
     func changeSquareState(to squareState: SquareState) {
         self.squareState = squareState
     }
     
-    func changeTextFromOtherPlayer(to textFromOtherPlayer: String) {
-        self.textFromOtherPlayer = textFromOtherPlayer
-    }
-    
     func changeCurrentText(to currentText: String) {
         self.currentText = currentText
+    }
+    
+    func changeHasBeenCorrect(to hasBeenCorrect: Bool) {
+        self.hasBeenCorrect = hasBeenCorrect
+    }
+    
+    func changeSolvedByMe(to solvedByMe: Bool) {
+        self.solvedByMe = solvedByMe
     }
     
     init(acrossClue: String, downClue: String) {
