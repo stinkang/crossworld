@@ -17,6 +17,7 @@ struct LobbyView: View {
     @State var gcButtonPressed: Bool = false
     @State var gcAuthenticated: Bool = false
     @State var shouldSendGoBackToLobbyMessage = false
+    @State var shouldSendCrosswordData = false
     var xWordViewModel: XWordViewModel = XWordViewModel(crossword: Crossword())
 
     var body: some View {
@@ -25,8 +26,10 @@ struct LobbyView: View {
                 NavigationLink(destination:
                     XWordView(
                         crossword: crossword,
+                        crosswordBinding: $crossword,
                         xWordMatch: xWordMatch,
-                        shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage
+                        shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
+                        shouldSendCrosswordData: $shouldSendCrosswordData
                     ), isActive: $isShowingXWordView) {
                     Text(crossword.title).padding()
                 }
@@ -59,15 +62,16 @@ struct LobbyView: View {
                     }
                 }
             }
-            .onChange(of: crossword.title) { _ in
-                xWordViewModel.changeShouldSendCrossword(to: true)
-            }
             .sheet(isPresented: self.$showDocumentPicker) {
-                CrosswordDocumentPicker(crossword: $crossword)
+                CrosswordDocumentPicker(crossword: $crossword/*, shouldSendCrosswordData: $shouldSendCrosswordData*/)
             }
             .onAppear(perform: {
                 shouldSendGoBackToLobbyMessage = true
             })
+            .onChange(of: crossword.title, perform: { _ in
+                shouldSendCrosswordData = true
+            })
+            .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight / 3, alignment: .center)
     }
 }
 

@@ -17,23 +17,26 @@ struct Crossword: Codable {
     var dow: String
     var target: String?
     var valid: Bool?
-    var uniClue: Bool?
+    var uniclue: Bool?
     var admin: Bool
-    var hasTitle: Bool?
+    var hastitle: Bool?
     var navigate: Bool?
     var auto: Bool?
-    var rows: Int
-    var cols: Int
+//    var rows: Int
+//    var cols: Int
+    var size: CrosswordSize
     var grid: [String]
-    var gridNums: [Int]
+    var gridnums: [Int]
     var circles: [Int]?
-    var acrossClues: [String]
-    var downClues: [String]
+//    var acrossClues: [String]
+//    var downClues: [String]
+    var clues: CrosswordClues
     var clueNamesToCluesMap: Dictionary<String, String> // was crossword.clues
     var tagsToCluesMap: Array<Dictionary<String, String>>
     var cluesToTagsMap: Dictionary<String, [Int]>
-    var acrossAnswers: [String]
-    var downAnswers: [String]
+//    var acrossAnswers: [String]
+//    var downAnswers: [String]
+    var answers: CrosswordAnswers
     var notes: String?
     var solved: Bool
     var entries: [String]
@@ -41,14 +44,8 @@ struct Crossword: Codable {
     enum OuterKeys: String, CodingKey {
         case title, author, editor, copyright, publisher, date, dow,
             target, valid, admin, navigate, auto, size, grid, circles,
-            clues, answers, notes
-        case uniClue = "uniclue"
-        case hasTitle = "hastitle"
-        case gridNums = "gridnums"
-        case accrossMap = "acrossmap"
-        case downMap = "downmap"
-        case rBars = "rbars"
-        case bbars = "bbars"
+            clues, answers, notes, uniclue, hastitle, gridnums, acrossmap,
+             downmap, rbars, bbars
     }
     
     enum SizeKeys: String, CodingKey {
@@ -91,18 +88,18 @@ struct Crossword: Codable {
             self.valid = nil
         }
 
-        if let uniClue = try outerContainer.decodeIfPresent(Bool.self, forKey: .uniClue) {
-            self.uniClue = uniClue
+        if let uniclue = try outerContainer.decodeIfPresent(Bool.self, forKey: .uniclue) {
+            self.uniclue = uniclue
         } else {
-            self.uniClue = nil
+            self.uniclue = nil
         }
 
         self.admin = try outerContainer.decode(Bool.self, forKey: .admin)
 
-        if let hasTitle = try outerContainer.decodeIfPresent(Bool.self, forKey: .hasTitle) {
-            self.hasTitle = hasTitle
+        if let hastitle = try outerContainer.decodeIfPresent(Bool.self, forKey: .hastitle) {
+            self.hastitle = hastitle
         } else {
-            self.hasTitle = nil
+            self.hastitle = nil
         }
 
         if let navigate = try outerContainer.decodeIfPresent(Bool.self, forKey: .navigate) {
@@ -118,16 +115,16 @@ struct Crossword: Codable {
         }
 
         let rows = try sizeContainer.decode(Int.self, forKey: .rows)
-        self.rows = rows
-        
         let cols = try sizeContainer.decode(Int.self, forKey: .cols)
-        self.cols = cols
+        
+        let size = CrosswordSize(rows: rows, cols: cols)
+        self.size = size
 
         let grid = try outerContainer.decode([String].self, forKey: .grid)
         self.grid = grid
 
-        let gridNums = try outerContainer.decode([Int].self, forKey: .gridNums)
-        self.gridNums = gridNums
+        let gridnums = try outerContainer.decode([Int].self, forKey: .gridnums)
+        self.gridnums = gridnums
 
         if let circles = try outerContainer.decodeIfPresent([Int].self, forKey: .circles) {
             self.circles = circles
@@ -141,16 +138,17 @@ struct Crossword: Codable {
         let trimmedAcrossClues = Crossword.getTrimmedClues(clues: acrossClues)
         let trimmedDownClues = Crossword.getTrimmedClues(clues: downClues)
 
-        self.acrossClues = trimmedAcrossClues
-        self.downClues = trimmedDownClues
-        self.clueNamesToCluesMap = Crossword.buildClueNamesToCluesMap(gridNums: gridNums, acrossClues: trimmedAcrossClues, downClues: trimmedDownClues, cols: cols, grid: grid)
+        self.clues = CrosswordClues(across: trimmedAcrossClues, down: trimmedDownClues)
+        self.clueNamesToCluesMap = Crossword.buildClueNamesToCluesMap(gridnums: gridnums, acrossClues: trimmedAcrossClues, downClues: trimmedDownClues, cols: cols, grid: grid)
 
-        let tagsToCluesMap = Crossword.buildTagsToCluesMap(gridNums: gridNums, cols: cols, grid: grid)
+        let tagsToCluesMap = Crossword.buildTagsToCluesMap(gridnums: gridnums, cols: cols, grid: grid)
         self.tagsToCluesMap = tagsToCluesMap
         self.cluesToTagsMap = Crossword.buildCluesToTagsMap(tagsToCluesMap: tagsToCluesMap)
         
-        self.acrossAnswers = try answersContainer.decode([String].self, forKey: .acrossAnswers)
-        self.downAnswers = try answersContainer.decode([String].self, forKey: .downAnswers)
+        let acrossAnswers = try answersContainer.decode([String].self, forKey: .acrossAnswers)
+        let downAnswers = try answersContainer.decode([String].self, forKey: .downAnswers)
+        
+        self.answers = CrosswordAnswers(across: acrossAnswers, down: downAnswers)
         
         if let notes = try outerContainer.decodeIfPresent(String.self, forKey: .notes) {
             self.notes = notes
@@ -209,10 +207,10 @@ struct Crossword: Codable {
         return isNotBlackSquare && (isEdgeSquare || hasBlackSquareAbove) && hasAtLeastTwoWhiteSquaresBelow
     }
     
-    static func getDownClueForSquare(squareNumber: Int, cols: Int, gridNums: Array<Int>, grid: Array<String>) -> String {
+    static func getDownClueForSquare(squareNumber: Int, cols: Int, gridnums: Array<Int>, grid: Array<String>) -> String {
         var currentIndex = squareNumber
         while (currentIndex >= 0) {
-            let squareClueNumber = gridNums[currentIndex]
+            let squareClueNumber = gridnums[currentIndex]
             if squareClueNumber != 0 && squareShouldHaveDownClue(squareNumber: currentIndex, cols: cols, grid: grid) {
                 return String(squareClueNumber) + "D"
             }
@@ -221,10 +219,10 @@ struct Crossword: Codable {
         return ""
     }
     
-    static func getAcrossClueForSquare(squareNumber: Int, cols: Int, gridNums: Array<Int>, grid: Array<String>) -> String {
+    static func getAcrossClueForSquare(squareNumber: Int, cols: Int, gridnums: Array<Int>, grid: Array<String>) -> String {
         var currentIndex = squareNumber
         while (currentIndex >= 0) {
-            let squareClueNumber = gridNums[currentIndex]
+            let squareClueNumber = gridnums[currentIndex]
             if squareClueNumber != 0 && squareShouldHaveAcrossClue(squareNumber: currentIndex, cols: cols, grid: grid) {
                 return String(squareClueNumber) + "A"
             }
@@ -233,13 +231,13 @@ struct Crossword: Codable {
         return ""
     }
 
-    static func buildClueNamesToCluesMap(gridNums: Array<Int>, acrossClues: Array<String>, downClues: Array<String>, cols: Int, grid: Array<String> ) -> Dictionary<String, String>
+    static func buildClueNamesToCluesMap(gridnums: Array<Int>, acrossClues: Array<String>, downClues: Array<String>, cols: Int, grid: Array<String> ) -> Dictionary<String, String>
     {
         var map: Dictionary<String, String> = [:]
         var i = 0
         var downIndex = 0
         var acrossIndex = 0
-        for gridNum in gridNums {
+        for gridNum in gridnums {
             if (gridNum != 0) {
                 if (squareShouldHaveDownClue(squareNumber: i, cols: cols, grid: grid)) {
                     map[String(gridNum) + "D"] = downClues[downIndex]
@@ -255,9 +253,9 @@ struct Crossword: Codable {
         return map
     }
     
-    static func buildTagsToCluesMap(gridNums: Array<Int>, cols: Int, grid: Array<String>) -> Array<Dictionary<String, String>> {
+    static func buildTagsToCluesMap(gridnums: Array<Int>, cols: Int, grid: Array<String>) -> Array<Dictionary<String, String>> {
         var array: Array<Dictionary<String, String>> = []
-        for i in 0..<gridNums.count {
+        for i in 0..<gridnums.count {
             var map: Dictionary<String, String> = [:]
 //            if (gridNum != 0) {
 //                if (squareShouldHaveDownClue(squareNumber: i, cols: cols, grid: grid)) {
@@ -274,8 +272,8 @@ struct Crossword: Codable {
 //                map["D"] = ""
 //                map["A"] = ""
 //            }
-            map["A"] = getAcrossClueForSquare(squareNumber: i, cols: cols, gridNums: gridNums, grid: grid)
-            map["D"] = getDownClueForSquare(squareNumber: i, cols: cols, gridNums: gridNums, grid: grid)
+            map["A"] = getAcrossClueForSquare(squareNumber: i, cols: cols, gridnums: gridnums, grid: grid)
+            map["D"] = getDownClueForSquare(squareNumber: i, cols: cols, gridnums: gridnums, grid: grid)
             array.append(map)
         }
         return array
@@ -307,21 +305,24 @@ struct Crossword: Codable {
         self.dow = ""
         self.target = ""
         self.valid = true
-        self.uniClue = true
+        self.uniclue = true
         self.admin = true
-        self.hasTitle = true
+        self.hastitle = true
         self.navigate = true
         self.auto = true
-        self.rows = 0
-        self.cols = 0
+//        self.rows = 0
+//        self.cols = 0
+        self.size = CrosswordSize(rows: 0, cols: 0)
         let grid = [""]
         self.grid = grid
-        self.gridNums = [1]
+        self.gridnums = [1]
         self.circles = [0]
-        self.acrossClues = [""]
-        self.downClues = [""]
-        self.acrossAnswers = [""]
-        self.downAnswers = [""]
+//        self.acrossClues = [""]
+//        self.downClues = [""]
+//        self.acrossAnswers = [""]
+//        self.downAnswers = [""]
+        self.clues = CrosswordClues(across: [""], down: [""])
+        self.answers = CrosswordAnswers(across: [""], down: [""])
         self.clueNamesToCluesMap = [:]
         self.tagsToCluesMap = [[:]]
         self.cluesToTagsMap = [:]
@@ -341,21 +342,40 @@ extension Crossword {
     }
     
     static func decode(data: Data) -> Crossword? {
-        return try? JSONDecoder().decode(Crossword.self, from: data)
+        //return try? JSONDecoder().decode(Crossword.self, from: data)
+        var decodedData: Crossword? = nil
+            do {
+               // process data
+                decodedData = try JSONDecoder().decode(Crossword.self, from: data)
+            } catch let DecodingError.dataCorrupted(context) {
+                print(context)
+            } catch let DecodingError.keyNotFound(key, context) {
+                print("Key '\(key)' not found:", context.debugDescription)
+                print("codingPath:", context.codingPath)
+            } catch let DecodingError.valueNotFound(value, context) {
+                print("Value '\(value)' not found:", context.debugDescription)
+                print("codingPath:", context.codingPath)
+            } catch let DecodingError.typeMismatch(type, context)  {
+                print("Type '\(type)' mismatch:", context.debugDescription)
+                print("codingPath:", context.codingPath)
+            } catch {
+                print("error: ", error)
+            }
+        return decodedData
     }
 }
 
-struct CrosswordSize: Decodable {
+struct CrosswordSize: Codable {
     var rows: Int
     var cols: Int
 }
 
-struct CrosswordClues: Decodable {
+struct CrosswordClues: Codable {
     var across: [String]
     var down: [String]
 }
 
-struct CrosswordAnswers: Decodable {
+struct CrosswordAnswers: Codable {
     var across: [String]
     var down: [String]
 }

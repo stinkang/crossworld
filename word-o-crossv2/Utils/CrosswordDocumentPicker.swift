@@ -13,9 +13,10 @@ import UniformTypeIdentifiers
 struct CrosswordDocumentPicker: UIViewControllerRepresentable {
     
     @Binding var crossword: Crossword
+    //@Binding var shouldSendCrosswordData: Bool
     
     func makeCoordinator() -> CrosswordDocumentPickerCoordinator {
-        return CrosswordDocumentPickerCoordinator(crossword: $crossword)
+        return CrosswordDocumentPickerCoordinator(crossword: $crossword/*, shouldSendCrosswordData: $shouldSendCrosswordData*/)
     }
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<CrosswordDocumentPicker>) ->
@@ -37,9 +38,11 @@ struct CrosswordDocumentPicker: UIViewControllerRepresentable {
 class CrosswordDocumentPickerCoordinator: NSObject, UIDocumentPickerDelegate, UINavigationControllerDelegate {
     
     @Binding var crossword: Crossword
+    //@Binding var shouldSendCrosswordData: Bool
     
-    init(crossword: Binding<Crossword>) {
+    init(crossword: Binding<Crossword>/*, shouldSendCrosswordData: Binding<Bool>*/) {
         _crossword = crossword
+        //_shouldSendCrosswordData = shouldSendCrosswordData
     }
     
     func decodeCrossword(url: URL) -> Crossword? {
@@ -61,6 +64,7 @@ class CrosswordDocumentPickerCoordinator: NSObject, UIDocumentPickerDelegate, UI
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         crossword = decodeCrossword(url: urls[0])!
+        //shouldSendCrosswordData = true
     }
 
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
