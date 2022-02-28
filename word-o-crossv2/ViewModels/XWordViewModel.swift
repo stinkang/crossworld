@@ -45,7 +45,7 @@ class XWordViewModel: ObservableObject {
         self.crossword = Crossword()
         squareModels = []
         correctSquares = 0
-        crosswordWidth = crossword.cols
+        crosswordWidth = crossword.size.cols
         crosswordSize = crossword.grid.count
         self.crossword = crossword
         
@@ -188,7 +188,7 @@ class XWordViewModel: ObservableObject {
                 : potentialNewIndex
         }
         while (crossword.grid[newIndex] == ".") {
-            potentialNewIndex = newIndex + crossword.cols
+            potentialNewIndex = newIndex + crossword.size.cols
             newIndex = potentialNewIndex >= crosswordSize
                 ? potentialNewIndex - (crosswordSize - 1)
                 : potentialNewIndex
@@ -269,7 +269,7 @@ class XWordViewModel: ObservableObject {
         // Get to the next square if this is the first row
         // or get to the first space with a black square above it from this point
         while(newIndex != crosswordSize) {
-            if ((newIndex < crossword.cols || (crossword.grid[newIndex - crosswordWidth] == "."))
+            if ((newIndex < crossword.size.cols || (crossword.grid[newIndex - crosswordWidth] == "."))
                 && (crossword.grid[newIndex] != ".")) {
                     changeFocusedSquareIndex(to: newIndex)
                     return

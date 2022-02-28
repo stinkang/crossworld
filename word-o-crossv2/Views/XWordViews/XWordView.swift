@@ -11,12 +11,14 @@ import UIKit
 
 struct XWordView: View {
     var crossword: Crossword
+    @Binding var crosswordBinding: Crossword
     var xWordMatch: GKMatch
     @Binding var shouldSendGoBackToLobbyMessage: Bool
+    @Binding var shouldSendCrosswordData: Bool
     @State var shouldGoBackToLobby: Bool = false
     var boxWidth: CGFloat {
         let maxSize: CGFloat = 40.0
-        let defaultSize: CGFloat = (UIScreen.screenWidth-5)/CGFloat(crossword.cols)
+        let defaultSize: CGFloat = (UIScreen.screenWidth-5)/CGFloat(crossword.size.cols)
         return min(defaultSize, maxSize) }
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @StateObject var xWordViewModel: XWordViewModel
@@ -31,27 +33,41 @@ struct XWordView: View {
         )
     }
     
-    init(crossword: Crossword, xWordMatch: GKMatch, shouldSendGoBackToLobbyMessage: Binding<Bool>) {
+    init(
+        crossword: Crossword,
+        crosswordBinding: Binding<Crossword>,
+        xWordMatch: GKMatch,
+        shouldSendGoBackToLobbyMessage: Binding<Bool>,
+        shouldSendCrosswordData: Binding<Bool>
+    ) {
         self.crossword = crossword
+        self._crosswordBinding = crosswordBinding
         self.xWordMatch = xWordMatch
         self._shouldSendGoBackToLobbyMessage = shouldSendGoBackToLobbyMessage
+        self._shouldSendCrosswordData = shouldSendCrosswordData
         _xWordViewModel = StateObject(wrappedValue: XWordViewModel(crossword: crossword))
     }
 
     var body: some View {
         ZStack {
-            GameView(xWordMatch: xWordMatch, shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage, shouldGoBackToLobby: $shouldGoBackToLobby)
+            GameView(
+                xWordMatch: xWordMatch,
+                shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
+                shouldGoBackToLobby: $shouldGoBackToLobby,
+                shouldSendCrosswordData: $shouldSendCrosswordData,
+                crosswordBinding: $crosswordBinding
+            )
             PermanentKeyboard(text: selectedInputBinding)
             VStack(alignment: .leading, spacing: 0) {
                 if (UIScreen.screenHeight > 700) {
                     Text(crossword.title)
                 }
                 VStack(spacing: 0) {
-                    ForEach(0..<crossword.cols, id: \.self) { col in
+                    ForEach(0..<crossword.size.cols, id: \.self) { col in
                         HStack(spacing: 0) {
-                            ForEach(0..<crossword.rows, id: \.self) { row in
-                                let index = col * crossword.rows + row
-                                let clueNumber = crossword.gridNums[index] != 0 ? crossword.gridNums[index] : 0
+                            ForEach(0..<crossword.size.rows, id: \.self) { row in
+                                let index = col * crossword.size.rows + row
+                                let clueNumber = crossword.gridnums[index] != 0 ? crossword.gridnums[index] : 0
                                 XWordSquare(
                                     crossword: crossword,
                                     index: index,
@@ -123,7 +139,13 @@ struct XWordView: View {
 
 struct MyCrosswordView_Previews: PreviewProvider {
     static var previews: some View {
-        XWordView(crossword: Crossword(), xWordMatch: GKMatch(), shouldSendGoBackToLobbyMessage: .constant(true))
+        XWordView(
+            crossword: Crossword(),
+            crosswordBinding: .constant(Crossword()),
+            xWordMatch: GKMatch(),
+            shouldSendGoBackToLobbyMessage: .constant(true),
+            shouldSendCrosswordData: .constant(true)
+        )
     }
 }
 

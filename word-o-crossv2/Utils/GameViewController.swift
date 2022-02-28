@@ -13,9 +13,11 @@ struct GameView: UIViewControllerRepresentable {
     var xWordMatch: GKMatch
     @Binding var shouldSendGoBackToLobbyMessage: Bool
     @Binding var shouldGoBackToLobby: Bool
+    @Binding var shouldSendCrosswordData: Bool
+    @Binding var crosswordBinding: Crossword
     @EnvironmentObject var xWordViewModel: XWordViewModel
     func makeUIViewController(context: Context) -> GameViewController {
-        return GameViewController(xWordViewModel: xWordViewModel, match: xWordMatch, shouldGoBackToLobby: $shouldGoBackToLobby)
+        return GameViewController(xWordViewModel: xWordViewModel, match: xWordMatch, shouldGoBackToLobby: $shouldGoBackToLobby, crosswordBinding: $crosswordBinding)
     }
 
     func updateUIViewController(_ uiViewController: GameViewController, context: Context) {
@@ -34,18 +36,24 @@ struct GameView: UIViewControllerRepresentable {
             uiViewController.sendData(data: shouldSendGoBackToLobbyMessage)
             shouldSendGoBackToLobbyMessage = false
         }
+        if (shouldSendCrosswordData) {
+            uiViewController.sendData(data: crosswordBinding)
+            shouldSendCrosswordData = false
+        }
     }
 }
 
 class GameViewController: UIViewController {
     @Binding var shouldGoBackToLobby: Bool
+    @Binding var crosswordBinding: Crossword
     @ObservedObject var xWordViewModel: XWordViewModel
     var match: GKMatch
     
-    init(xWordViewModel: XWordViewModel, match: GKMatch, shouldGoBackToLobby: Binding<Bool>) {
+    init(xWordViewModel: XWordViewModel, match: GKMatch, shouldGoBackToLobby: Binding<Bool>, crosswordBinding: Binding<Crossword>) {
         self.xWordViewModel = xWordViewModel
         self.match = match
         self._shouldGoBackToLobby = shouldGoBackToLobby
+        self._crosswordBinding = crosswordBinding
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -121,7 +129,7 @@ class GameViewController: UIViewController {
     
     private func updateCrossword() {
         // TODO: should dosomething when crossword is a binding
-        //crossword = crosswordModel
+        crosswordBinding = crosswordModel
     }
 
 //    @IBAction func buttonAttackPressed() {
