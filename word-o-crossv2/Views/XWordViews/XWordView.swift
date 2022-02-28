@@ -106,6 +106,7 @@ struct XWordView: View {
                 xWordViewModel.handleLetterTyped()
             } else if (newState == .shouldGoBackOne) {
                 xWordViewModel.handleShouldBackspaceState()
+                xWordViewModel.changeShouldSendMessage(to: true)
             }
         })
         .onChange(of: xWordViewModel.otherPlayersMove, perform: { moveData in
