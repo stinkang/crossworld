@@ -129,7 +129,6 @@ struct XWordView: View {
         })
         .onChange(of: xWordViewModel.otherPlayersAcrossFocused, perform: { _ in
             xWordViewModel.changeOtherPlayersHighlighting()
-            xWordViewModel.changeShouldSendMessage(to: true)
         })
         .onChange(of: shouldGoBackToLobby, perform: { _ in
             if (shouldGoBackToLobby) {
