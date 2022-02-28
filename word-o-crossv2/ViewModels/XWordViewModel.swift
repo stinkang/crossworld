@@ -323,6 +323,7 @@ class XWordViewModel: ObservableObject {
             goUpASquare()
             self.textState = .backspacedTo
         }
+        changeShouldSendMessage(to: true)
     }
     
     func handleLetterTyped() -> Void {
