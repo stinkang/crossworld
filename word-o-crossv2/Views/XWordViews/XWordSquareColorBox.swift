@@ -45,7 +45,10 @@ struct XWordSquareColorBox: View {
                    : (xWordViewModel.squareModels[index].squareState == .otherPlayerFocused
                       ? Color.redFocused
                       : (xWordViewModel.squareModels[index].squareState == .otherPlayerHighlighted
-                         ? Color.redHighlighted : Color.white)))
+                         ? Color.redHighlighted
+                         : (xWordViewModel.squareModels[index].squareState == .correct
+                            ? .correctGreen
+                            : Color.white))))
             Rectangle()
                 .frame(width: width, height: width, alignment: Alignment.center)
                 .border(Color.black)
