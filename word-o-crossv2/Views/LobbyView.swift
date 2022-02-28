@@ -33,15 +33,15 @@ struct LobbyView: View {
                     ), isActive: $isShowingXWordView) {
                     Text(crossword.title).padding()
                 }
-                .foregroundColor(Color(UIColor.link))
                 .disabled(crossword.title == "")
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Import") {
+                Button(action: {
                         showDocumentPicker = true
+                    }) {
+                        Image(systemName: "folder")
                     }
-                    .foregroundColor(Color(UIColor.link))
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     ZStack{
@@ -55,9 +55,8 @@ struct LobbyView: View {
                         Button(action: {
                             gcButtonPressed = true
                         }) {
-                            Image(systemName: "person.2.fill")
+                            Image(systemName: "person.crop.circle.badge.plus")
                         }
-                        .foregroundColor(crossword.title == "" ? Color(uiColor: .lightGray) : Color(uiColor: .link))
                         .disabled(crossword.title == "")
                     }
                 }

@@ -59,9 +59,18 @@ struct XWordView: View {
             )
             PermanentKeyboard(text: selectedInputBinding)
             VStack(alignment: .leading, spacing: 0) {
-                if (UIScreen.screenHeight > 700) {
-                    Text(crossword.title)
+                VStack(alignment: .leading, spacing: 0) {
+                    if (UIScreen.screenHeight > 700) {
+                        Text(crossword.title)
+                    }
+                    if (UIScreen.screenHeight > 800) {
+                        Text("By " + crossword.author)
+                    }
+                    if (UIScreen.screenHeight > 900) {
+                        Text("Edited By " + crossword.editor)
+                    }
                 }
+                .padding(.leading, 2)
                 VStack(spacing: 0) {
                     ForEach(0..<crossword.size.cols, id: \.self) { col in
                         HStack(spacing: 0) {
@@ -79,11 +88,14 @@ struct XWordView: View {
                         }
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .center)
                 XWordViewToolbar(
                     boxWidth: UIScreen.screenWidth / 15
                 )
+                .frame(maxWidth: .infinity, alignment: .center)
             }
         }
+        .padding(.top, 10)
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth + boxWidth * 3)
