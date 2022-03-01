@@ -33,7 +33,6 @@ struct LobbyView: View {
                     ), isActive: $isShowingXWordView) {
                     Text(crossword.title).padding()
                 }
-                .disabled(crossword.title == "")
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -47,6 +46,7 @@ struct LobbyView: View {
                     ZStack{
                         MenuView(
                             isShowingXWordView: $isShowingXWordView,
+                            shouldSendCrosswordData: $shouldSendCrosswordData,
                             xWordMatch: $xWordMatch,
                             crossword: $crossword,
                             buttonPressed: $gcButtonPressed,
@@ -57,12 +57,12 @@ struct LobbyView: View {
                         }) {
                             Image(systemName: "person.crop.circle.badge.plus")
                         }
-                        .disabled(crossword.title == "")
+                        .disabled(crossword.title != "")
                     }
                 }
             }
             .sheet(isPresented: self.$showDocumentPicker) {
-                CrosswordDocumentPicker(crossword: $crossword/*, shouldSendCrosswordData: $shouldSendCrosswordData*/)
+                CrosswordDocumentPicker(crossword: $crossword)
             }
             .onAppear(perform: {
                 shouldSendGoBackToLobbyMessage = true
@@ -70,7 +70,8 @@ struct LobbyView: View {
             .onChange(of: crossword.title, perform: { _ in
                 shouldSendCrosswordData = true
             })
-            .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight / 3, alignment: .center)
+            .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth)
+            .position(x: UIScreen.screenWidth / 2, y: (UIScreen.screenWidth) / 2)
     }
 }
 

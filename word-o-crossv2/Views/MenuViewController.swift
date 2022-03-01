@@ -11,6 +11,7 @@ import SwiftUI
 
 struct MenuView: UIViewControllerRepresentable {
     @Binding var isShowingXWordView: Bool
+    @Binding var shouldSendCrosswordData: Bool
     @Binding var xWordMatch: GKMatch
     @Binding var crossword: Crossword
     @Binding var buttonPressed: Bool
@@ -95,6 +96,5 @@ extension MenuViewController: GameCenterHelperDelegate {
     func presentGame(match: GKMatch) {
         xWordMatch = match
         isShowingXWordView = true
-        //performSegue(withIdentifier: "showGame", sender: match)
     }
 }

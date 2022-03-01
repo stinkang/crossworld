@@ -182,17 +182,17 @@ class GameViewController: UIViewController {
 
 extension GameViewController: GKMatchDelegate {
     func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
-        var model = MoveData.decode(data: data)
+        let model = MoveData.decode(data: data)
         if (model != nil) {
             gameModel = model
             return
         }
-        var shouldGoBackToLobbyDecodedModel = try? JSONDecoder().decode(Bool.self, from: data)
+        let shouldGoBackToLobbyDecodedModel = try? JSONDecoder().decode(Bool.self, from: data)
         if (shouldGoBackToLobbyDecodedModel != nil) {
             shouldGoBackToLobby = shouldGoBackToLobbyDecodedModel!
             return
         }
-        var crosswordDecodedModel = Crossword.decode(data: data)
+        let crosswordDecodedModel = Crossword.decode(data: data)
         if (crosswordDecodedModel != nil) {
             crosswordModel = crosswordDecodedModel
         }
