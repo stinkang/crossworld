@@ -15,6 +15,7 @@ struct XWordView: View {
     var xWordMatch: GKMatch
     @Binding var shouldSendGoBackToLobbyMessage: Bool
     @Binding var shouldSendCrosswordData: Bool
+    //@Binding var isAcceptee: Bool
     @State var shouldGoBackToLobby: Bool = false
     var boxWidth: CGFloat {
         let maxSize: CGFloat = 40.0
@@ -57,42 +58,48 @@ struct XWordView: View {
                 shouldSendCrosswordData: $shouldSendCrosswordData,
                 crosswordBinding: $crosswordBinding
             )
-            PermanentKeyboard(text: selectedInputBinding)
+            if (crossword.title != "") {
+                PermanentKeyboard(text: selectedInputBinding)
+            }
             VStack(alignment: .leading, spacing: 0) {
-                VStack(alignment: .leading, spacing: 0) {
-                    if (UIScreen.screenHeight > 700) {
-                        Text(crossword.title)
+                if (crossword.title != "") {
+                    VStack(alignment: .leading, spacing: 0) {
+                        if (UIScreen.screenHeight > 700) {
+                            Text(crossword.title)
+                        }
+                        if (UIScreen.screenHeight > 800) {
+                            Text("By " + crossword.author)
+                        }
+                        if (UIScreen.screenHeight > 900) {
+                            Text("Edited By " + crossword.editor)
+                        }
                     }
-                    if (UIScreen.screenHeight > 800) {
-                        Text("By " + crossword.author)
-                    }
-                    if (UIScreen.screenHeight > 900) {
-                        Text("Edited By " + crossword.editor)
-                    }
-                }
-                .padding(.leading, 2)
-                VStack(spacing: 0) {
-                    ForEach(0..<crossword.size.cols, id: \.self) { col in
-                        HStack(spacing: 0) {
-                            ForEach(0..<crossword.size.rows, id: \.self) { row in
-                                let index = col * crossword.size.rows + row
-                                let clueNumber = crossword.gridnums[index] != 0 ? crossword.gridnums[index] : 0
-                                XWordSquare(
-                                    crossword: crossword,
-                                    index: index,
-                                    boxWidth: boxWidth,
-//                                    squareModel: xWordViewModel.squareModels[index],
-                                    clueNumber: clueNumber
-                                )
+                    .padding(.leading, 2)
+                    VStack(spacing: 0) {
+                        ForEach(0..<crossword.size.cols, id: \.self) { col in
+                            HStack(spacing: 0) {
+                                ForEach(0..<crossword.size.rows, id: \.self) { row in
+                                    let index = col * crossword.size.rows + row
+                                    let clueNumber = crossword.gridnums[index] != 0 ? crossword.gridnums[index] : 0
+                                    XWordSquare(
+                                        crossword: crossword,
+                                        index: index,
+                                        boxWidth: boxWidth,
+    //                                    squareModel: xWordViewModel.squareModels[index],
+                                        clueNumber: clueNumber
+                                    )
+                                }
                             }
                         }
                     }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    XWordViewToolbar(
+                        boxWidth: UIScreen.screenWidth / 15
+                    )
+                    .frame(maxWidth: .infinity, alignment: .center)
+                } else {
+                    Text("<<< Enter CrossWorld!")
                 }
-                .frame(maxWidth: .infinity, alignment: .center)
-                XWordViewToolbar(
-                    boxWidth: UIScreen.screenWidth / 15
-                )
-                .frame(maxWidth: .infinity, alignment: .center)
             }
         }
         .padding(.top, 10)
