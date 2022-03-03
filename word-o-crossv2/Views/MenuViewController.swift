@@ -17,9 +17,9 @@ struct MenuView: UIViewControllerRepresentable {
     @Binding var buttonPressed: Bool
     @Binding var gcAuthenticated: Bool
     @Binding var connectedStatus: Bool
-    @Binding var opponentName: String
+    @Binding var opponent: GKPlayer
     func makeUIViewController(context: Context) -> MenuViewController {
-        return MenuViewController(isShowingXWordView: $isShowingXWordView, xWordMatch: $xWordMatch, crossword: $crossword, gcAuthenticated: $gcAuthenticated, connectedStatus: $connectedStatus, opponentName: $opponentName)
+        return MenuViewController(isShowingXWordView: $isShowingXWordView, xWordMatch: $xWordMatch, crossword: $crossword, gcAuthenticated: $gcAuthenticated, connectedStatus: $connectedStatus, opponent: $opponent)
     }
 
     func updateUIViewController(_ uiViewController: MenuViewController, context: Context) {
@@ -36,14 +36,14 @@ class MenuViewController: UIViewController {
     @Binding var crossword: Crossword
     @Binding var gcAuthenticated: Bool
     @Binding var connectedStatus: Bool
-    @Binding var opponentName: String
+    @Binding var opponent: GKPlayer
 
-    init(isShowingXWordView: Binding<Bool>, xWordMatch: Binding<GKMatch>, crossword: Binding<Crossword>, gcAuthenticated: Binding<Bool>, connectedStatus: Binding<Bool>, opponentName: Binding<String>) {
+    init(isShowingXWordView: Binding<Bool>, xWordMatch: Binding<GKMatch>, crossword: Binding<Crossword>, gcAuthenticated: Binding<Bool>, connectedStatus: Binding<Bool>, opponent: Binding<GKPlayer>) {
         self._isShowingXWordView = isShowingXWordView
         self._xWordMatch = xWordMatch
         self._crossword = crossword
         self._gcAuthenticated = gcAuthenticated
-        self._opponentName = opponentName
+        self._opponent = opponent
         self._connectedStatus = connectedStatus
         super.init(nibName: nil, bundle: nil)
     }
@@ -85,8 +85,8 @@ class MenuViewController: UIViewController {
 }
 
 extension MenuViewController: GameCenterHelperDelegate {
-    func changeOpponentName(to: String) {
-        opponentName = to
+    func changeopponent(to: GKPlayer) {
+        opponent = to
     }
     
     func changeConnectedStatus(to: Bool) {

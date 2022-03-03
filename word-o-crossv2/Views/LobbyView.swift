@@ -18,14 +18,14 @@ struct LobbyView: View {
     @State var gcAuthenticated: Bool = false
     @State var shouldSendGoBackToLobbyMessage = false
     @State var shouldSendCrosswordData = false
-    @State var opponentName = ""
+    @State var opponent = GKPlayer()
     @State var connectedStatus = false
     var xWordViewModel: XWordViewModel = XWordViewModel(crossword: Crossword())
 
     var body: some View {
         VStack {
-            if (connectedStatus && opponentName != "") {
-                Text("Connected to " + opponentName)
+            if (connectedStatus && opponent.displayName != "") {
+                Text("Connected to " + opponent.displayName)
             }
             VStack {
                 Text("CrossWorld!").font(.largeTitle)
@@ -36,7 +36,7 @@ struct LobbyView: View {
                         xWordMatch: xWordMatch,
                         shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
                         shouldSendCrosswordData: $shouldSendCrosswordData,
-                        opponentName: $opponentName,
+                        opponent: $opponent,
                         connectedStatus: $connectedStatus
                     ), isActive: $isShowingXWordView) {
                     Text(crossword.title).padding()
@@ -60,7 +60,7 @@ struct LobbyView: View {
                             buttonPressed: $gcButtonPressed,
                             gcAuthenticated: $gcAuthenticated,
                             connectedStatus: $connectedStatus,
-                            opponentName: $opponentName
+                            opponent: $opponent
                         )
                         Button(action: {
                             gcButtonPressed = true

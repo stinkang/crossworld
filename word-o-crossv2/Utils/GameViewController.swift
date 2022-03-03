@@ -15,11 +15,11 @@ struct GameView: UIViewControllerRepresentable {
     @Binding var shouldGoBackToLobby: Bool
     @Binding var shouldSendCrosswordData: Bool
     @Binding var crosswordBinding: Crossword
-    @Binding var opponentName: String
+    @Binding var opponent: GKPlayer
     @Binding var connectedStatus: Bool
     @EnvironmentObject var xWordViewModel: XWordViewModel
     func makeUIViewController(context: Context) -> GameViewController {
-        return GameViewController(xWordViewModel: xWordViewModel, match: xWordMatch, shouldGoBackToLobby: $shouldGoBackToLobby, crosswordBinding: $crosswordBinding, opponentName: $opponentName, connectedStatus: $connectedStatus)
+        return GameViewController(xWordViewModel: xWordViewModel, match: xWordMatch, shouldGoBackToLobby: $shouldGoBackToLobby, crosswordBinding: $crosswordBinding, opponent: $opponent, connectedStatus: $connectedStatus)
     }
 
     func updateUIViewController(_ uiViewController: GameViewController, context: Context) {
@@ -48,17 +48,17 @@ struct GameView: UIViewControllerRepresentable {
 class GameViewController: UIViewController {
     @Binding var shouldGoBackToLobby: Bool
     @Binding var crosswordBinding: Crossword
-    @Binding var opponentName: String
+    @Binding var opponent: GKPlayer
     @Binding var connectedStatus: Bool
     @ObservedObject var xWordViewModel: XWordViewModel
     var match: GKMatch
     
-    init(xWordViewModel: XWordViewModel, match: GKMatch, shouldGoBackToLobby: Binding<Bool>, crosswordBinding: Binding<Crossword>, opponentName: Binding<String>, connectedStatus: Binding<Bool>) {
+    init(xWordViewModel: XWordViewModel, match: GKMatch, shouldGoBackToLobby: Binding<Bool>, crosswordBinding: Binding<Crossword>, opponent: Binding<GKPlayer>, connectedStatus: Binding<Bool>) {
         self.xWordViewModel = xWordViewModel
         self.match = match
         self._shouldGoBackToLobby = shouldGoBackToLobby
         self._crosswordBinding = crosswordBinding
-        self._opponentName = opponentName
+        self._opponent = opponent
         self._connectedStatus = connectedStatus
         super.init(nibName: nil, bundle: nil)
     }
@@ -206,10 +206,10 @@ extension GameViewController: GKMatchDelegate {
     
     func match(_ match: GKMatch, player: GKPlayer, didChange state: GKPlayerConnectionState) {
         if (state == .disconnected) {
-            opponentName = ""
+            opponent = GKPlayer()
             connectedStatus = false
         } else if (state == .connected) {
-            opponentName = player.displayName
+            opponent = player
         }
     }
 }

@@ -15,7 +15,7 @@ struct XWordView: View {
     var xWordMatch: GKMatch
     @Binding var shouldSendGoBackToLobbyMessage: Bool
     @Binding var shouldSendCrosswordData: Bool
-    @Binding var opponentName: String
+    @Binding var opponent: GKPlayer
     @Binding var connectedStatus: Bool
     //@Binding var isAcceptee: Bool
     @State var shouldGoBackToLobby: Bool = false
@@ -42,7 +42,7 @@ struct XWordView: View {
         xWordMatch: GKMatch,
         shouldSendGoBackToLobbyMessage: Binding<Bool>,
         shouldSendCrosswordData: Binding<Bool>,
-        opponentName: Binding<String>,
+        opponent: Binding<GKPlayer>,
         connectedStatus: Binding<Bool>
     ) {
         self.crossword = crossword
@@ -50,7 +50,7 @@ struct XWordView: View {
         self.xWordMatch = xWordMatch
         self._shouldSendGoBackToLobbyMessage = shouldSendGoBackToLobbyMessage
         self._shouldSendCrosswordData = shouldSendCrosswordData
-        self._opponentName = opponentName
+        self._opponent = opponent
         self._connectedStatus = connectedStatus
         _xWordViewModel = StateObject(wrappedValue: XWordViewModel(crossword: crossword))
     }
@@ -63,7 +63,7 @@ struct XWordView: View {
                 shouldGoBackToLobby: $shouldGoBackToLobby,
                 shouldSendCrosswordData: $shouldSendCrosswordData,
                 crosswordBinding: $crosswordBinding,
-                opponentName: $opponentName,
+                opponent: $opponent,
                 connectedStatus: $connectedStatus
             )
             if (crossword.title != "") {
@@ -176,7 +176,7 @@ struct XWordView: View {
 ////            xWordMatch: GKMatch(),
 ////            shouldSendGoBackToLobbyMessage: .constant(true),
 ////            shouldSendCrosswordData: .constant(true),
-////            opponentName: .constant("")
+////            opponent: .constant("")
 ////        )
 ////    }
 //}
