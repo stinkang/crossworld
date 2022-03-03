@@ -97,6 +97,14 @@ extension MenuViewController: GameCenterHelperDelegate {
        gcAuthenticated = isAuthenticated
     }
     
+    func changeIsShowingXWordView(to: Bool) {
+        isShowingXWordView = to
+    }
+    
+    func changeXWord(to: Crossword) {
+        crossword = to
+    }
+    
     func presentGameCenterAuth(viewController: UIViewController?) {
         guard let vc = viewController else {return}
         self.present(vc, animated: true)
