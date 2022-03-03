@@ -15,6 +15,8 @@ struct XWordView: View {
     var xWordMatch: GKMatch
     @Binding var shouldSendGoBackToLobbyMessage: Bool
     @Binding var shouldSendCrosswordData: Bool
+    @Binding var opponentName: String
+    @Binding var connectedStatus: Bool
     //@Binding var isAcceptee: Bool
     @State var shouldGoBackToLobby: Bool = false
     var boxWidth: CGFloat {
@@ -39,13 +41,17 @@ struct XWordView: View {
         crosswordBinding: Binding<Crossword>,
         xWordMatch: GKMatch,
         shouldSendGoBackToLobbyMessage: Binding<Bool>,
-        shouldSendCrosswordData: Binding<Bool>
+        shouldSendCrosswordData: Binding<Bool>,
+        opponentName: Binding<String>,
+        connectedStatus: Binding<Bool>
     ) {
         self.crossword = crossword
         self._crosswordBinding = crosswordBinding
         self.xWordMatch = xWordMatch
         self._shouldSendGoBackToLobbyMessage = shouldSendGoBackToLobbyMessage
         self._shouldSendCrosswordData = shouldSendCrosswordData
+        self._opponentName = opponentName
+        self._connectedStatus = connectedStatus
         _xWordViewModel = StateObject(wrappedValue: XWordViewModel(crossword: crossword))
     }
 
@@ -56,7 +62,9 @@ struct XWordView: View {
                 shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
                 shouldGoBackToLobby: $shouldGoBackToLobby,
                 shouldSendCrosswordData: $shouldSendCrosswordData,
-                crosswordBinding: $crosswordBinding
+                crosswordBinding: $crosswordBinding,
+                opponentName: $opponentName,
+                connectedStatus: $connectedStatus
             )
             if (crossword.title != "") {
                 PermanentKeyboard(text: selectedInputBinding)
@@ -160,17 +168,18 @@ struct XWordView: View {
     }
 }
 
-struct MyCrosswordView_Previews: PreviewProvider {
-    static var previews: some View {
-        XWordView(
-            crossword: Crossword(),
-            crosswordBinding: .constant(Crossword()),
-            xWordMatch: GKMatch(),
-            shouldSendGoBackToLobbyMessage: .constant(true),
-            shouldSendCrosswordData: .constant(true)
-        )
-    }
-}
+//struct MyCrosswordView_Previews: PreviewProvider {
+////    static var previews: some View {
+////        XWordView(
+////            crossword: Crossword(),
+////            crosswordBinding: .constant(Crossword()),
+////            xWordMatch: GKMatch(),
+////            shouldSendGoBackToLobbyMessage: .constant(true),
+////            shouldSendCrosswordData: .constant(true),
+////            opponentName: .constant("")
+////        )
+////    }
+//}
 
 extension UIScreen {
    static let screenWidth = UIScreen.main.bounds.size.width

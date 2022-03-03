@@ -18,9 +18,15 @@ struct LobbyView: View {
     @State var gcAuthenticated: Bool = false
     @State var shouldSendGoBackToLobbyMessage = false
     @State var shouldSendCrosswordData = false
+    @State var opponentName = ""
+    @State var connectedStatus = false
     var xWordViewModel: XWordViewModel = XWordViewModel(crossword: Crossword())
 
     var body: some View {
+        VStack {
+            if (connectedStatus && opponentName != "") {
+                Text("Connected to " + opponentName)
+            }
             VStack {
                 Text("CrossWorld!").font(.largeTitle)
                 NavigationLink(destination:
@@ -29,7 +35,9 @@ struct LobbyView: View {
                         crosswordBinding: $crossword,
                         xWordMatch: xWordMatch,
                         shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
-                        shouldSendCrosswordData: $shouldSendCrosswordData
+                        shouldSendCrosswordData: $shouldSendCrosswordData,
+                        opponentName: $opponentName,
+                        connectedStatus: $connectedStatus
                     ), isActive: $isShowingXWordView) {
                     Text(crossword.title).padding()
                 }
@@ -50,7 +58,9 @@ struct LobbyView: View {
                             xWordMatch: $xWordMatch,
                             crossword: $crossword,
                             buttonPressed: $gcButtonPressed,
-                            gcAuthenticated: $gcAuthenticated
+                            gcAuthenticated: $gcAuthenticated,
+                            connectedStatus: $connectedStatus,
+                            opponentName: $opponentName
                         )
                         Button(action: {
                             gcButtonPressed = true
@@ -72,6 +82,7 @@ struct LobbyView: View {
             })
             .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth)
             .position(x: UIScreen.screenWidth / 2, y: (UIScreen.screenWidth) / 2)
+        }
     }
 }
 
