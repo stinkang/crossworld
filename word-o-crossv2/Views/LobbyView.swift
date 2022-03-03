@@ -9,7 +9,6 @@ import SwiftUI
 import GameKit
 
 struct LobbyView: View {
-
     @State var crossword = Crossword()
     @State private var showDocumentPicker = false
     @State var isShowingXWordView = false
@@ -18,9 +17,14 @@ struct LobbyView: View {
     @State var gcAuthenticated: Bool = false
     @State var shouldSendGoBackToLobbyMessage = false
     @State var shouldSendCrosswordData = false
+    @State var opponent = GKPlayer()
+    @State var connectedStatus = false
+    @State var playerPhoto = UIImage()
+    @StateObject var viewModel = LobbyViewModel()
     var xWordViewModel: XWordViewModel = XWordViewModel(crossword: Crossword())
 
     var body: some View {
+        VStack {
             VStack {
                 Text("CrossWorld!").font(.largeTitle)
                 NavigationLink(destination:
@@ -29,18 +33,38 @@ struct LobbyView: View {
                         crosswordBinding: $crossword,
                         xWordMatch: xWordMatch,
                         shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
-                        shouldSendCrosswordData: $shouldSendCrosswordData
+                        shouldSendCrosswordData: $shouldSendCrosswordData,
+                        opponent: $opponent,
+                        connectedStatus: $connectedStatus
                     ), isActive: $isShowingXWordView) {
                     Text(crossword.title).padding()
                 }
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
+                    Button(action: {
                         showDocumentPicker = true
                     }) {
                         Image(systemName: "folder")
                     }
+                }
+                ToolbarItem(placement: .automatic) {
+                    Button(action: {
+                        print("icon clicked")
+                    }) {
+                        if (connectedStatus && opponent.displayName != "") {
+                            HStack {
+                                Image(uiImage: viewModel.playerPhoto)
+                                    .clipShape(Circle())
+                                    .overlay(Circle().stroke(Color.green, lineWidth: 2))
+//                                Circle()
+//                                    .fill()
+//                                    .frame(width: 8, height: 8, alignment: .center)
+//                                    .foregroundColor(.green)
+                            }
+                        }
+                    }
+
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     ZStack{
@@ -50,7 +74,9 @@ struct LobbyView: View {
                             xWordMatch: $xWordMatch,
                             crossword: $crossword,
                             buttonPressed: $gcButtonPressed,
-                            gcAuthenticated: $gcAuthenticated
+                            gcAuthenticated: $gcAuthenticated,
+                            connectedStatus: $connectedStatus,
+                            opponent: $opponent
                         )
                         Button(action: {
                             gcButtonPressed = true
@@ -60,6 +86,9 @@ struct LobbyView: View {
                         .disabled(crossword.title != "")
                     }
                 }
+            }
+            .task {
+                await viewModel.loadPhoto(player: opponent)
             }
             .sheet(isPresented: self.$showDocumentPicker) {
                 CrosswordDocumentPicker(crossword: $crossword)
@@ -72,6 +101,7 @@ struct LobbyView: View {
             })
             .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth)
             .position(x: UIScreen.screenWidth / 2, y: (UIScreen.screenWidth) / 2)
+        }
     }
 }
 

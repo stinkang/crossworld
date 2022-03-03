@@ -16,8 +16,10 @@ struct MenuView: UIViewControllerRepresentable {
     @Binding var crossword: Crossword
     @Binding var buttonPressed: Bool
     @Binding var gcAuthenticated: Bool
+    @Binding var connectedStatus: Bool
+    @Binding var opponent: GKPlayer
     func makeUIViewController(context: Context) -> MenuViewController {
-        return MenuViewController(isShowingXWordView: $isShowingXWordView, xWordMatch: $xWordMatch, crossword: $crossword, gcAuthenticated: $gcAuthenticated)
+        return MenuViewController(isShowingXWordView: $isShowingXWordView, xWordMatch: $xWordMatch, crossword: $crossword, gcAuthenticated: $gcAuthenticated, connectedStatus: $connectedStatus, opponent: $opponent)
     }
 
     func updateUIViewController(_ uiViewController: MenuViewController, context: Context) {
@@ -33,12 +35,16 @@ class MenuViewController: UIViewController {
     @Binding var xWordMatch: GKMatch
     @Binding var crossword: Crossword
     @Binding var gcAuthenticated: Bool
+    @Binding var connectedStatus: Bool
+    @Binding var opponent: GKPlayer
 
-    init(isShowingXWordView: Binding<Bool>, xWordMatch: Binding<GKMatch>, crossword: Binding<Crossword>, gcAuthenticated: Binding<Bool>) {
+    init(isShowingXWordView: Binding<Bool>, xWordMatch: Binding<GKMatch>, crossword: Binding<Crossword>, gcAuthenticated: Binding<Bool>, connectedStatus: Binding<Bool>, opponent: Binding<GKPlayer>) {
         self._isShowingXWordView = isShowingXWordView
         self._xWordMatch = xWordMatch
         self._crossword = crossword
         self._gcAuthenticated = gcAuthenticated
+        self._opponent = opponent
+        self._connectedStatus = connectedStatus
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -79,6 +85,14 @@ class MenuViewController: UIViewController {
 }
 
 extension MenuViewController: GameCenterHelperDelegate {
+    func changeopponent(to: GKPlayer) {
+        opponent = to
+    }
+    
+    func changeConnectedStatus(to: Bool) {
+        connectedStatus = to
+    }
+    
     func didChangeAuthStatus(isAuthenticated: Bool) {
        gcAuthenticated = isAuthenticated
     }
@@ -95,6 +109,7 @@ extension MenuViewController: GameCenterHelperDelegate {
     
     func presentGame(match: GKMatch) {
         xWordMatch = match
+        connectedStatus = true
         isShowingXWordView = true
     }
 }
