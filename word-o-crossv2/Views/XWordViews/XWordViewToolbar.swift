@@ -23,7 +23,7 @@ struct XWordViewToolbar: View {
             XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.goToNextClueSquare)
         }
         //.frame(width: UIScreen.screenWidth, height: self.keyboardHeightHelper.keyboardHeight, alignment: .center)
-        .offset(y: UIScreen.screenHeight > 700 ? boxWidth : 0)
+        .offset(y: 0)
     }
 }
 

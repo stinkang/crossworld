@@ -61,6 +61,7 @@ struct PermanentKeyboard: UIViewRepresentable {
         //Makes textfield invisible
         textfield.tintColor = .clear
         textfield.textColor = .clear
+        textfield.textContentType = .oneTimeCode
         
         return textfield
     }

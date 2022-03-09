@@ -97,7 +97,11 @@ struct LobbyView: View {
                 shouldSendGoBackToLobbyMessage = true
             })
             .onChange(of: crossword.title, perform: { _ in
-                shouldSendCrosswordData = true
+                if crossword.title == "" {
+                    shouldSendCrosswordData = false
+                } else {
+                    shouldSendCrosswordData = true
+                }
             })
             .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth)
             .position(x: UIScreen.screenWidth / 2, y: (UIScreen.screenWidth) / 2)
