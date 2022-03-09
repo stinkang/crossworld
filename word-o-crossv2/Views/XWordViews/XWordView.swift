@@ -74,12 +74,13 @@ struct XWordView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         if (UIScreen.screenHeight > 700) {
                             Text(crossword.title)
-                        }
-                        if (UIScreen.screenHeight > 800) {
-                            Text("By " + crossword.author)
+                                .padding(.top, 15)
                         }
                         if (UIScreen.screenHeight > 900) {
-                            Text("Edited By " + crossword.editor)
+//                            VStack {
+                                Text("By " + crossword.author)
+                                Text("Edited By " + crossword.editor)
+//                            }
                         }
                     }
                     .padding(.leading, 2)
@@ -105,12 +106,12 @@ struct XWordView: View {
                         boxWidth: UIScreen.screenWidth / 15
                     )
                     .frame(maxWidth: .infinity, alignment: .center)
+                    Spacer()
                 } else {
                     Text("<<< Enter CrossWorld!")
                 }
             }
         }
-        .padding(.top, 10)
         .navigationBarTitle("")
         .navigationBarHidden(true)
         .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth + boxWidth * 3)
