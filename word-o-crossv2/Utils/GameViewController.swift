@@ -17,6 +17,7 @@ struct GameView: UIViewControllerRepresentable {
     @Binding var crosswordBinding: Crossword
     @Binding var opponent: GKPlayer
     @Binding var connectedStatus: Bool
+    @Binding var shouldUpdateCrosswordLeaderboard: Bool
     @EnvironmentObject var xWordViewModel: XWordViewModel
     func makeUIViewController(context: Context) -> GameViewController {
         return GameViewController(xWordViewModel: xWordViewModel, match: xWordMatch, shouldGoBackToLobby: $shouldGoBackToLobby, crosswordBinding: $crosswordBinding, opponent: $opponent, connectedStatus: $connectedStatus)
@@ -41,6 +42,10 @@ struct GameView: UIViewControllerRepresentable {
         if (shouldSendCrosswordData) {
             uiViewController.sendData(data: crosswordBinding)
             shouldSendCrosswordData = false
+        }
+        if (shouldUpdateCrosswordLeaderboard) {
+            uiViewController.updateLeaderboard(with: 1)
+            shouldUpdateCrosswordLeaderboard = false
         }
     }
 }
@@ -183,6 +188,47 @@ class GameViewController: UIViewController {
         } catch {
             print("Send data failed")
         }
+    }
+    
+    func updateLeaderboard(with value:Int)
+    {
+        GKLocalPlayer.local.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
+            if error != nil {
+                print(error!)
+            }
+            else {
+                GKLeaderboard.submitScore(value, context:0, player: GKLocalPlayer.local, leaderboardIDs: [leaderboardIdentifer!], completionHandler: {error in
+                    if error != nil {
+                        print(error!)
+                    }
+                })
+            }
+        })
+        loadLeaderboardScores()
+    }
+    
+    func loadLeaderboardScores() {
+        var board: GKLeaderboard?
+        GKLocalPlayer.local.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
+            if error != nil {
+                print(error!)
+            }
+            else {
+                GKLeaderboard.loadLeaderboards(IDs: [leaderboardIdentifer!]) { [weak self] (boards, error) in
+                    board = boards?.first
+                }
+                if (board != nil) {
+                    board!.loadEntries(for: .global, timeScope: .allTime, range: NSRange(location: 1, length: 10),
+                         completionHandler: { [weak self] (local, entries, count, error) in
+                             DispatchQueue.main.async {
+                                 print(local)
+                                 print(entries)
+                             }
+                        }
+                    )
+                }
+            }
+        })
     }
 }
 

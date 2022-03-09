@@ -19,6 +19,7 @@ struct XWordView: View {
     @Binding var connectedStatus: Bool
     //@Binding var isAcceptee: Bool
     @State var shouldGoBackToLobby: Bool = false
+    @State var shouldUpdateCrosswordLeaderboard: Bool = false
     var boxWidth: CGFloat {
         let maxSize: CGFloat = 40.0
         let defaultSize: CGFloat = (UIScreen.screenWidth-5)/CGFloat(crossword.size.cols)
@@ -64,7 +65,8 @@ struct XWordView: View {
                 shouldSendCrosswordData: $shouldSendCrosswordData,
                 crosswordBinding: $crosswordBinding,
                 opponent: $opponent,
-                connectedStatus: $connectedStatus
+                connectedStatus: $connectedStatus,
+                shouldUpdateCrosswordLeaderboard: $shouldUpdateCrosswordLeaderboard
             )
             if (crossword.title != "") {
                 PermanentKeyboard(text: selectedInputBinding)
@@ -107,6 +109,11 @@ struct XWordView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 } else {
                     Text("<<< Enter CrossWorld!")
+                }
+                Button(action: {
+                    shouldUpdateCrosswordLeaderboard = true
+                }) {
+                    Text("Hack Leaderboart")
                 }
             }
         }
@@ -151,6 +158,12 @@ struct XWordView: View {
             if (shouldGoBackToLobby) {
                 self.presentationMode.wrappedValue.dismiss()
                 shouldGoBackToLobby = false
+            }
+        })
+        .onChange(of: xWordViewModel.solved, perform: { _ in
+            if (!xWordViewModel.solvedRecorded) {
+                shouldUpdateCrosswordLeaderboard = true
+                xWordViewModel.solvedRecorded = true
             }
         })
 //        .onDisappear(perform: {

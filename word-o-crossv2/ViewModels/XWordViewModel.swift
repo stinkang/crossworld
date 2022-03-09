@@ -18,6 +18,7 @@ class XWordViewModel: ObservableObject {
     @Published var otherPlayersAcrossFocused: Bool
     @Published var textState: TextState
     @Published var solved: Bool
+    var solvedRecorded: Bool
     var shouldSendMessage: Bool
     var shouldSendCrossword: Bool
     var previousFocusedSquareIndex: Int
@@ -44,6 +45,7 @@ class XWordViewModel: ObservableObject {
         otherPlayersPreviousFocusedSquareIndex = 0
         currentlyOtherPlayersChanges = false
         solved = false
+        solvedRecorded = false
         crosswordWidth = 0
         crosswordSize = 0
         textState = .typedTo
