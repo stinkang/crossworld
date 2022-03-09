@@ -15,5 +15,7 @@ extension Color {
     static let redFocused = Color("redFocused")
     static let redHighlighted = Color("redHighlighted")
     static let correctGreen = Color("correctGreen")
-
+    static let squareBackground = Color("squareBackground")
+    static let squareBackground2 = Color("squareBackground2")
+    static let squareText = Color("squareText")
 }

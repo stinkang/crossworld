@@ -61,7 +61,7 @@ struct XWordSquareColorBox: View {
                         Spacer().frame(width: 3)
                         Text(String(clueNumber))
                             .font(Font.custom("Helvetica", size: width / 3))
-                            .frame(width: width / 3, height: width / 3, alignment: .topLeading)
+                            .frame(width: width / 2, height: width / 3, alignment: .topLeading)
                             .foregroundColor(.black)
                     }
                 }

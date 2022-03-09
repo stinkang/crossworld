@@ -74,7 +74,6 @@ struct XWordView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         if (UIScreen.screenHeight > 700) {
                             Text(crossword.title)
-                                .padding(.top, 15)
                         }
                         if (UIScreen.screenHeight > 900) {
 //                            VStack {
@@ -114,8 +113,8 @@ struct XWordView: View {
         }
         .navigationBarTitle("")
         .navigationBarHidden(true)
-        .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth + boxWidth * 3)
-        .position(x: UIScreen.screenWidth / 2, y: (UIScreen.screenWidth + boxWidth * 3) / 2)
+        //.frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth + boxWidth * 3)
+        //.position(x: UIScreen.screenWidth / 2, y: (UIScreen.screenWidth * 3) / 2)
         .environmentObject(xWordViewModel)
         .onChange(of: xWordViewModel.textState, perform: { newState in
             if (newState == .letterTyped) {
