@@ -44,7 +44,8 @@ struct XWordSquare: View {
                 XWordSquareTextBoxV2(
                     answerText: crossword.grid[index],
                     index: index,
-                    previousText: ""
+                    previousText: "",
+                    boxWidth: boxWidth
                 )
                 .frame(width: boxWidth, height: boxWidth, alignment: .center)
             }
