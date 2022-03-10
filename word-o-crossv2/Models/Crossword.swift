@@ -45,7 +45,7 @@ struct Crossword: Codable {
         case title, author, editor, copyright, publisher, date, dow,
             target, valid, admin, navigate, auto, size, grid, circles,
             clues, answers, notes, uniclue, hastitle, gridnums, acrossmap,
-            downmap, rbars, bbars
+            downmap, rbars, bbars, entries
     }
     
     enum SizeKeys: String, CodingKey {
@@ -156,14 +156,19 @@ struct Crossword: Codable {
             self.notes = nil
         }
         self.solved = false
-
-        var entries = Array(repeating: "", count: grid.count)
-        for i in 0..<grid.count {
-            if (grid[i] == ".") {
-                entries[i] = "."
+        
+        if let entries = try outerContainer.decodeIfPresent([String].self, forKey: .entries) {
+            self.entries = entries
+        } else {
+            var newEntries = Array(repeating: "", count: grid.count)
+            for i in 0..<grid.count {
+                if (grid[i] == ".") {
+                    newEntries[i] = "."
+                }
             }
+            self.entries = newEntries
         }
-        self.entries = entries
+
     }
     
     init(crosswordModel: CrosswordModel) {

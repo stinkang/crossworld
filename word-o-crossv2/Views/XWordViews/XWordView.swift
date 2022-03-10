@@ -156,17 +156,18 @@ struct XWordView: View {
                 shouldGoBackToLobby = false
             }
         })
-        .onDisappear(perform: {
+        .onWillDisappear {
             if (crossword.title != "") {
                 saveCrossword()
             }
-        })
+        }
         .onAppear(perform: {
             for (index, entry) in crossword.entries.enumerated() {
                 if (entry != "" && entry != ".") {
                     xWordViewModel.squareModels[index].changeCurrentText(to: entry)
                 }
             }
+            xWordViewModel.changeFocusedSquareIndex(to: 0)
         })
 //        .onChange(of: crossword.title) { _ in
 //            xWordViewModel.crossword = crossword
@@ -181,7 +182,7 @@ struct XWordView: View {
     
     func saveCrossword() {
         var newCrossword = CrosswordModel()
-        var fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CrosswordModel")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CrosswordModel")
         fetchRequest.predicate = NSPredicate(format: "title = %@", crossword.title)
         do {
             if let fetchResults = try managedObjectContext.fetch(fetchRequest) as? [NSManagedObject] {
