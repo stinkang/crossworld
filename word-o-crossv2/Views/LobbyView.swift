@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GameKit
+import CoreData
 
 struct LobbyView: View {
     @State var crossword = Crossword()
@@ -21,6 +22,7 @@ struct LobbyView: View {
     @State var connectedStatus = false
     @State var playerPhoto = UIImage()
     @StateObject var viewModel = LobbyViewModel()
+    @Environment(\.managedObjectContext) var managedObjectContext
     var xWordViewModel: XWordViewModel = XWordViewModel(crossword: Crossword())
 
     var body: some View {
@@ -48,6 +50,19 @@ struct LobbyView: View {
                         Image(systemName: "folder")
                     }
                 }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    NavigationLink(destination:
+                        CrosswordListView(
+                            xWordMatch: xWordMatch,
+                            shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
+                            shouldSendCrosswordData: $shouldSendCrosswordData,
+                            opponent: $opponent,
+                            connectedStatus: $connectedStatus
+                        )
+                    ) {
+                        Image(systemName: "square.3.layers.3d.down.right")
+                    }
+                }
                 ToolbarItem(placement: .automatic) {
                     Button(action: {
                         print("icon clicked")
@@ -64,7 +79,6 @@ struct LobbyView: View {
                             }
                         }
                     }
-
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     ZStack{
@@ -95,16 +109,36 @@ struct LobbyView: View {
             }
             .onAppear(perform: {
                 shouldSendGoBackToLobbyMessage = true
+                checkForExistingCrosswordAndUpdate()
             })
             .onChange(of: crossword.title, perform: { _ in
                 if crossword.title == "" {
                     shouldSendCrosswordData = false
                 } else {
+                    checkForExistingCrosswordAndUpdate()
                     shouldSendCrosswordData = true
                 }
             })
             .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth)
             .position(x: UIScreen.screenWidth / 2, y: (UIScreen.screenWidth) / 2)
+        }
+    }
+    
+    func checkForExistingCrosswordAndUpdate() {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CrosswordModel")
+        fetchRequest.predicate = NSPredicate(format: "title = %@", crossword.title)
+        var newCrossword = crossword
+        if (crossword.title != "") {
+            do {
+                if let fetchResults = try managedObjectContext.fetch(fetchRequest) as? [NSManagedObject] {
+                    if fetchResults.count != 0 {
+                        newCrossword = Crossword(crosswordModel: fetchResults[0] as! CrosswordModel)
+                    }
+                }
+            } catch {
+                print("Fetch Failed: \(error)")
+            }
+            self.crossword = newCrossword
         }
     }
 }

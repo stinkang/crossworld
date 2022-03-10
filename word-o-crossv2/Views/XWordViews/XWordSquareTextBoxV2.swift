@@ -43,6 +43,7 @@ struct XWordSquareTextBoxV2: View {
                         currentlyCorrect = false
                     }
                 }
+                xWordViewModel.entries[index] = text
             })
     }
 }

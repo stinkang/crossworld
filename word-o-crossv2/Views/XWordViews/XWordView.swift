@@ -8,6 +8,7 @@
 import SwiftUI
 import GameKit
 import UIKit
+import CoreData
 
 struct XWordView: View {
     var crossword: Crossword
@@ -24,6 +25,8 @@ struct XWordView: View {
         let defaultSize: CGFloat = (UIScreen.screenWidth-5)/CGFloat(crossword.size.cols)
         return min(defaultSize, maxSize) }
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.managedObjectContext) var managedObjectContext
+    let persistenceController = PersistenceController.shared
     @StateObject var xWordViewModel: XWordViewModel
     var selectedInputBinding: Binding<String> {
         Binding<String>(
@@ -153,9 +156,19 @@ struct XWordView: View {
                 shouldGoBackToLobby = false
             }
         })
-//        .onDisappear(perform: {
-//            shouldSendGoBackToLobbyMessage = true
-//        })
+        .onWillDisappear {
+            if (crossword.title != "") {
+                saveCrossword()
+            }
+        }
+        .onAppear(perform: {
+            for (index, entry) in crossword.entries.enumerated() {
+                if (entry != "" && entry != ".") {
+                    xWordViewModel.squareModels[index].changeCurrentText(to: entry)
+                }
+            }
+            xWordViewModel.changeFocusedSquareIndex(to: 0)
+        })
 //        .onChange(of: crossword.title) { _ in
 //            xWordViewModel.crossword = crossword
 //        }
@@ -165,6 +178,51 @@ struct XWordView: View {
         .sheet(isPresented: $xWordViewModel.solved) {
             StatsSheetView(crossword: crossword, xWordViewModel: xWordViewModel)
         }
+    }
+    
+    func saveCrossword() {
+        var newCrossword = CrosswordModel()
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CrosswordModel")
+        fetchRequest.predicate = NSPredicate(format: "title = %@", crossword.title)
+        do {
+            if let fetchResults = try managedObjectContext.fetch(fetchRequest) as? [NSManagedObject] {
+                if fetchResults.count != 0 {
+                    newCrossword = fetchResults[0] as! CrosswordModel
+                } else {
+                    newCrossword = CrosswordModel(context: managedObjectContext)
+                }
+            }
+        } catch {
+            print("Fetch Failed: \(error)")
+        }
+
+        newCrossword.title = crossword.title
+        newCrossword.author = crossword.author
+        newCrossword.editor = crossword.editor
+        newCrossword.publisher = crossword.publisher
+        //newCrossword.uniclue = crossword.uniclue
+        newCrossword.notes = crossword.notes
+        //newCrossword.navigate = crossword.navigate
+        //newCrossword.hastitle = crossword.hastitle
+        newCrossword.solved = crossword.solved
+        newCrossword.setValue(xWordViewModel.entries, forKey: "entries")
+        newCrossword.target = crossword.target
+        newCrossword.gridnums = crossword.gridnums
+        newCrossword.grid = crossword.grid
+        newCrossword.rows = Int64(crossword.size.rows)
+        newCrossword.cols = Int64(crossword.size.cols)
+        newCrossword.downclues = crossword.clues.down
+        newCrossword.downanswers = crossword.answers.down
+        newCrossword.acrossclues = crossword.clues.across
+        newCrossword.acrossanswers = crossword.answers.across
+        newCrossword.dow = crossword.dow
+        newCrossword.date = crossword.date
+        newCrossword.copyright = crossword.copyright
+        newCrossword.circles = crossword.circles
+        //newCrossword.auto = crossword.auto
+        newCrossword.admin = crossword.admin
+        
+        persistenceController.save()
     }
 }
 

@@ -29,6 +29,7 @@ class XWordViewModel: ObservableObject {
     var squareModels: [SquareModel]
     var correctSquares: Int
     var totalSpaces: Int
+    var entries: [String]
 
     init(crossword: Crossword) {
         clue = ""
@@ -53,6 +54,7 @@ class XWordViewModel: ObservableObject {
         totalSpaces = 0
         crosswordWidth = crossword.size.cols
         crosswordSize = crossword.grid.count
+        entries = crossword.entries
         self.crossword = crossword
         
         (0...crosswordSize - 1).forEach { index in
