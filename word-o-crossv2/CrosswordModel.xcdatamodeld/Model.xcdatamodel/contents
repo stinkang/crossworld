@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G5023d" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CrosswordModel" representedClassName="CrosswordModel" syncable="YES" codeGenerationType="class">
+        <attribute name="acrossanswers" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="acrossclues" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="admin" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="auto" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="circles" optional="YES" attributeType="Transformable" customClassName="[Int]"/>
+        <attribute name="cols" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="copyright" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="String"/>
+        <attribute name="dow" optional="YES" attributeType="String"/>
+        <attribute name="downanswers" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="downclues" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="editor" optional="YES" attributeType="String"/>
+        <attribute name="entries" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="grid" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="gridnums" optional="YES" attributeType="Transformable" customClassName="[Int]"/>
+        <attribute name="hastitle" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="navigate" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="publisher" optional="YES" attributeType="String"/>
+        <attribute name="rows" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="solved" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="target" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="uniclue" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
+    <elements>
+        <element name="CrosswordModel" positionX="-54" positionY="-9" width="128" height="404"/>
+    </elements>
+</model>

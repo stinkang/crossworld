@@ -48,6 +48,19 @@ struct LobbyView: View {
                         Image(systemName: "folder")
                     }
                 }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    NavigationLink(destination:
+                        CrosswordListView(
+                            xWordMatch: xWordMatch,
+                            shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
+                            shouldSendCrosswordData: $shouldSendCrosswordData,
+                            opponent: $opponent,
+                            connectedStatus: $connectedStatus
+                        )
+                    ) {
+                        Image(systemName: "square.3.layers.3d.down.right")
+                    }
+                }
                 ToolbarItem(placement: .automatic) {
                     Button(action: {
                         print("icon clicked")
@@ -64,7 +77,6 @@ struct LobbyView: View {
                             }
                         }
                     }
-
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     ZStack{
