@@ -40,6 +40,7 @@ struct Crossword: Codable {
     var notes: String?
     var solved: Bool
     var entries: [String]
+    var secondsElapsed: Int64
     
     enum OuterKeys: String, CodingKey {
         case title, author, editor, copyright, publisher, date, dow,
@@ -168,7 +169,7 @@ struct Crossword: Codable {
             }
             self.entries = newEntries
         }
-
+        self.secondsElapsed = 0
     }
     
     init(crosswordModel: CrosswordModel) {
@@ -214,6 +215,7 @@ struct Crossword: Codable {
         self.admin = crosswordModel.admin
         
         self.solved = crosswordModel.solved
+        self.secondsElapsed = crosswordModel.secondsElapsed
     }
     
     static func getTrimmedClues(clues: Array<String>) -> Array<String> {
@@ -383,6 +385,7 @@ struct Crossword: Codable {
         self.tagsToCluesMap = [["A" : "1A", "D" : "1D"]]
         self.clueNamesToCluesMap = ["1A" : "Welcome to CrossWorld", "1D" : "Welcome to CrossWorld"]
         self.cluesToTagsMap = ["1A" : [0], "1D" : [0]]
+        self.secondsElapsed = 0
     }
 }
 

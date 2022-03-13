@@ -5,16 +5,23 @@
 //  Created by Austin Kang on 11/23/21.
 
 import SwiftUI
-import GameKit
 
 @main
 struct word_o_crossv2App: App {
+    @Environment(\.scenePhase) var scenePhase
+
+    let persistenceController = PersistenceController.shared
+
     var body: some Scene {
         WindowGroup {
             NavigationView {
                 LobbyView()
             }
-            //.environment(\.colorScheme, .dark)
+            .environment(\.managedObjectContext, persistenceController.container.viewContext)
+        }
+        .onChange(of: scenePhase) { _ in
+            persistenceController.save()
         }
     }
+
 }
