@@ -20,14 +20,16 @@
         <attribute name="hastitle" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="navigate" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="percentageComplete" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="publisher" optional="YES" attributeType="String"/>
         <attribute name="rows" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="secondsElapsed" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="solved" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="target" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="uniclue" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="CrosswordModel" positionX="-54" positionY="-9" width="128" height="404"/>
+        <element name="CrosswordModel" positionX="-54" positionY="-9" width="128" height="434"/>
     </elements>
 </model>

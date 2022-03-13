@@ -38,6 +38,19 @@ struct XWordView: View {
             }
         )
     }
+    var numberFormatter: NumberFormatter
+    @State var secondsElapsed: Int64 = 0;
+    @State var hours: Int64 = 0;
+    @State var minutes: Int64 = 0;
+    @State var seconds: Int64 = 0;
+    @State var timer: Timer? = nil
+    
+    func updateSecondsElapsed() {
+        secondsElapsed += 1
+        hours = (secondsElapsed % 86400) / 3600
+        minutes = (secondsElapsed % 3600) / 60
+        seconds = (secondsElapsed % 3600) % 60
+    }
     
     init(
         crossword: Crossword,
@@ -55,7 +68,11 @@ struct XWordView: View {
         self._shouldSendCrosswordData = shouldSendCrosswordData
         self._opponent = opponent
         self._connectedStatus = connectedStatus
+        self.numberFormatter  = NumberFormatter()
+        numberFormatter.minimumIntegerDigits = 2
         _xWordViewModel = StateObject(wrappedValue: XWordViewModel(crossword: crossword))
+
+        //self.secondsElapsed = crossword.secondsElapsed
     }
 
     var body: some View {
@@ -76,7 +93,13 @@ struct XWordView: View {
                 if (crossword.title != "") {
                     VStack(alignment: .leading, spacing: 0) {
                         if (UIScreen.screenHeight > 700) {
-                            Text(crossword.title)
+                            HStack {
+                                Text(crossword.title)
+                                Spacer()
+                                Text("\(numberFormatter.string(from: NSNumber(value: hours))!):\(numberFormatter.string(from: NSNumber(value: minutes))!):\(numberFormatter.string(from: NSNumber(value: seconds))!)")
+                                    .foregroundColor(.yellow)
+                                    .frame(width: UIScreen.screenWidth / 7, height: 16, alignment: .leading)
+                            }
                         }
                         if (UIScreen.screenHeight > 900) {
 //                            VStack {
@@ -160,6 +183,7 @@ struct XWordView: View {
             if (crossword.title != "") {
                 saveCrossword()
             }
+            timer!.invalidate()
         }
         .onAppear(perform: {
             for (index, entry) in crossword.entries.enumerated() {
@@ -168,14 +192,24 @@ struct XWordView: View {
                 }
             }
             xWordViewModel.changeFocusedSquareIndex(to: 0)
+            
+            self.secondsElapsed = crossword.secondsElapsed
+            
+            if (!xWordViewModel.solved) {
+                timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
+                    updateSecondsElapsed()
+                })
+            }
         })
-//        .onChange(of: crossword.title) { _ in
-//            xWordViewModel.crossword = crossword
-//        }
+        .onChange(of: xWordViewModel.solved) { solved in
+            if (solved) {
+                timer!.invalidate()
+            }
+        }
 //        .onChange(of: xWordViewModel.typedText, perform: { newTypedText in
 //            self.socketManager.sendMessage(xWordViewModel.typedText)
 //        })
-        .sheet(isPresented: $xWordViewModel.solved) {
+        .sheet(isPresented: $xWordViewModel.solvedSheetPresented) {
             StatsSheetView(crossword: crossword, xWordViewModel: xWordViewModel)
         }
     }
@@ -204,7 +238,7 @@ struct XWordView: View {
         newCrossword.notes = crossword.notes
         //newCrossword.navigate = crossword.navigate
         //newCrossword.hastitle = crossword.hastitle
-        newCrossword.solved = crossword.solved
+        newCrossword.solved = xWordViewModel.solved
         newCrossword.setValue(xWordViewModel.entries, forKey: "entries")
         newCrossword.target = crossword.target
         newCrossword.gridnums = crossword.gridnums
@@ -221,8 +255,16 @@ struct XWordView: View {
         newCrossword.circles = crossword.circles
         //newCrossword.auto = crossword.auto
         newCrossword.admin = crossword.admin
+        newCrossword.secondsElapsed = secondsElapsed
+        newCrossword.percentageComplete = calculatePercentageComplete()
         
         persistenceController.save()
+    }
+    
+    func calculatePercentageComplete() -> Float {
+        let numberOfEntries = Float(xWordViewModel.entries.filter { $0 != "" && $0 != "." }.count)
+        let numberOfSquares = Float(xWordViewModel.entries.filter { $0 != "." }.count)
+        return numberOfEntries / numberOfSquares
     }
 }
 
@@ -249,5 +291,11 @@ extension UINavigationController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         interactivePopGestureRecognizer?.delegate = nil
+    }
+}
+
+extension Date {
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
     }
 }

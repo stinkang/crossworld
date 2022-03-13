@@ -17,7 +17,9 @@ class XWordViewModel: ObservableObject {
     @Published var otherPlayersFocusedSquareIndex: Int
     @Published var otherPlayersAcrossFocused: Bool
     @Published var textState: TextState
-    @Published var solved: Bool
+    @Published var solvedSheetPresented: Bool
+    @Published var secondsElapsed: Int64
+    var solved: Bool
     var shouldSendMessage: Bool
     var shouldSendCrossword: Bool
     var previousFocusedSquareIndex: Int
@@ -45,6 +47,7 @@ class XWordViewModel: ObservableObject {
         otherPlayersPreviousFocusedSquareIndex = 0
         currentlyOtherPlayersChanges = false
         solved = false
+        solvedSheetPresented = false
         crosswordWidth = 0
         crosswordSize = 0
         textState = .typedTo
@@ -55,6 +58,7 @@ class XWordViewModel: ObservableObject {
         crosswordWidth = crossword.size.cols
         crosswordSize = crossword.grid.count
         entries = crossword.entries
+        self.secondsElapsed = crossword.secondsElapsed
         self.crossword = crossword
         
         (0...crosswordSize - 1).forEach { index in
@@ -366,7 +370,9 @@ class XWordViewModel: ObservableObject {
             squareModels.forEach({ squareModel in
                 squareModel.squareState = .correct
             })
+            solvedSheetPresented = true
             solved = true
+            crossword.solved = true
         }
     }
     
