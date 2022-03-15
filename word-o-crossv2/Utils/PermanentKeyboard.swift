@@ -61,10 +61,15 @@ struct PermanentKeyboard: UIViewRepresentable {
         //Makes textfield invisible
         textfield.tintColor = .clear
         textfield.textColor = .clear
-        textfield.textContentType = .oneTimeCode
+        textfield.spellCheckingType = .no
+        textfield.autocapitalizationType = .none
         
         return textfield
     }
+    
+//    @objc func resetTapped() {
+//        print("ere")
+//    }
     
     func updateUIView(_ uiView: PermanentTextField, context: Context) {
         uiView.text = text

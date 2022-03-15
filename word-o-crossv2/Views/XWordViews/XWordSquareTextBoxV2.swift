@@ -16,7 +16,11 @@ struct XWordSquareTextBoxV2: View {
     @EnvironmentObject var xWordViewModel: XWordViewModel
     var text: String {
         get {
-            xWordViewModel.squareModels[index].currentText
+            if (xWordViewModel.solved) {
+                return xWordViewModel.entries[index]
+            } else {
+                return xWordViewModel.squareModels[index].currentText
+            }
         }
     }
     
@@ -43,7 +47,9 @@ struct XWordSquareTextBoxV2: View {
                         currentlyCorrect = false
                     }
                 }
-                xWordViewModel.entries[index] = text
+                if (!xWordViewModel.solved) {
+                    xWordViewModel.entries[index] = text
+                }
             })
     }
 }

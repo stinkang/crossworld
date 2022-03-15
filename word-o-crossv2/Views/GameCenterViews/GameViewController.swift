@@ -17,9 +17,10 @@ struct GameView: UIViewControllerRepresentable {
     @Binding var crosswordBinding: Crossword
     @Binding var opponent: GKPlayer
     @Binding var connectedStatus: Bool
+    @Binding var isShowingXWordView: Bool
     @EnvironmentObject var xWordViewModel: XWordViewModel
     func makeUIViewController(context: Context) -> GameViewController {
-        return GameViewController(xWordViewModel: xWordViewModel, match: xWordMatch, shouldGoBackToLobby: $shouldGoBackToLobby, crosswordBinding: $crosswordBinding, opponent: $opponent, connectedStatus: $connectedStatus)
+        return GameViewController(xWordViewModel: xWordViewModel, match: xWordMatch, shouldGoBackToLobby: $shouldGoBackToLobby, crosswordBinding: $crosswordBinding, opponent: $opponent, connectedStatus: $connectedStatus, isShowingXwordView: $isShowingXWordView)
     }
 
     func updateUIViewController(_ uiViewController: GameViewController, context: Context) {
@@ -50,16 +51,18 @@ class GameViewController: UIViewController {
     @Binding var crosswordBinding: Crossword
     @Binding var opponent: GKPlayer
     @Binding var connectedStatus: Bool
+    @Binding var isShowingXwordView: Bool
     @ObservedObject var xWordViewModel: XWordViewModel
     var match: GKMatch
     
-    init(xWordViewModel: XWordViewModel, match: GKMatch, shouldGoBackToLobby: Binding<Bool>, crosswordBinding: Binding<Crossword>, opponent: Binding<GKPlayer>, connectedStatus: Binding<Bool>) {
+    init(xWordViewModel: XWordViewModel, match: GKMatch, shouldGoBackToLobby: Binding<Bool>, crosswordBinding: Binding<Crossword>, opponent: Binding<GKPlayer>, connectedStatus: Binding<Bool>, isShowingXwordView: Binding<Bool>) {
         self.xWordViewModel = xWordViewModel
         self.match = match
         self._shouldGoBackToLobby = shouldGoBackToLobby
         self._crosswordBinding = crosswordBinding
         self._opponent = opponent
         self._connectedStatus = connectedStatus
+        self._isShowingXwordView = isShowingXwordView
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -78,6 +81,7 @@ class GameViewController: UIViewController {
     private var crosswordModel: Crossword! {
         didSet {
             updateCrossword()
+            isShowingXwordView = true
         }
     }
 

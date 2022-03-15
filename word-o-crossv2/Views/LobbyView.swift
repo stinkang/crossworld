@@ -12,6 +12,7 @@ import CoreData
 struct LobbyView: View {
     @State var crossword = Crossword()
     @State private var showDocumentPicker = false
+    @State private var showArchive = false
     @State var isShowingXWordView = false
     @State var xWordMatch: GKMatch = GKMatch()
     @State var gcButtonPressed: Bool = false
@@ -37,7 +38,9 @@ struct LobbyView: View {
                         shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
                         shouldSendCrosswordData: $shouldSendCrosswordData,
                         opponent: $opponent,
-                        connectedStatus: $connectedStatus
+                        connectedStatus: $connectedStatus,
+                        isShowingXwordView: $isShowingXWordView,
+                        showArchive: $showArchive
                     ), isActive: $isShowingXWordView) {
                     Text(crossword.title).padding()
                 }
@@ -51,15 +54,9 @@ struct LobbyView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
-                    NavigationLink(destination:
-                        CrosswordListView(
-                            xWordMatch: xWordMatch,
-                            shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
-                            shouldSendCrosswordData: $shouldSendCrosswordData,
-                            opponent: $opponent,
-                            connectedStatus: $connectedStatus
-                        )
-                    ) {
+                    Button(action: {
+                        showArchive = true
+                    }) {
                         Image(systemName: "square.3.layers.3d.down.right")
                     }
                 }
@@ -72,10 +69,6 @@ struct LobbyView: View {
                                 Image(uiImage: viewModel.playerPhoto)
                                     .clipShape(Circle())
                                     .overlay(Circle().stroke(Color.green, lineWidth: 2))
-//                                Circle()
-//                                    .fill()
-//                                    .frame(width: 8, height: 8, alignment: .center)
-//                                    .foregroundColor(.green)
                             }
                         }
                     }
@@ -93,11 +86,11 @@ struct LobbyView: View {
                             opponent: $opponent
                         )
                         Button(action: {
+                            crossword = Crossword()
                             gcButtonPressed = true
                         }) {
                             Image(systemName: "person.crop.circle.badge.plus")
                         }
-                        .disabled(crossword.title != "")
                     }
                 }
             }
@@ -106,6 +99,13 @@ struct LobbyView: View {
             }
             .sheet(isPresented: self.$showDocumentPicker) {
                 CrosswordDocumentPicker(crossword: $crossword)
+            }
+            .sheet(isPresented: self.$showArchive) {
+                CrosswordListView(
+                    crossword: $crossword,
+                    showArchive: $showArchive,
+                    shouldSendCrosswordData: $shouldSendCrosswordData
+                )
             }
             .onAppear(perform: {
                 shouldSendGoBackToLobbyMessage = true

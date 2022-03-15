@@ -46,7 +46,7 @@ struct Crossword: Codable {
         case title, author, editor, copyright, publisher, date, dow,
             target, valid, admin, navigate, auto, size, grid, circles,
             clues, answers, notes, uniclue, hastitle, gridnums, acrossmap,
-            downmap, rbars, bbars, entries
+            downmap, rbars, bbars, entries, secondsElapsed
     }
     
     enum SizeKeys: String, CodingKey {
@@ -169,7 +169,12 @@ struct Crossword: Codable {
             }
             self.entries = newEntries
         }
-        self.secondsElapsed = 0
+        
+        if let secondsElapsed = try outerContainer.decodeIfPresent(Int64.self, forKey: .secondsElapsed) {
+            self.secondsElapsed = secondsElapsed
+        } else {
+            self.secondsElapsed = 0
+        }
     }
     
     init(crosswordModel: CrosswordModel) {
