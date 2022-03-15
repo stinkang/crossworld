@@ -10,11 +10,9 @@ import GameKit
 import CoreData
 
 struct CrosswordListView: View {
-    var xWordMatch: GKMatch
-    @Binding var shouldSendGoBackToLobbyMessage: Bool
+    @Binding var crossword: Crossword
+    @Binding var showArchive: Bool
     @Binding var shouldSendCrosswordData: Bool
-    @Binding var opponent: GKPlayer
-    @Binding var connectedStatus: Bool
     @FetchRequest(
       entity: CrosswordModel.entity(),
       sortDescriptors: [
@@ -34,11 +32,9 @@ struct CrosswordListView: View {
                     ForEach(crosswords, id: \.title) {
                         CrosswordListRow(
                             crosswordModel: $0,
-                            xWordMatch: xWordMatch,
-                            shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
-                            shouldSendCrosswordData: $shouldSendCrosswordData,
-                            opponent: $opponent,
-                            connectedStatus: $connectedStatus
+                            chosenCrossword: $crossword,
+                            showArchive: $showArchive,
+                            shouldSendCrosswordData: $shouldSendCrosswordData
                         )
                     }
                     .onDelete(perform: deleteCrossword)

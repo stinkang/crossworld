@@ -18,6 +18,8 @@ struct XWordView: View {
     @Binding var shouldSendCrosswordData: Bool
     @Binding var opponent: GKPlayer
     @Binding var connectedStatus: Bool
+    @Binding var isShowingXwordView: Bool
+    @Binding var showArchive: Bool
     //@Binding var isAcceptee: Bool
     @State var shouldGoBackToLobby: Bool = false
     var boxWidth: CGFloat {
@@ -59,7 +61,9 @@ struct XWordView: View {
         shouldSendGoBackToLobbyMessage: Binding<Bool>,
         shouldSendCrosswordData: Binding<Bool>,
         opponent: Binding<GKPlayer>,
-        connectedStatus: Binding<Bool>
+        connectedStatus: Binding<Bool>,
+        isShowingXwordView: Binding<Bool>,
+        showArchive: Binding<Bool>
     ) {
         self.crossword = crossword
         self._crosswordBinding = crosswordBinding
@@ -68,6 +72,8 @@ struct XWordView: View {
         self._shouldSendCrosswordData = shouldSendCrosswordData
         self._opponent = opponent
         self._connectedStatus = connectedStatus
+        self._isShowingXwordView = isShowingXwordView
+        self._showArchive = showArchive
         self.numberFormatter  = NumberFormatter()
         numberFormatter.minimumIntegerDigits = 2
         _xWordViewModel = StateObject(wrappedValue: XWordViewModel(crossword: crossword))
@@ -84,7 +90,8 @@ struct XWordView: View {
                 shouldSendCrosswordData: $shouldSendCrosswordData,
                 crosswordBinding: $crosswordBinding,
                 opponent: $opponent,
-                connectedStatus: $connectedStatus
+                connectedStatus: $connectedStatus,
+                isShowingXWordView: $isShowingXwordView
             )
             if (crossword.title != "") {
                 PermanentKeyboard(text: selectedInputBinding)
@@ -186,6 +193,7 @@ struct XWordView: View {
             timer!.invalidate()
         }
         .onAppear(perform: {
+            showArchive = false
             for (index, entry) in crossword.entries.enumerated() {
                 if (entry != "" && entry != ".") {
                     xWordViewModel.squareModels[index].changeCurrentText(to: entry)
@@ -199,6 +207,9 @@ struct XWordView: View {
                 timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
                     updateSecondsElapsed()
                 })
+                if (crossword.solved) {
+                    timer!.invalidate()
+                }
             }
         })
         .onChange(of: xWordViewModel.solved) { solved in
