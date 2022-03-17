@@ -102,16 +102,24 @@ struct XWordView: View {
                         if (UIScreen.screenHeight > 700) {
                             HStack {
                                 Text(crossword.title)
-                                Spacer()
-                                Text("\(numberFormatter.string(from: NSNumber(value: hours))!):\(numberFormatter.string(from: NSNumber(value: minutes))!):\(numberFormatter.string(from: NSNumber(value: seconds))!)")
-                                    .foregroundColor(.yellow)
-                                    .frame(width: UIScreen.screenWidth / 7, height: 16, alignment: .leading)
+                                if (UIScreen.screenHeight < 900) {
+                                    Spacer()
+                                    Text("\(numberFormatter.string(from: NSNumber(value: hours))!):\(numberFormatter.string(from: NSNumber(value: minutes))!):\(numberFormatter.string(from: NSNumber(value: seconds))!)")
+                                        .foregroundColor(.yellow)
+                                        .frame(width: UIScreen.screenWidth / 5, height: 16, alignment: .leading)
+                                }
                             }
                         }
                         if (UIScreen.screenHeight > 900) {
 //                            VStack {
                                 Text("By " + crossword.author)
-                                Text("Edited By " + crossword.editor)
+                                HStack {
+                                    Text("Edited By " + crossword.editor)
+                                    Spacer()
+                                    Text("\(numberFormatter.string(from: NSNumber(value: hours))!):\(numberFormatter.string(from: NSNumber(value: minutes))!):\(numberFormatter.string(from: NSNumber(value: seconds))!)")
+                                        .foregroundColor(.yellow)
+                                        .frame(width: UIScreen.screenWidth / 7, height: 16, alignment: .leading)
+                                }
 //                            }
                         }
                     }
@@ -268,6 +276,7 @@ struct XWordView: View {
         newCrossword.admin = crossword.admin
         newCrossword.secondsElapsed = secondsElapsed
         newCrossword.percentageComplete = calculatePercentageComplete()
+        newCrossword.lastAccessed = Date()
         
         persistenceController.save()
     }

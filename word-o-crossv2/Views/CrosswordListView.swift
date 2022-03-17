@@ -16,7 +16,7 @@ struct CrosswordListView: View {
     @FetchRequest(
       entity: CrosswordModel.entity(),
       sortDescriptors: [
-        NSSortDescriptor(keyPath: \CrosswordModel.title, ascending: true)
+        NSSortDescriptor(keyPath: \CrosswordModel.lastAccessed, ascending: false)
       ]
     ) var crosswords: FetchedResults<CrosswordModel>
     

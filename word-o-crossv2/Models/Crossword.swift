@@ -41,12 +41,13 @@ struct Crossword: Codable {
     var solved: Bool
     var entries: [String]
     var secondsElapsed: Int64
+    var lastAccessed: Int?
     
     enum OuterKeys: String, CodingKey {
         case title, author, editor, copyright, publisher, date, dow,
             target, valid, admin, navigate, auto, size, grid, circles,
             clues, answers, notes, uniclue, hastitle, gridnums, acrossmap,
-            downmap, rbars, bbars, entries, secondsElapsed
+            downmap, rbars, bbars, entries, secondsElapsed, lastAccessed
     }
     
     enum SizeKeys: String, CodingKey {
@@ -175,6 +176,12 @@ struct Crossword: Codable {
         } else {
             self.secondsElapsed = 0
         }
+        
+        if let lastAccessed = try outerContainer.decodeIfPresent(Int.self, forKey: .lastAccessed) {
+            self.lastAccessed = lastAccessed
+        } else {
+            self.lastAccessed = nil
+        }
     }
     
     init(crosswordModel: CrosswordModel) {
@@ -221,6 +228,7 @@ struct Crossword: Codable {
         
         self.solved = crosswordModel.solved
         self.secondsElapsed = crosswordModel.secondsElapsed
+        //self.lastAccessed = crosswordModel.lastAccessed ?? nil
     }
     
     static func getTrimmedClues(clues: Array<String>) -> Array<String> {
@@ -228,6 +236,10 @@ struct Crossword: Codable {
         clues.forEach({ clue in
             var i = 0
             while (clue[i].isNumber || clue[i] == "." || clue[i] == " ") {
+                if (clue[i] == " ") {
+                    i += 1
+                    break
+                }
                 i += 1
             }
             let newClue = String(clue.suffix(clue.count - i))
@@ -391,6 +403,7 @@ struct Crossword: Codable {
         self.clueNamesToCluesMap = ["1A" : "Welcome to CrossWorld", "1D" : "Welcome to CrossWorld"]
         self.cluesToTagsMap = ["1A" : [0], "1D" : [0]]
         self.secondsElapsed = 0
+        //self.lastAccessed = nil
     }
 }
 

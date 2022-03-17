@@ -29,9 +29,11 @@ struct PermanentKeyboard: UIViewRepresentable {
                     if last.isLetter {
                         
                         //Changes the binding to the last character of input, UPPERCASED
-                        self.parent.text = String(last).uppercased()
-                        self.parent.xWordViewModel.changeTypedText(to: parent.text)
-                        self.parent.xWordViewModel.changeTextState(to: .letterTyped)
+                        if (!self.parent.xWordViewModel.solved) {
+                            self.parent.text = String(last).uppercased()
+                            self.parent.xWordViewModel.changeTypedText(to: parent.text)
+                            self.parent.xWordViewModel.changeTextState(to: .letterTyped)
+                        }
                     }
                     
                 //Allows backspace

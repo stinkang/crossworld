@@ -18,4 +18,5 @@ extension Color {
     static let squareBackground = Color("squareBackground")
     static let squareBackground2 = Color("squareBackground2")
     static let squareText = Color("squareText")
+    static let emptyGray = Color("emptyGray")
 }
