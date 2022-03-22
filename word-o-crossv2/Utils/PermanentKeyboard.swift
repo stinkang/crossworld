@@ -47,7 +47,9 @@ struct PermanentKeyboard: UIViewRepresentable {
         }
         
         func textFieldDidDelete(_ textField: UITextField) -> Void {
-            parent.xWordViewModel.handleBackspace()
+            if (!self.parent.xWordViewModel.solved) {
+                parent.xWordViewModel.handleBackspace()
+            }
         }
 
     }

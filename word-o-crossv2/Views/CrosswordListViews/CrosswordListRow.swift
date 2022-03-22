@@ -23,7 +23,7 @@ struct CrosswordListRow: View {
         self._showArchive = showArchive
         self.crosswordForRow = Crossword(crosswordModel: crosswordModel)
         self._shouldSendCrosswordData = shouldSendCrosswordData
-        dateFormatter.dateFormat = "dd/MM/YY"
+        dateFormatter.dateFormat = "MM/dd/YY"
     }
 
   var body: some View {

@@ -12,17 +12,32 @@ struct LeaderboardListView: View, Equatable {
     @Binding var crossword: Crossword
     let crosswordService = CrosswordService()
     var body: some View {
-        ScrollView {
-            LazyVStack {
-                ForEach(viewModel.crosswordLeaderboards) { crosswordLeaderboard in
-                    CrosswordLeaderboardView(crosswordLeaderboard: crosswordLeaderboard, crossword: $crossword)
-                }
-            }
+        //RefreshableScrollView(action: refreshList) {
+            //LazyVStack {
+        List(viewModel.crosswordLeaderboards) { crosswordLeaderboard in
+            CrosswordLeaderboardView(crosswordLeaderboard: crosswordLeaderboard, crossword: $crossword)
+                .listRowSeparator(.hidden)
         }
+        .navigationBarTitle("CrossWorld!", displayMode: .inline)
+        .frame(maxWidth: .infinity)
+        .edgesIgnoringSafeArea([.leading, .trailing])
+        .listStyle(.plain)
+        .refreshable {
+            viewModel.fetchCrosswordLeaderboards()
+        }
+//                ForEach(viewModel.crosswordLeaderboards) { crosswordLeaderboard in
+//                    CrosswordLeaderboardView(crosswordLeaderboard: crosswordLeaderboard, crossword: $crossword)
+//                }
+            //}
+        //}
     }
     
     static func == (lhs: LeaderboardListView, rhs: LeaderboardListView) -> Bool {
         return true
+    }
+    
+    private func refreshList() {
+        print("refreshing...")
     }
 }
 //

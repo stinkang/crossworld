@@ -42,12 +42,15 @@ struct Crossword: Codable {
     var entries: [String]
     var secondsElapsed: Int64
     var lastAccessed: Int?
+    var leaderboardId: String?
+    var percentageComplete: Float?
     
     enum OuterKeys: String, CodingKey {
         case title, author, editor, copyright, publisher, date, dow,
             target, valid, admin, navigate, auto, size, grid, circles,
             clues, answers, notes, uniclue, hastitle, gridnums, acrossmap,
-            downmap, rbars, bbars, entries, secondsElapsed, lastAccessed
+            downmap, rbars, bbars, entries, secondsElapsed, lastAccessed,
+             leaderboardId, percentageComplete
     }
     
     enum SizeKeys: String, CodingKey {
@@ -182,6 +185,18 @@ struct Crossword: Codable {
         } else {
             self.lastAccessed = nil
         }
+        
+        if let leaderboardId = try outerContainer.decodeIfPresent(String.self, forKey: .leaderboardId) {
+            self.leaderboardId = leaderboardId
+        } else {
+            self.leaderboardId = nil
+        }
+        
+        if let percentageComplete = try outerContainer.decodeIfPresent(Float.self, forKey: .percentageComplete) {
+            self.percentageComplete = percentageComplete
+        } else {
+            self.percentageComplete = nil
+        }
     }
     
     init(crosswordModel: CrosswordModel) {
@@ -229,6 +244,8 @@ struct Crossword: Codable {
         self.solved = crosswordModel.solved
         self.secondsElapsed = crosswordModel.secondsElapsed
         //self.lastAccessed = crosswordModel.lastAccessed ?? nil
+        self.leaderboardId = crosswordModel.leaderboardId
+        self.percentageComplete = crosswordModel.percentageComplete
     }
     
     static func getTrimmedClues(clues: Array<String>) -> Array<String> {

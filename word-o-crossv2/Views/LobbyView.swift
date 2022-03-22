@@ -30,11 +30,6 @@ struct LobbyView: View {
     var body: some View {
         VStack {
             VStack {
-                Button(action: {
-                    crosswordService.uploadCrosswordLeaderboardWithOneScore(crossword: crossword, userName: GKLocalPlayer.local.displayName, score: crossword.secondsElapsed)
-                }) {
-                    Text("upload new leaderboard")
-                }
                 EquatableView(content: LeaderboardListView(crossword: $crossword))
                 Spacer()
                 HStack {
@@ -51,18 +46,24 @@ struct LobbyView: View {
                             HStack {
                                 TimerTimeView(secondsElapsed: crossword.secondsElapsed)
                                     .padding(.leading, 15)
-                                    .foregroundColor(.yellow)
-                                //if (crosswordModel.percentageComplete == 0.0) {
-                                    Circle()
-                                        .stroke(Color.emptyGray ,style: StrokeStyle(lineWidth: 2, lineCap: .butt))
+                                    .foregroundColor(crossword.solved ? .green : .yellow)
+                                if (crossword.solved) {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(.green)
                                         .frame(width: 12, height: 12)
-                                //} else {
-//                                    Circle()
-//                                        .trim(from: 0.0, to: CGFloat(crosswordModel.percentageComplete))
-//                                        .rotation(.degrees(270))
-//                                        .stroke(Color.green ,style: StrokeStyle(lineWidth: 2, lineCap: .butt))
-//                                        .frame(width: 12, height: 12)
-                                //}
+                                } else {
+                                    if (crossword.percentageComplete == nil || crossword.percentageComplete == 0.0) {
+                                        Circle()
+                                            .stroke(Color.emptyGray ,style: StrokeStyle(lineWidth: 2, lineCap: .butt))
+                                            .frame(width: 12, height: 12)
+                                    } else {
+                                        Circle()
+                                            .trim(from: 0.0, to: CGFloat(crossword.percentageComplete!))
+                                            .rotation(.degrees(270))
+                                            .stroke(Color.green ,style: StrokeStyle(lineWidth: 2, lineCap: .butt))
+                                            .frame(width: 12, height: 12)
+                                    }
+                                }
                             }
                         }
                     }
@@ -139,26 +140,27 @@ struct LobbyView: View {
 //                }
                 
                 // TODO: Fix up multiplayer before uncommenting this!!
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    ZStack{
-//                        MenuView(
-//                            isShowingXWordView: $isShowingXWordView,
-//                            shouldSendCrosswordData: $shouldSendCrosswordData,
-//                            xWordMatch: $xWordMatch,
-//                            crossword: $crossword,
-//                            buttonPressed: $gcButtonPressed,
-//                            gcAuthenticated: $gcAuthenticated,
-//                            connectedStatus: $connectedStatus,
-//                            opponent: $opponent
-//                        )
-//                        Button(action: {
-//                            crossword = Crossword()
-//                            gcButtonPressed = true
-//                        }) {
-//                            Image(systemName: "person.crop.circle.badge.plus")
-//                        }
-//                    }
-//                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    ZStack{
+                        MenuView(
+                            isShowingXWordView: $isShowingXWordView,
+                            shouldSendCrosswordData: $shouldSendCrosswordData,
+                            xWordMatch: $xWordMatch,
+                            crossword: $crossword,
+                            buttonPressed: $gcButtonPressed,
+                            gcAuthenticated: $gcAuthenticated,
+                            connectedStatus: $connectedStatus,
+                            opponent: $opponent
+                        )
+                        Button(action: {
+                            crossword = Crossword()
+                            gcButtonPressed = true
+                        }) {
+                            Image(systemName: "person.crop.circle.badge.plus")
+                        }
+                        .disabled(true)
+                    }
+                }
             }
             .task {
                 await viewModel.loadPhoto(player: opponent)

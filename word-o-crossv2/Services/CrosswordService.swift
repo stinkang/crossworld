@@ -9,10 +9,20 @@ import Foundation
 import Firebase
 
 struct CrosswordService {
+    func uploadOrUpdateCrosswordLeaderboard(crossword: Crossword, userName: String, score: Int64) {
+        if crossword.leaderboardId == nil {
+            uploadCrosswordLeaderboardWithOneScore(crossword: crossword, userName: userName, score: score)
+        } else {
+            updateCrosswordLeaderboard(leaderboardId: crossword.leaderboardId!, userName: userName, score: score)
+        }
+    }
+    
+//    func checkIfLeaderboardWithTitleExists(crossword: Crossword) {
+//        let ref = Firestore.firestore().collection("crosswordLeaderboards").whereField("", in: <#T##[Any]#>)
+//    }
+    
     func uploadCrosswordLeaderboardWithOneScore(crossword: Crossword, userName: String, score: Int64) {
-        let crosswordData = crossword.encodeBackIntoJson()
-
-        let leaderboardScore = LeaderboardScore(userName: userName, score: score)
+        var crosswordData = crossword.encodeBackIntoJson()
         
         var scores: [Any] = []
         let scoreToAdd: [String: Any] = [
@@ -29,17 +39,42 @@ struct CrosswordService {
             let ref = Firestore.firestore().collection("crosswordLeaderboards").document()
 
             ref.setData(data) { _ in print("DEBUG: Did upload crossword leederbort") }
+            crosswordData!["leaderboardId"] = ref.documentID
             
-//            ref.updateData([
-//                "scores": FieldValue.arrayUnion([leaderboardScoreData!])
-//            ]) { _ in print("DEBUG: Did updates scores") }
+            ref.updateData([
+                "crossword": crosswordData!
+            ]) { _ in print("DEBUG: Did update crossword leaderboardId") }
         }
     }
     
-    func updateCrosswordLeaderboard(leaderboardId: String) {
+    func updateCrosswordLeaderboard(leaderboardId: String, userName: String, score: Int64) {
 
-        //Firestore.firestore().collection("crosswordLeaderboards").doc(leaderboardId).update({"blah": 3});
+        let ref = Firestore.firestore().collection("crosswordLeaderboards").document(leaderboardId)
+        ref.getDocument { (document, error) in
+            if let document = document, document.exists {
+                var scores: [Any] = document.data()!["scores"] as! [Any]
+                let scoreToAdd: [String: Any] = [
+                        "userName": userName,
+                        "score": score
+                    ]
+                scores.append(scoreToAdd)
+                ref.updateData([
+                    "scores": scores
+                ]) { _ in print("DEBUG: Did update crossword scores") }
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
+//        ref.updateData([
+//            "scores":
+//        ]) { err in
+//            if let err = err {
+//                print("Error updating document: \(err)")
+//            } else {
+//                print("Document successfully updated")
+//            }
+//        }
     
     func uploadCrosswordCompletedPost() {
         

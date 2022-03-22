@@ -41,10 +41,10 @@ struct CrosswordLeaderboardView: View {
                         VStack {
                             ForEach(0..<crosswordLeaderboard.scores.count) { i in
                                 HStack {
-                                    Text(String(i + 1) + ". " + crosswordLeaderboard.scores[i].userName)
+                                    Text(String(i + 1) + ". " + crosswordLeaderboard.scores.sorted(by: { $0.score < $1.score })[i].userName)
                                         .font(.caption)
                                     Spacer()
-                                    TimerTimeView(secondsElapsed: crosswordLeaderboard.scores[i].score)
+                                    TimerTimeView(secondsElapsed: crosswordLeaderboard.scores.sorted(by: { $0.score < $1.score })[i].score)
                                         .font(.caption)
                                 }
                                 .padding(.trailing, 6)
@@ -65,7 +65,7 @@ struct CrosswordLeaderboardView: View {
         }
 //        .background(isTapped ? .gray : .white)
 //        .gesture(tap)
-        .frame(width: UIScreen.screenWidth - 20, height: UIScreen.screenHeight / 8, alignment: .center)
+        .frame(height: UIScreen.screenHeight / 8, alignment: .center)
         .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.emptyGray, lineWidth: 1)
