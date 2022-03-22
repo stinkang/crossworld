@@ -14,7 +14,6 @@ struct CrosswordListRow: View {
     @Binding var showArchive: Bool
     @Binding var shouldSendCrosswordData: Bool
     @State private var crosswordForRow: Crossword
-    var numberFormatter: NumberFormatter
     let dateFormatter = DateFormatter()
     
     init(crosswordModel: CrosswordModel, chosenCrossword: Binding<Crossword>, showArchive: Binding<Bool>, shouldSendCrosswordData: Binding<Bool>)
@@ -23,9 +22,7 @@ struct CrosswordListRow: View {
         self._chosenCrossword = chosenCrossword
         self._showArchive = showArchive
         self.crosswordForRow = Crossword(crosswordModel: crosswordModel)
-        self.numberFormatter  = NumberFormatter()
         self._shouldSendCrosswordData = shouldSendCrosswordData
-        numberFormatter.minimumIntegerDigits = 2
         dateFormatter.dateFormat = "dd/MM/YY"
     }
 
@@ -42,10 +39,7 @@ struct CrosswordListRow: View {
               Spacer()
               VStack(alignment: .trailing) {
                   HStack {
-                      let hours = (crosswordModel.secondsElapsed % 86400) / 3600
-                      let minutes = (crosswordModel.secondsElapsed % 3600) / 60
-                      let seconds = (crosswordModel.secondsElapsed % 3600) % 60
-                      Text("\(numberFormatter.string(from: NSNumber(value: hours))!):\(numberFormatter.string(from: NSNumber(value: minutes))!):\(numberFormatter.string(from: NSNumber(value: seconds))!)")
+                      TimerTimeView(secondsElapsed: crosswordModel.secondsElapsed)
                           .font(.caption)
                           .foregroundColor(crosswordModel.solved ? .green : .yellow)
                       if (crosswordModel.solved) {

@@ -15,7 +15,7 @@ class LobbyViewModel: ObservableObject {
 
     func loadPhoto(player: GKPlayer) async {
         do {
-            let image = try await player.loadPhoto(for: .small).resize(targetSize: CGSize(width: 23, height: 23))
+            let image = try await player.loadPhoto(for: .small).resize(targetSize: CGSize(width: 18, height: 18))
             playerPhoto = image
         } catch {
             print(error.localizedDescription)

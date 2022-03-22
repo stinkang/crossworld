@@ -412,6 +412,22 @@ extension Crossword {
         return try? JSONEncoder().encode(self)
     }
     
+    func encodeBackIntoJson() -> [String: Any]? {
+        let encodedCrossword = try? JSONEncoder().encode(self)
+        var dict: [String: Any]? = nil
+        do {
+            dict = try JSONSerialization.jsonObject(with: encodedCrossword!, options: []) as? [String : Any]
+            dict!["entries"] = nil
+            dict!["tagsToCluesMap"] = nil
+            dict!["cluesToTagsMap"] = nil
+            dict!["clueNamesToCluesMap"] = nil
+            dict!["secondsElapsed"] = nil
+        } catch {
+            print("DEBUG: Could not serialize crossword")
+        }
+        return dict
+    }
+    
     static func decode(data: Data) -> Crossword? {
         //return try? JSONDecoder().decode(Crossword.self, from: data)
         var decodedData: Crossword? = nil

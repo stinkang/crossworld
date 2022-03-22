@@ -46,6 +46,7 @@ struct XWordView: View {
     @State var minutes: Int64 = 0;
     @State var seconds: Int64 = 0;
     @State var timer: Timer? = nil
+    let crosswordService = CrosswordService()
     
     func updateSecondsElapsed() {
         secondsElapsed += 1
@@ -222,6 +223,7 @@ struct XWordView: View {
         })
         .onChange(of: xWordViewModel.solved) { solved in
             if (solved) {
+                //crosswordService.uploadCrosswordLeaderboard(crossword: crossword)
                 timer!.invalidate()
             }
         }
