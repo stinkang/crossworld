@@ -38,8 +38,10 @@ struct PermanentKeyboard: UIViewRepresentable {
                     
                 //Allows backspace
                 } else if string == "" {
-                    self.parent.text = ""
-                    self.parent.xWordViewModel.changeTextState(to: .shouldGoBackOne)
+                    if (!self.parent.xWordViewModel.solved) {
+                        self.parent.text = ""
+                        self.parent.xWordViewModel.changeTextState(to: .shouldGoBackOne)
+                    }
                 }
             }
             
@@ -47,9 +49,7 @@ struct PermanentKeyboard: UIViewRepresentable {
         }
         
         func textFieldDidDelete(_ textField: UITextField) -> Void {
-            if (!self.parent.xWordViewModel.solved) {
-                parent.xWordViewModel.handleBackspace()
-            }
+            parent.xWordViewModel.handleBackspace()
         }
 
     }
