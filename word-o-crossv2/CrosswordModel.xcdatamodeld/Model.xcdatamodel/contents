@@ -19,6 +19,7 @@
         <attribute name="gridnums" optional="YES" attributeType="Transformable" customClassName="[Int]"/>
         <attribute name="hastitle" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lastAccessed" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="leaderboardId" optional="YES" attributeType="String"/>
         <attribute name="navigate" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
         <attribute name="percentageComplete" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -31,6 +32,6 @@
         <attribute name="uniclue" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="CrosswordModel" positionX="-54" positionY="-9" width="128" height="449"/>
+        <element name="CrosswordModel" positionX="-54" positionY="-9" width="128" height="464"/>
     </elements>
 </model>

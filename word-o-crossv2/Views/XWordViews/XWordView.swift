@@ -30,6 +30,7 @@ struct XWordView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     let persistenceController = PersistenceController.shared
     @StateObject var xWordViewModel: XWordViewModel
+    var crosswordAlreadySolved = false
     var selectedInputBinding: Binding<String> {
         Binding<String>(
             get: {
@@ -46,6 +47,7 @@ struct XWordView: View {
     @State var minutes: Int64 = 0;
     @State var seconds: Int64 = 0;
     @State var timer: Timer? = nil
+    let crosswordService = CrosswordService()
     
     func updateSecondsElapsed() {
         secondsElapsed += 1
@@ -75,6 +77,7 @@ struct XWordView: View {
         self._isShowingXwordView = isShowingXwordView
         self._showArchive = showArchive
         self.numberFormatter  = NumberFormatter()
+        self.crosswordAlreadySolved = crossword.solved
         numberFormatter.minimumIntegerDigits = 2
         _xWordViewModel = StateObject(wrappedValue: XWordViewModel(crossword: crossword))
 
@@ -222,6 +225,9 @@ struct XWordView: View {
         })
         .onChange(of: xWordViewModel.solved) { solved in
             if (solved) {
+                if (!crosswordAlreadySolved) {
+                    crosswordService.uploadOrUpdateCrosswordLeaderboard(crossword: crossword, userName: GKLocalPlayer.local.displayName, score: secondsElapsed)
+                }
                 timer!.invalidate()
             }
         }
@@ -275,6 +281,7 @@ struct XWordView: View {
         //newCrossword.auto = crossword.auto
         newCrossword.admin = crossword.admin
         newCrossword.secondsElapsed = secondsElapsed
+        newCrossword.leaderboardId = crossword.leaderboardId
         newCrossword.percentageComplete = calculatePercentageComplete()
         newCrossword.lastAccessed = Date()
         

@@ -25,25 +25,80 @@ struct LobbyView: View {
     @StateObject var viewModel = LobbyViewModel()
     @Environment(\.managedObjectContext) var managedObjectContext
     var xWordViewModel: XWordViewModel = XWordViewModel(crossword: Crossword())
+    let crosswordService = CrosswordService()
 
     var body: some View {
         VStack {
             VStack {
-                Text("CrossWorld!").font(.largeTitle)
-                NavigationLink(destination:
-                    XWordView(
-                        crossword: crossword,
-                        crosswordBinding: $crossword,
-                        xWordMatch: xWordMatch,
-                        shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
-                        shouldSendCrosswordData: $shouldSendCrosswordData,
-                        opponent: $opponent,
-                        connectedStatus: $connectedStatus,
-                        isShowingXwordView: $isShowingXWordView,
-                        showArchive: $showArchive
-                    ), isActive: $isShowingXWordView) {
-                    Text(crossword.title).padding()
+                EquatableView(content: LeaderboardListView(crossword: $crossword))
+                Spacer()
+                HStack {
+                    if (crossword.title == "") {
+                        Text("Select a crossword to begin")
+                            .foregroundColor(.emptyGray)
+                            .italic()
+                            .padding()
+                    } else {
+                        VStack(alignment: .leading) {
+                            Text(crossword.title)
+                                .padding(.leading, 15)
+                                .padding(.bottom, 1)
+                            HStack {
+                                TimerTimeView(secondsElapsed: crossword.secondsElapsed)
+                                    .padding(.leading, 15)
+                                    .foregroundColor(crossword.solved ? .green : .yellow)
+                                if (crossword.solved) {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(.green)
+                                        .frame(width: 12, height: 12)
+                                } else {
+                                    if (crossword.percentageComplete == nil || crossword.percentageComplete == 0.0) {
+                                        Circle()
+                                            .stroke(Color.emptyGray ,style: StrokeStyle(lineWidth: 2, lineCap: .butt))
+                                            .frame(width: 12, height: 12)
+                                    } else {
+                                        Circle()
+                                            .trim(from: 0.0, to: CGFloat(crossword.percentageComplete!))
+                                            .rotation(.degrees(270))
+                                            .stroke(Color.green ,style: StrokeStyle(lineWidth: 2, lineCap: .butt))
+                                            .frame(width: 12, height: 12)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Spacer()
+                    if (connectedStatus && opponent.displayName != "") {
+                        HStack {
+                            Image(uiImage: viewModel.playerPhoto)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.green, lineWidth: 2))
+                        }
+                    }
+                    NavigationLink(destination:
+                        XWordView(
+                            crossword: crossword,
+                            crosswordBinding: $crossword,
+                            xWordMatch: xWordMatch,
+                            shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
+                            shouldSendCrosswordData: $shouldSendCrosswordData,
+                            opponent: $opponent,
+                            connectedStatus: $connectedStatus,
+                            isShowingXwordView: $isShowingXWordView,
+                            showArchive: $showArchive
+                        ), isActive: $isShowingXWordView) {
+                            Text("Start Crossword")
+                                .foregroundColor(.white)
+                                .frame(width: 150, height: 40)
+                                .background(crossword.title == "" ? Color.gray : Color.green)
+                                .cornerRadius(15)
+                                .padding(.trailing, 10)
+                                .padding(.bottom, 10)
+                    }
+                    .disabled(crossword.title == "")
                 }
+//                .frame(width: UIScreen.screenWidth, height: 50)
+//                .position(x: 900, y: 900)
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -60,19 +115,31 @@ struct LobbyView: View {
                         Image(systemName: "square.3.layers.3d.down.right")
                     }
                 }
-                ToolbarItem(placement: .automatic) {
+                ToolbarItem(placement: .principal) {
+                    Text("CrossWorld!").font(.title)
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        print("icon clicked")
+                        print("info tapped")
                     }) {
-                        if (connectedStatus && opponent.displayName != "") {
-                            HStack {
-                                Image(uiImage: viewModel.playerPhoto)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke(Color.green, lineWidth: 2))
-                            }
-                        }
+                        Image(systemName: "info.circle")
                     }
                 }
+//                ToolbarItem(placement: .automatic) {
+//                    Button(action: {
+//                        print("icon clicked")
+//                    }) {
+//                        if (connectedStatus && opponent.displayName != "") {
+//                            HStack {
+//                                Image(uiImage: viewModel.playerPhoto)
+//                                    .clipShape(Circle())
+//                                    .overlay(Circle().stroke(Color.green, lineWidth: 2))
+//                            }
+//                        }
+//                    }
+//                }
+                
+                // TODO: Fix up multiplayer before uncommenting this!!
                 ToolbarItem(placement: .navigationBarTrailing) {
                     ZStack{
                         MenuView(
@@ -91,6 +158,7 @@ struct LobbyView: View {
                         }) {
                             Image(systemName: "person.crop.circle.badge.plus")
                         }
+                        .disabled(true)
                     }
                 }
             }
@@ -119,10 +187,10 @@ struct LobbyView: View {
                     shouldSendCrosswordData = true
                 }
             })
-            .frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth)
-            .position(x: UIScreen.screenWidth / 2, y: (UIScreen.screenWidth) / 2)
+            //.frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth)
         }
     }
+
     
     func checkForExistingCrosswordAndUpdate() {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CrosswordModel")
@@ -143,8 +211,8 @@ struct LobbyView: View {
     }
 }
 
-struct LobbyView_Previews: PreviewProvider {
-    static var previews: some View {
-        LobbyView(xWordMatch: GKMatch())
-    }
-}
+//struct LobbyView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LobbyView(xWordMatch: GKMatch())
+//    }
+//}

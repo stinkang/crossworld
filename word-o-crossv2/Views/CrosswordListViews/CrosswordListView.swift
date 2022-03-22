@@ -28,7 +28,7 @@ struct CrosswordListView: View {
     var body: some View {
         VStack {
             List {
-                Section(header: Text("Crossword Archive")) {
+                Section(header: Text("My Crosswords")) {
                     ForEach(crosswords, id: \.title) {
                         CrosswordListRow(
                             crosswordModel: $0,
