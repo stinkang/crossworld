@@ -7,15 +7,13 @@
 
 import SwiftUI
 
-struct LeaderboardListView: View, Equatable {
-    @ObservedObject var viewModel = CrosswordLeaderboardViewModel()
+struct LeaderboardListView: View/*, Equatable*/ {
+    @StateObject var viewModel = CrosswordLeaderboardViewModel()
     @Binding var crossword: Crossword
     let crosswordService = CrosswordService()
     var body: some View {
-        //RefreshableScrollView(action: refreshList) {
-            //LazyVStack {
-        List(viewModel.crosswordLeaderboards) { crosswordLeaderboard in
-            CrosswordLeaderboardView(crosswordLeaderboard: crosswordLeaderboard, crossword: $crossword)
+        List($viewModel.crosswordLeaderboards) { $crosswordLeaderboard in
+            CrosswordLeaderboardView(crosswordLeaderboard: $crosswordLeaderboard, crossword: $crossword)
                 .listRowSeparator(.hidden)
         }
         .navigationBarTitle("CrossWorld!", displayMode: .inline)
@@ -25,16 +23,11 @@ struct LeaderboardListView: View, Equatable {
         .refreshable {
             viewModel.fetchCrosswordLeaderboards()
         }
-//                ForEach(viewModel.crosswordLeaderboards) { crosswordLeaderboard in
-//                    CrosswordLeaderboardView(crosswordLeaderboard: crosswordLeaderboard, crossword: $crossword)
-//                }
-            //}
-        //}
     }
     
-    static func == (lhs: LeaderboardListView, rhs: LeaderboardListView) -> Bool {
-        return true
-    }
+//    static func == (lhs: LeaderboardListView, rhs: LeaderboardListView) -> Bool {
+//        return lhs.viewModel.crosswordLeaderboards == rhs.viewModel.crosswordLeaderboards
+//    }
     
     private func refreshList() {
         print("refreshing...")

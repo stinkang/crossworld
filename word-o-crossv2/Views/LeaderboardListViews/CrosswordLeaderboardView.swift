@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import GameKit
 
 struct CrosswordLeaderboardView: View {
-    var crosswordLeaderboard: CrosswordLeaderboard
+    @Binding var crosswordLeaderboard: CrosswordLeaderboard
     @Binding var crossword: Crossword
     //@GestureState private var isTapped = false
     var body: some View {
@@ -22,6 +23,7 @@ struct CrosswordLeaderboardView: View {
                 VStack(alignment: .leading) {
                     Text(crosswordLeaderboard.crossword.dow).textCase(.uppercase)
                     Text(crosswordLeaderboard.crossword.title)
+                        .fixedSize(horizontal: false, vertical: true)
                     Text("By " + crosswordLeaderboard.crossword.author)
                         .font(.caption)
                     Text("Edited by " + crosswordLeaderboard.crossword.editor)
@@ -30,7 +32,7 @@ struct CrosswordLeaderboardView: View {
                 }
                     //.frame(minWidth: 0, maxWidth: (UIScreen.screenWidth / 3) * 2)
                     .padding(.leading, 6)
-                    .padding(.top, 3)
+                    .padding(.top, 6)
                 Spacer()
                 VStack(alignment: .leading) {
                     Text("Leaderboard")
@@ -39,13 +41,23 @@ struct CrosswordLeaderboardView: View {
                         .padding(.bottom, 0)
                     ScrollView {
                         VStack {
-                            ForEach(0..<crosswordLeaderboard.scores.count) { i in
+                            ForEach(0..<20) { i in
                                 HStack {
-                                    Text(String(i + 1) + ". " + crosswordLeaderboard.scores.sorted(by: { $0.score < $1.score })[i].userName)
-                                        .font(.caption)
-                                    Spacer()
-                                    TimerTimeView(secondsElapsed: crosswordLeaderboard.scores.sorted(by: { $0.score < $1.score })[i].score)
-                                        .font(.caption)
+                                    if (i < crosswordLeaderboard.scores.count) {
+                                    let userName = crosswordLeaderboard.scores.sorted(by: { $0.score < $1.score })[i].userName
+                                        HStack {
+                                            Text(String(i + 1) + ". " + userName)
+                                                .font(.caption)
+                                            if (i == 0) {
+                                                Text(Image(systemName: "hands.clap"))
+                                                    .font(.caption)
+                                                    .foregroundColor(.green)
+                                            }
+                                        }
+                                        Spacer()
+                                        TimerTimeView(secondsElapsed: crosswordLeaderboard.scores.sorted(by: { $0.score < $1.score })[i].score)
+                                            .font(.caption)
+                                    }
                                 }
                                 .padding(.trailing, 6)
                             }
@@ -53,7 +65,7 @@ struct CrosswordLeaderboardView: View {
                     }
                 }
                 .padding(.top, 3)
-                .frame(minWidth: 0, maxWidth: UIScreen.screenWidth / 3)
+                .frame(minWidth: 0, maxWidth: UIScreen.screenWidth / 2)
             }
             Spacer()
         }

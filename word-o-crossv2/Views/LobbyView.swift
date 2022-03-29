@@ -13,6 +13,7 @@ struct LobbyView: View {
     @State var crossword = Crossword()
     @State private var showDocumentPicker = false
     @State private var showArchive = false
+    @State private var showInfo = false
     @State var isShowingXWordView = false
     @State var xWordMatch: GKMatch = GKMatch()
     @State var gcButtonPressed: Bool = false
@@ -29,77 +30,75 @@ struct LobbyView: View {
 
     var body: some View {
         VStack {
-            VStack {
-                EquatableView(content: LeaderboardListView(crossword: $crossword))
-                Spacer()
-                HStack {
-                    if (crossword.title == "") {
-                        Text("Select a crossword to begin")
-                            .foregroundColor(.emptyGray)
-                            .italic()
-                            .padding()
-                    } else {
-                        VStack(alignment: .leading) {
-                            Text(crossword.title)
+            LeaderboardListView(crossword: $crossword)
+            Spacer()
+            HStack {
+                if (crossword.title == "") {
+                    Text("Select a crossword to begin")
+                        .foregroundColor(.emptyGray)
+                        .italic()
+                        .padding()
+                } else {
+                    VStack(alignment: .leading) {
+                        Text(crossword.title)
+                            .padding(.leading, 15)
+                            .padding(.bottom, 1)
+                        HStack {
+                            TimerTimeView(secondsElapsed: crossword.secondsElapsed)
                                 .padding(.leading, 15)
-                                .padding(.bottom, 1)
-                            HStack {
-                                TimerTimeView(secondsElapsed: crossword.secondsElapsed)
-                                    .padding(.leading, 15)
-                                    .foregroundColor(crossword.solved ? .green : .yellow)
-                                if (crossword.solved) {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(.green)
+                                .foregroundColor(crossword.solved ? .green : .yellow)
+                            if (crossword.solved) {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.green)
+                                    .frame(width: 12, height: 12)
+                            } else {
+                                if (crossword.percentageComplete == nil || crossword.percentageComplete == 0.0) {
+                                    Circle()
+                                        .stroke(Color.emptyGray ,style: StrokeStyle(lineWidth: 2, lineCap: .butt))
                                         .frame(width: 12, height: 12)
                                 } else {
-                                    if (crossword.percentageComplete == nil || crossword.percentageComplete == 0.0) {
-                                        Circle()
-                                            .stroke(Color.emptyGray ,style: StrokeStyle(lineWidth: 2, lineCap: .butt))
-                                            .frame(width: 12, height: 12)
-                                    } else {
-                                        Circle()
-                                            .trim(from: 0.0, to: CGFloat(crossword.percentageComplete!))
-                                            .rotation(.degrees(270))
-                                            .stroke(Color.green ,style: StrokeStyle(lineWidth: 2, lineCap: .butt))
-                                            .frame(width: 12, height: 12)
-                                    }
+                                    Circle()
+                                        .trim(from: 0.0, to: CGFloat(crossword.percentageComplete!))
+                                        .rotation(.degrees(270))
+                                        .stroke(Color.green ,style: StrokeStyle(lineWidth: 2, lineCap: .butt))
+                                        .frame(width: 12, height: 12)
                                 }
                             }
                         }
                     }
-                    Spacer()
-                    if (connectedStatus && opponent.displayName != "") {
-                        HStack {
-                            Image(uiImage: viewModel.playerPhoto)
-                                .clipShape(Circle())
-                                .overlay(Circle().stroke(Color.green, lineWidth: 2))
-                        }
-                    }
-                    NavigationLink(destination:
-                        XWordView(
-                            crossword: crossword,
-                            crosswordBinding: $crossword,
-                            xWordMatch: xWordMatch,
-                            shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
-                            shouldSendCrosswordData: $shouldSendCrosswordData,
-                            opponent: $opponent,
-                            connectedStatus: $connectedStatus,
-                            isShowingXwordView: $isShowingXWordView,
-                            showArchive: $showArchive
-                        ), isActive: $isShowingXWordView) {
-                            Text("Start Crossword")
-                                .foregroundColor(.white)
-                                .frame(width: 150, height: 40)
-                                .background(crossword.title == "" ? Color.gray : Color.green)
-                                .cornerRadius(15)
-                                .padding(.trailing, 10)
-                                .padding(.bottom, 10)
-                    }
-                    .disabled(crossword.title == "")
                 }
-//                .frame(width: UIScreen.screenWidth, height: 50)
-//                .position(x: 900, y: 900)
+                Spacer()
+                if (connectedStatus && opponent.displayName != "") {
+                    HStack {
+                        Image(uiImage: viewModel.playerPhoto)
+                            .clipShape(Circle())
+                            .overlay(Circle().stroke(Color.green, lineWidth: 2))
+                    }
+                }
+                NavigationLink(destination:
+                    XWordView(
+                        crossword: crossword,
+                        crosswordBinding: $crossword,
+                        xWordMatch: xWordMatch,
+                        shouldSendGoBackToLobbyMessage: $shouldSendGoBackToLobbyMessage,
+                        shouldSendCrosswordData: $shouldSendCrosswordData,
+                        opponent: $opponent,
+                        connectedStatus: $connectedStatus,
+                        isShowingXwordView: $isShowingXWordView,
+                        showArchive: $showArchive
+                    ), isActive: $isShowingXWordView) {
+                        Text("Start Crossword")
+                            .foregroundColor(.white)
+                            .frame(width: 150, height: 40)
+                            .background(crossword.title == "" ? Color.gray : Color.green)
+                            .cornerRadius(15)
+                            .padding(.trailing, 10)
+                            .padding(.bottom, 10)
+                }
+                .disabled(crossword.title == "")
             }
+        }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
@@ -120,7 +119,7 @@ struct LobbyView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        print("info tapped")
+                        showInfo = true
                     }) {
                         Image(systemName: "info.circle")
                     }
@@ -165,6 +164,9 @@ struct LobbyView: View {
             .task {
                 await viewModel.loadPhoto(player: opponent)
             }
+            .sheet(isPresented: self.$showInfo) {
+                InfoView()
+            }
             .sheet(isPresented: self.$showDocumentPicker) {
                 CrosswordDocumentPicker(crossword: $crossword)
             }
@@ -189,7 +191,6 @@ struct LobbyView: View {
             })
             //.frame(width: UIScreen.screenWidth, height: UIScreen.screenWidth)
         }
-    }
 
     
     func checkForExistingCrosswordAndUpdate() {
