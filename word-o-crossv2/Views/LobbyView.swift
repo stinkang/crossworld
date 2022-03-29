@@ -30,7 +30,7 @@ struct LobbyView: View {
     var body: some View {
         VStack {
             VStack {
-                EquatableView(content: LeaderboardListView(crossword: $crossword))
+                LeaderboardListView(crossword: $crossword)
                 Spacer()
                 HStack {
                     if (crossword.title == "") {

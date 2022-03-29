@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CrosswordLeaderboardView: View {
-    var crosswordLeaderboard: CrosswordLeaderboard
+    @Binding var crosswordLeaderboard: CrosswordLeaderboard
     @Binding var crossword: Crossword
     //@GestureState private var isTapped = false
     var body: some View {
@@ -39,13 +39,15 @@ struct CrosswordLeaderboardView: View {
                         .padding(.bottom, 0)
                     ScrollView {
                         VStack {
-                            ForEach(0..<crosswordLeaderboard.scores.count) { i in
+                            ForEach(0..<20) { i in
                                 HStack {
-                                    Text(String(i + 1) + ". " + crosswordLeaderboard.scores.sorted(by: { $0.score < $1.score })[i].userName)
-                                        .font(.caption)
-                                    Spacer()
-                                    TimerTimeView(secondsElapsed: crosswordLeaderboard.scores.sorted(by: { $0.score < $1.score })[i].score)
-                                        .font(.caption)
+                                    if (i < crosswordLeaderboard.scores.count) {
+                                        Text(String(i + 1) + ". " + crosswordLeaderboard.scores.sorted(by: { $0.score < $1.score })[i].userName)
+                                            .font(.caption)
+                                        Spacer()
+                                        TimerTimeView(secondsElapsed: crosswordLeaderboard.scores.sorted(by: { $0.score < $1.score })[i].score)
+                                            .font(.caption)
+                                    }
                                 }
                                 .padding(.trailing, 6)
                             }
