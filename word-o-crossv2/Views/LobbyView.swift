@@ -13,6 +13,7 @@ struct LobbyView: View {
     @State var crossword = Crossword()
     @State private var showDocumentPicker = false
     @State private var showArchive = false
+    @State private var showInfo = false
     @State var isShowingXWordView = false
     @State var xWordMatch: GKMatch = GKMatch()
     @State var gcButtonPressed: Bool = false
@@ -118,7 +119,7 @@ struct LobbyView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        print("info tapped")
+                        showInfo = true
                     }) {
                         Image(systemName: "info.circle")
                     }
@@ -162,6 +163,9 @@ struct LobbyView: View {
             }
             .task {
                 await viewModel.loadPhoto(player: opponent)
+            }
+            .sheet(isPresented: self.$showInfo) {
+                InfoView()
             }
             .sheet(isPresented: self.$showDocumentPicker) {
                 CrosswordDocumentPicker(crossword: $crossword)

@@ -201,8 +201,11 @@ struct XWordView: View {
             if (crossword.title != "") {
                 saveCrossword()
             }
-            timer!.invalidate()
+            //timer!.invalidate()
         }
+        .onDisappear(perform: {
+            timer!.invalidate()
+        })
         .onAppear(perform: {
             showArchive = false
             for (index, entry) in crossword.entries.enumerated() {
