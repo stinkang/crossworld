@@ -36,7 +36,7 @@ struct CrosswordService {
                 "crossword": crosswordData!,
                 "scores": scores
             ] as [String : Any]
-            let ref = Firestore.firestore().collection("crosswordLeaderboards").document()
+            let ref = Firestore.firestore().collection("crosswordLeaderboardsTest").document()
 
             ref.setData(data) { _ in print("DEBUG: Did upload crossword leederbort") }
             crosswordData!["leaderboardId"] = ref.documentID
@@ -49,7 +49,7 @@ struct CrosswordService {
     
     func updateCrosswordLeaderboard(leaderboardId: String, userName: String, score: Int64) {
 
-        let ref = Firestore.firestore().collection("crosswordLeaderboards").document(leaderboardId)
+        let ref = Firestore.firestore().collection("crosswordLeaderboardsTest").document(leaderboardId)
         ref.getDocument { (document, error) in
             if let document = document, document.exists {
                 var scores: [Any] = document.data()!["scores"] as! [Any]
@@ -81,7 +81,7 @@ struct CrosswordService {
     }
     
     func fetchCrosswordLeaderboards(completion: @escaping([CrosswordLeaderboard]) -> Void) {
-        Firestore.firestore().collection("crosswordLeaderboards").getDocuments { snapshot, _ in
+        Firestore.firestore().collection("crosswordLeaderboardsTest").getDocuments { snapshot, _ in
             guard let documents = snapshot?.documents else { return }
             
 //            do {

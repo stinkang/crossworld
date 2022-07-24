@@ -27,7 +27,6 @@ struct CrosswordLeaderboardView: View {
                     Text("By " + crosswordLeaderboard.crossword.author)
                         .font(.caption)
                     Text("Edited by " + crosswordLeaderboard.crossword.editor)
-                        .font(.caption)
                     Spacer()
                 }
                     //.frame(minWidth: 0, maxWidth: (UIScreen.screenWidth / 3) * 2)
@@ -77,7 +76,7 @@ struct CrosswordLeaderboardView: View {
         }
 //        .background(isTapped ? .gray : .white)
 //        .gesture(tap)
-        .frame(height: UIScreen.screenHeight / 8, alignment: .center)
+        .frame(height: UIScreen.screenHeight / 7, alignment: .center)
         .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.emptyGray, lineWidth: 1)

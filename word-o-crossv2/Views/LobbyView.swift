@@ -157,7 +157,6 @@ struct LobbyView: View {
                         }) {
                             Image(systemName: "person.crop.circle.badge.plus")
                         }
-                        .disabled(true)
                     }
                 }
             }
