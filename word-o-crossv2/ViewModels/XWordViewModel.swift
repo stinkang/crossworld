@@ -182,8 +182,7 @@ class XWordViewModel: ObservableObject {
             }
             indexToUnset = positionToUnset
             // get all squares below position
-            while (indexToUnset <= self.crosswordSize - 1
-                   && self.crossword.grid[indexToUnset] != ".") {
+            while (indexToUnset < self.crosswordSize && self.crossword.grid[indexToUnset] != ".") {
                 squareModels[indexToUnset].changeSquareState(to: .unfocused)
                 indexToUnset+=self.crosswordWidth
             }
@@ -243,7 +242,7 @@ class XWordViewModel: ObservableObject {
     }
     
     func goUpASquare() -> Void {
-        var potentialNewIndex = focusedSquareIndex - crosswordWidth
+        let potentialNewIndex = focusedSquareIndex - crosswordWidth
         var newIndex: Int
         if (focusedSquareIndex == 0) {
             newIndex = crosswordSize - 1
@@ -253,10 +252,15 @@ class XWordViewModel: ObservableObject {
                 : potentialNewIndex
         }
         if (crossword.grid[newIndex] == "." || newIndex < crosswordWidth) {
-            goToPreviousDownClueSquare()
-        } else {
-            changeFocusedSquareIndex(to: newIndex)
+            newIndex = getPreviousDownClueSquare()
+            
+            // get to the bottom of the current word
+            while (newIndex < crosswordSize - crosswordWidth && crossword.grid[newIndex + crosswordWidth] != ".") {
+                newIndex += crosswordWidth
+            }
         }
+        
+        changeFocusedSquareIndex(to: newIndex)
     }
     
     func goDownASquare() -> Void {
@@ -333,110 +337,66 @@ class XWordViewModel: ObservableObject {
     
     func goToNextDownClueSquare() -> Void {
         var newIndex = focusedSquareIndex
-        // Get to the start of the down clue -- the top of the current word
-        while (newIndex >= crosswordWidth) {
-            let potentialNewIndex = newIndex - crosswordWidth
-            if (crossword.grid[potentialNewIndex] == ".") {
-                break
-            }
-            newIndex = newIndex - crosswordWidth
+        
+        // get to the top of the current word
+        while (newIndex >= crosswordWidth && crossword.grid[newIndex - crosswordWidth] != ".") {
+            newIndex -= crosswordWidth
         }
-
-        // Start from the top of this word
-        //changeFocusedSquareIndex(to: newIndex)
+        
+        // start looking at the square right of this one
         newIndex += 1
 
-        // Get to the next square if this is the first row
-        // or get to the first space with a black square above it from this point
-        while(newIndex != crosswordSize) {
-            if ((newIndex < crossword.size.cols || (crossword.grid[newIndex - crosswordWidth] == "."))
-                && (crossword.grid[newIndex] != ".")) {
-                    changeFocusedSquareIndex(to: newIndex)
-                    return
-            }
-            newIndex += 1
+        // get to the first space with a black square or nothing above it from this point
+        while(crossword.grid[newIndex] == "." || (newIndex >= crosswordWidth && crossword.grid[newIndex - crosswordWidth] != ".")) {
+            newIndex = newIndex + 1 < crosswordSize ? newIndex + 1 : 0
         }
 
-        // Start at the beginning of the puzzle again, with across oriented this time.
-        newIndex = 0
-        //changeHighlightingAndClue()
         changeFocusedSquareIndex(to: newIndex)
+    }
+    
+    func goToBottomOfDownClue() -> Void {
         
     }
     
-    func jumpPrevious() -> Void {
-        if (acrossFocused) {
-            jumpPreviousAcross()
-        } else {
-            jumpPreviousDown()
+    func getPreviousDownClueSquare() -> Int {
+        var newIndex = focusedSquareIndex
+        
+        // get to the top of the current word
+        while (newIndex >= crosswordWidth && crossword.grid[newIndex - crosswordWidth] != ".") {
+            newIndex -= crosswordWidth
         }
-    }
-    
-    func jumpPreviousAcross() -> Void {
+
+        if newIndex == focusedSquareIndex {
+            // start looking at the square left of this one
+            newIndex -= 1
+
+            // get to the first space with a black square or nothing above it from this point
+            while(crossword.grid[newIndex] == "." || (newIndex >= crosswordWidth && crossword.grid[newIndex - crosswordWidth] != ".")) {
+                newIndex = newIndex - 1 >= 0 ? newIndex - 1 : crosswordSize - 1
+            }
+        }
         
-    }
-    
-    func jumpPreviousDown() -> Void {
-        
+        return newIndex
     }
     
     func goToPreviousClueSquare() -> Void {
         if acrossFocused {
             goToPreviousAcrossClueSquare()
         } else {
-            goToPreviousDownClueSquare()
+            let newIndex = getPreviousDownClueSquare()
+            changeFocusedSquareIndex(to: newIndex)
         }
     }
     
     func goToPreviousAcrossClueSquare() -> Void {
         var newIndex = focusedSquareIndex - 1 >= 0 ? focusedSquareIndex - 1 : crosswordSize - 1
-        // the or case: when we're at the end of a
-        while (crossword.grid[newIndex] == "." || newIndex % crosswordWidth == (crosswordWidth - 1)) {
+        while (crossword.grid[newIndex] == ".") {
+            newIndex = newIndex > 0 ? newIndex - 1 : crosswordSize - 1
+        }
+        while (newIndex != 0 && crossword.grid[newIndex - 1] != "." && newIndex % crosswordWidth != 0) {
             newIndex -= 1
         }
-        newIndex = newIndex >= 0 ? newIndex : crosswordSize - 1
-        while (newIndex != -1 && crossword.grid[newIndex] != "."
-               // haven't spilled onto the previous row
-               && newIndex % crosswordWidth != (crosswordWidth - 1)) {
-            newIndex -= 1
-        }
-        newIndex += 1
         changeFocusedSquareIndex(to: newIndex)
-    }
-    
-    func goToPreviousDownClueSquare() -> Void {
-        var newIndex = focusedSquareIndex
-        // Get to the start of the down clue -- the top of the current word
-        while (newIndex >= crosswordWidth) {
-            let potentialNewIndex = newIndex - crosswordWidth
-            if (crossword.grid[potentialNewIndex] == ".") {
-                break
-            }
-            newIndex = potentialNewIndex
-        }
-
-        if newIndex != focusedSquareIndex {
-            changeFocusedSquareIndex(to: newIndex)
-        } else {
-            // Start from the top of this word
-            newIndex -= 1
-
-            // Get to the previous square if this is the first row
-            // or get to the first space with a black square above it to the left of this point
-            while(newIndex >= 0) {
-                if ((newIndex < crossword.size.cols || (crossword.grid[newIndex - crosswordWidth] == "."))
-                    && (crossword.grid[newIndex] != ".")) {
-                        changeFocusedSquareIndex(to: newIndex)
-                        return
-                }
-                newIndex -= 1
-            }
-
-            // Start at the beginning of the puzzle again, with across oriented this time.
-            newIndex = crosswordSize - 1
-            //changeHighlightingAndClue()
-            changeFocusedSquareIndex(to: newIndex)
-        }
     }
         
     
