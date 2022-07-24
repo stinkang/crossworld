@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import word_o_crossv2
+//@testable import word_o_crossv2
 
 class CrosswordModelTests: XCTestCase {
     let rows = 15
