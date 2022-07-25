@@ -75,6 +75,7 @@ class XWordViewModel: ObservableObject {
         (0...crosswordSize - 1).forEach { index in
             if (crossword.grid[index] == ".") {
                 startingCorrectness += 1
+                squareModels[index].changeCurrentText(to: ".")
             }
         }
         self.correctSquares = startingCorrectness
@@ -255,20 +256,30 @@ class XWordViewModel: ObservableObject {
     }
     
     func getDownASquare() -> Int {
-        let potentialNewIndex = focusedSquareIndex + crosswordWidth
-        var newIndex: Int
-        if (focusedSquareIndex == crosswordSize - 1) {
-            newIndex = 0
-        } else {
-            newIndex = potentialNewIndex >= crosswordSize
-                ? potentialNewIndex - (crosswordSize - 1)
-                : potentialNewIndex
+        var newIndex = focusedSquareIndex + crosswordWidth
+        if (newIndex >= crosswordSize || crossword.grid[newIndex] == ".") {
+            newIndex = getNextDownClueSquare()
         }
-        if (crossword.grid[newIndex] == "." || newIndex < crosswordWidth) {
-            return getNextDownClueSquare()
-        } else {
-            return newIndex
+        return newIndex
+    }
+    
+    func getNextDownEmptySquare(from: Int? = nil) -> Int {
+        var newIndex = from != nil ? from! : focusedSquareIndex
+        repeat {
+            newIndex = newIndex + crosswordWidth
+            if (newIndex >= crosswordSize || crossword.grid[newIndex] == ".") {
+                newIndex = getNextDownClueSquare(from: newIndex)
+            }
+            if squareModels[newIndex].currentText == "" {
+                break
+            }
+        } while (newIndex != focusedSquareIndex)
+        
+        if (newIndex == focusedSquareIndex) {
+            newIndex = getNextDownClueSquare()
         }
+        
+        return newIndex
     }
     
     func getLeftASquare() -> Int {
@@ -287,15 +298,32 @@ class XWordViewModel: ObservableObject {
         return newIndex
     }
     
-    func goToNextClueSquare() -> Void {
-        let newIndex = acrossFocused ? getNextAcrossClueSquare() : getNextDownClueSquare()
+    func getNextAcrossEmptySquare(from: Int? = nil) -> Int {
+        let startingIndex = from != nil ? from! : focusedSquareIndex
+        var newIndex = startingIndex == crosswordSize - 1 ? 0 : startingIndex + 1
+        while (squareModels[newIndex].currentText != "" && newIndex != startingIndex) {
+            newIndex = newIndex == crosswordSize - 1 ? 0 : newIndex + 1
+        }
+        if (newIndex == startingIndex) {
+            newIndex = getNextAcrossClueSquare()
+        }
+        return newIndex
+    }
+    
+    func jumpToNextSquare() -> Void {
+        let newIndex = acrossFocused
+        ? getNextAcrossEmptySquare(from: getNextAcrossClueSquare())
+        : getNextDownEmptySquare(from: getNextDownClueSquare() - crosswordWidth)
+
         changeFocusedSquareIndex(to: newIndex)
     }
     
-    func goToPreviousClueSquare() -> Void {
+    func jumpToPreviousSquare() -> Void {
         let newIndex = acrossFocused ? getPreviousAcrossClueSquare() : getPreviousDownClueSquare()
         changeFocusedSquareIndex(to: newIndex)
     }
+    
+
     
     func getNextAcrossClueSquare() -> Int {
         var newIndex = focusedSquareIndex
@@ -326,8 +354,8 @@ class XWordViewModel: ObservableObject {
         return newIndex
     }
     
-    func getNextDownClueSquare() -> Int {
-        var newIndex = focusedSquareIndex
+    func getNextDownClueSquare(from: Int? = nil) -> Int {
+        var newIndex = from != nil ? from! : focusedSquareIndex
         
         // get to the top of the current word
         while (newIndex >= crosswordWidth && crossword.grid[newIndex - crosswordWidth] != ".") {
@@ -355,7 +383,7 @@ class XWordViewModel: ObservableObject {
 
         if newIndex == focusedSquareIndex {
             // start looking at the square left of this one
-            newIndex -= 1
+            newIndex = newIndex - 1 >= 0 ? newIndex - 1 : crosswordSize - 1
 
             // get to the first space with a black square or nothing above it from this point
             while(crossword.grid[newIndex] == "." || (newIndex >= crosswordWidth && crossword.grid[newIndex - crosswordWidth] != ".")) {
@@ -393,7 +421,7 @@ class XWordViewModel: ObservableObject {
     
     func handleLetterTyped() -> Void {
         changeShouldSendMessage(to: true)
-        let newIndex = acrossFocused ? getRightASquare() : getDownASquare()
+        let newIndex = acrossFocused ? getNextAcrossEmptySquare() : getNextDownEmptySquare()
         changeFocusedSquareIndex(to: newIndex)
         textState = .typedTo
         checkCrossword()

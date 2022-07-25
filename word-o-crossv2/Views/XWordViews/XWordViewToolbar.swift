@@ -18,7 +18,7 @@ struct XWordViewToolbar: View {
             VStack {
                 XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.goToPreviousSquare,
                                        imageName: xWordViewModel.acrossFocused ? "chevron.backward" : "chevron.up")
-                XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.goToPreviousClueSquare,
+                XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.jumpToPreviousSquare,
                                        imageName: "chevron.backward.2")
             }
             Spacer()
@@ -28,7 +28,7 @@ struct XWordViewToolbar: View {
             VStack {
                 XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.goToNextSquare,
                                        imageName: xWordViewModel.acrossFocused ? "chevron.forward" : "chevron.down")
-                XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.goToNextClueSquare,
+                XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.jumpToNextSquare,
                                        imageName: "chevron.forward.2")
             }
         }
