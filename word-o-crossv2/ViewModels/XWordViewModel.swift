@@ -268,15 +268,9 @@ class XWordViewModel: ObservableObject {
     }
     
     func getLeftASquare() -> Int {
-        var potentialNewIndex = focusedSquareIndex - 1
-        var newIndex: Int = focusedSquareIndex == 0
-            ? crosswordSize - 1
-            : potentialNewIndex
+        var newIndex = focusedSquareIndex == 0 ? crosswordSize - 1 : focusedSquareIndex - 1
         while (crossword.grid[newIndex] == ".") {
-            potentialNewIndex = newIndex - 1
-            newIndex = focusedSquareIndex == 0
-                ? crosswordSize - 1
-                : potentialNewIndex
+            newIndex = newIndex == 0 ? crosswordSize - 1 : newIndex - 1
         }
         return newIndex
     }
