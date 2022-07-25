@@ -236,16 +236,9 @@ class XWordViewModel: ObservableObject {
     }
     
     func getUpASquare() -> Int {
-        let potentialNewIndex = focusedSquareIndex - crosswordWidth
-        var newIndex: Int
-        if (focusedSquareIndex == 0) {
-            newIndex = crosswordSize - 1
-        } else {
-            newIndex = potentialNewIndex < 0
-                ? crosswordSize + potentialNewIndex - 1
-                : potentialNewIndex
-        }
-        if (crossword.grid[newIndex] == "." || newIndex < crosswordWidth) {
+        var newIndex = focusedSquareIndex - crosswordWidth
+
+        if (newIndex < 0 || crossword.grid[newIndex] == ".") {
             newIndex = getPreviousDownClueSquare()
             
             // get to the bottom of the current word
@@ -289,15 +282,9 @@ class XWordViewModel: ObservableObject {
     }
     
     func getRightASquare() -> Int {
-        var potentialNewIndex = focusedSquareIndex + 1
-        var newIndex: Int = focusedSquareIndex == crosswordSize - 1
-            ? 0
-            : potentialNewIndex
+        var newIndex = focusedSquareIndex == crosswordSize - 1 ? 0 : focusedSquareIndex + 1
         while (crossword.grid[newIndex] == ".") {
-            potentialNewIndex = newIndex + 1
-            newIndex = focusedSquareIndex == crosswordSize - 1
-                ? 0
-                : potentialNewIndex
+            newIndex = newIndex == crosswordSize - 1 ? 0 : newIndex + 1
         }
         return newIndex
     }
@@ -401,9 +388,9 @@ class XWordViewModel: ObservableObject {
     
     func handleBackspace() -> Void {
         let newIndex = acrossFocused ? getLeftASquare() : getUpASquare()
+        changeFocusedSquareIndex(to: newIndex)
         self.textState = .backspacedTo
         changeShouldSendMessage(to: true)
-        changeFocusedSquareIndex(to: newIndex)
     }
     
     func handleLetterTyped() -> Void {
