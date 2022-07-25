@@ -310,16 +310,38 @@ class XWordViewModel: ObservableObject {
         return newIndex
     }
     
+    func getPreviousAcrossEmptySquare(from: Int? = nil) -> Int {
+        let startingIndex = from != nil ? from! : focusedSquareIndex
+        var newIndex = startingIndex == 0 ? crosswordSize - 1 : startingIndex - 1
+        var lastBlankSquare = -1
+
+        while (newIndex != startingIndex) {
+            if squareModels[newIndex].currentText == "" {
+                lastBlankSquare = newIndex
+            }
+            var nextIndex = newIndex == 0 ? crosswordSize - 1 : newIndex - 1
+            if (squareModels[nextIndex].currentText == "." || nextIndex % crosswordWidth == crosswordWidth - 1) {
+                if (lastBlankSquare != -1) {
+                    break
+                }
+            }
+            newIndex = nextIndex
+        }
+        newIndex = newIndex == startingIndex ? getPreviousAcrossClueSquare() : lastBlankSquare
+
+        return newIndex
+    }
+    
     func jumpToNextSquare() -> Void {
         let newIndex = acrossFocused
-        ? getNextAcrossEmptySquare(from: getNextAcrossClueSquare())
+        ? getNextAcrossEmptySquare(from: getNextAcrossClueSquare() - 1)
         : getNextDownEmptySquare(from: getNextDownClueSquare() - crosswordWidth)
 
         changeFocusedSquareIndex(to: newIndex)
     }
     
     func jumpToPreviousSquare() -> Void {
-        let newIndex = acrossFocused ? getPreviousAcrossClueSquare() : getPreviousDownClueSquare()
+        let newIndex = acrossFocused ? getPreviousAcrossEmptySquare() : getPreviousDownClueSquare()
         changeFocusedSquareIndex(to: newIndex)
     }
     
