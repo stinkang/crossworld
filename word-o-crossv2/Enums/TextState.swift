@@ -11,6 +11,7 @@ enum TextState {
     case typedTo
     case tappedOn
     case letterTyped
+    case letterTyped2
     case backspacedTo
     case shouldGoBackOne
 }

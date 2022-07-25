@@ -161,7 +161,7 @@ struct XWordView: View {
         //.position(x: UIScreen.screenWidth / 2, y: (UIScreen.screenWidth * 3) / 2)
         .environmentObject(xWordViewModel)
         .onChange(of: xWordViewModel.textState, perform: { newState in
-            if (newState == .letterTyped) {
+            if (newState == .letterTyped || newState == .letterTyped2) {
                 xWordViewModel.handleLetterTyped()
             } else if (newState == .shouldGoBackOne) {
                 xWordViewModel.handleShouldBackspaceState()

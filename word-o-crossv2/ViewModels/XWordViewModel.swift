@@ -140,7 +140,11 @@ class XWordViewModel: ObservableObject {
     }
     
     func changeTextState(to textState: TextState) {
-        self.textState = textState
+        if self.textState == .letterTyped && textState == .letterTyped {
+            self.textState = .letterTyped2
+        } else {
+            self.textState = textState
+        }
     }
     
     func changeFocus() -> Void {
@@ -388,18 +392,8 @@ class XWordViewModel: ObservableObject {
     }
     
     func handleLetterTyped() -> Void {
-        var newIndex = 0
         changeShouldSendMessage(to: true)
-        if (acrossFocused) {
-            newIndex = getRightASquare()
-        } else {
-            if (focusedSquareIndex > (crosswordSize - crosswordWidth)
-                || (focusedSquareIndex + crosswordWidth < crosswordSize && crossword.grid[focusedSquareIndex + crosswordWidth] == ".")) {
-                newIndex = getNextDownClueSquare()
-            } else {
-                newIndex = getDownASquare()
-            }
-        }
+        let newIndex = acrossFocused ? getRightASquare() : getDownASquare()
         changeFocusedSquareIndex(to: newIndex)
         textState = .typedTo
         checkCrossword()
