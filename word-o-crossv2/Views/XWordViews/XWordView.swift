@@ -120,6 +120,7 @@ struct XWordView: View {
                                 HStack {
                                     Text("Edited By " + crossword.editor)
                                     Spacer()
+                                    // timer
                                     Text("\(numberFormatter.string(from: NSNumber(value: hours))!):\(numberFormatter.string(from: NSNumber(value: minutes))!):\(numberFormatter.string(from: NSNumber(value: seconds))!)")
                                         .foregroundColor(.yellow)
                                         .frame(width: UIScreen.screenWidth / 7, height: 16, alignment: .leading)

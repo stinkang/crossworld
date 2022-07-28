@@ -14,7 +14,8 @@ struct XWordViewToolbar: View {
     @EnvironmentObject var xWordViewModel: XWordViewModel
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack() {
+            Spacer()
             VStack {
                 XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.goToPreviousSquare,
                                        imageName: xWordViewModel.acrossFocused ? "chevron.backward" : "chevron.up")
@@ -24,9 +25,43 @@ struct XWordViewToolbar: View {
             Button(action: {
                 xWordViewModel.changeOrientation()
             }) {
-                Text(xWordViewModel.clue)
-                    .frame(width: UIScreen.screenWidth / 1.5, height: UIScreen.screenHeight / 13)
-                    .background(RoundedRectangle(cornerRadius: 4).stroke())
+                RoundedRectangle(cornerRadius: 4).stroke().foregroundColor(.emptyGray)
+                    .frame(maxHeight: .infinity)
+                    .frame(width: UIScreen.screenWidth / 1.5)
+                    .overlay(
+                        Text(xWordViewModel.clue)
+                            .foregroundColor(.squareBackground2))
+//                    .overlay(
+//                        VStack {
+//                            if xWordViewModel.acrossFocused {
+//                                Text("ACROSS")
+//                                .font(.caption)
+//                                .foregroundColor(.correctGreen)
+//                                .italic()
+//                            } else {
+//                                VStack(spacing: 0) {
+//                                    Text("D")
+//                                        .font(.caption)
+//                                        .foregroundColor(.correctGreen)
+//                                        .italic()
+//                                    Text("O")
+//                                        .font(.caption)
+//                                        .foregroundColor(.correctGreen)
+//                                        .italic()
+//                                    Text("W")
+//                                        .font(.caption)
+//                                        .foregroundColor(.correctGreen)
+//                                        .italic()
+//                                    Text("N")
+//                                        .font(.caption)
+//                                        .foregroundColor(.correctGreen)
+//                                        .italic()
+//                                }
+//                            }
+//                        }
+//                            .padding(.horizontal, 3)
+//                            .padding(.vertical, 1)
+//                        , alignment: .topLeading)
             }
             VStack {
                 XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.goToNextSquare,
@@ -34,9 +69,11 @@ struct XWordViewToolbar: View {
                 XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.jumpToNextSquare,
                                        imageName: "chevron.forward.2")
             }
+            
+            Spacer()
         }
-        //.frame(width: UIScreen.screenWidth, height: 100, alignment: .center)
-        .offset(y: 0)
+        .frame(width: UIScreen.screenWidth)
+        
     }
 }
 
@@ -49,8 +86,9 @@ struct XWordViewToolbarButton: View {
             action()
         }) {
             Image(systemName: imageName)
-                .frame(width: boxWidth, height: boxWidth)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(RoundedRectangle(cornerRadius: 4).stroke())
+                .foregroundColor(.emptyGray)
         }
-        .padding(.horizontal)
     }
 }
