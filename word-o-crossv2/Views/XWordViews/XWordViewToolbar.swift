@@ -10,7 +10,7 @@ import SwiftUI
 
 struct XWordViewToolbar: View {
     let boxWidth: CGFloat
-    @ObservedObject var keyboardHeightHelper: KeyboardHeightHelper = KeyboardHeightHelper()
+    let keyboardHeight: CGFloat
     @EnvironmentObject var xWordViewModel: XWordViewModel
 
     var body: some View {
@@ -21,10 +21,13 @@ struct XWordViewToolbar: View {
                 XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.jumpToPreviousSquare,
                                        imageName: "chevron.backward.2")
             }
-            Spacer()
-            Text(xWordViewModel.clue)
-                .onTapGesture(perform: xWordViewModel.changeOrientation)
-            Spacer()
+            Button(action: {
+                xWordViewModel.changeOrientation()
+            }) {
+                Text(xWordViewModel.clue)
+                    .frame(width: UIScreen.screenWidth / 1.5, height: UIScreen.screenHeight / 13)
+                    .background(RoundedRectangle(cornerRadius: 4).stroke())
+            }
             VStack {
                 XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.goToNextSquare,
                                        imageName: xWordViewModel.acrossFocused ? "chevron.forward" : "chevron.down")
@@ -32,7 +35,7 @@ struct XWordViewToolbar: View {
                                        imageName: "chevron.forward.2")
             }
         }
-        //.frame(width: UIScreen.screenWidth, height: self.keyboardHeightHelper.keyboardHeight, alignment: .center)
+        //.frame(width: UIScreen.screenWidth, height: 100, alignment: .center)
         .offset(y: 0)
     }
 }
@@ -46,7 +49,7 @@ struct XWordViewToolbarButton: View {
             action()
         }) {
             Image(systemName: imageName)
-                .frame(width: boxWidth * 2, height: boxWidth * 2)
+                .frame(width: boxWidth, height: boxWidth)
         }
         .padding(.horizontal)
     }

@@ -30,6 +30,7 @@ struct XWordView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     let persistenceController = PersistenceController.shared
     @StateObject var xWordViewModel: XWordViewModel
+    @ObservedObject var keyboardHeightHelper: KeyboardHeightHelper = KeyboardHeightHelper()
     var crosswordAlreadySolved = false
     var selectedInputBinding: Binding<String> {
         Binding<String>(
@@ -145,10 +146,13 @@ struct XWordView: View {
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
+                    Spacer()
                     XWordViewToolbar(
-                        boxWidth: UIScreen.screenWidth / 15
+                        boxWidth: UIScreen.screenWidth / 15,
+                        keyboardHeight: keyboardHeightHelper.keyboardHeight
                     )
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.bottom, 2)
+                    //.frame(maxWidth: .infinity, alignment: .center)
                     Spacer()
                 } else {
                     Text("<<< Enter CrossWorld!")
