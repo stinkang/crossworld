@@ -31,6 +31,15 @@ struct XWordViewToolbar: View {
                     .overlay(
                         Text(xWordViewModel.clue)
                             .foregroundColor(.squareBackground2))
+                    .overlay(
+                        HStack {
+                            if xWordViewModel.tapState == .tapped {
+                                Image(systemName: "pencil")
+                                    .foregroundColor(.red)
+                                    .padding(2)
+                            }
+                        }
+                        , alignment: .topTrailing)
 //                    .overlay(
 //                        VStack {
 //                            if xWordViewModel.acrossFocused {

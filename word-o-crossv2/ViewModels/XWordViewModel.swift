@@ -16,6 +16,7 @@ class XWordViewModel: ObservableObject {
     @Published var otherPlayersFocusedSquareIndex: Int
     @Published var otherPlayersAcrossFocused: Bool
     @Published var textState: TextState
+    @Published var tapState: TapState
     @Published var solvedSheetPresented: Bool
     @Published var secondsElapsed: Int64
     var solved: Bool
@@ -50,6 +51,7 @@ class XWordViewModel: ObservableObject {
         crosswordWidth = 0
         crosswordSize = 0
         textState = .typedTo
+        tapState = .untapped
         self.crossword = Crossword()
         squareModels = []
         correctSquares = 0
@@ -147,6 +149,10 @@ class XWordViewModel: ObservableObject {
         }
     }
     
+    func changeTapState(to tapState: TapState) {
+        self.tapState = tapState
+    }
+    
     func changeFocus() -> Void {
         unsetPreviousHighlighting(acrossFocusedChanged: false)
         setCurrentHighlighting()
@@ -230,6 +236,7 @@ class XWordViewModel: ObservableObject {
     }
     
     func jumpToNextSquare() -> Void {
+        changeTapState(to: .untapped)
         let newIndex = acrossFocused
         ? getNextAcrossEmptySquare(from: getNextAcrossClueSquare() - 1)
         : getNextDownEmptySquare(from: getNextDownClueSquare() - crosswordWidth)
@@ -238,6 +245,7 @@ class XWordViewModel: ObservableObject {
     }
     
     func jumpToPreviousSquare() -> Void {
+        changeTapState(to: .untapped)
         let newIndex = acrossFocused ? getPreviousAcrossEmptySquare() : getPreviousDownEmptySquare()
         changeFocusedSquareIndex(to: newIndex)
     }
@@ -268,9 +276,14 @@ class XWordViewModel: ObservableObject {
     
     func handleLetterTyped() -> Void {
         changeShouldSendMessage(to: true)
-        let newIndex = acrossFocused ? getNextAcrossEmptySquare() : getNextDownEmptySquare()
+        var newIndex = -1
+        if tapState == .tapped {
+            newIndex = acrossFocused ? getRightASquare() : getDownASquare()
+        } else {
+            newIndex = acrossFocused ? getNextAcrossEmptySquare() : getNextDownEmptySquare()
+            tapState = .untapped
+        }
         changeFocusedSquareIndex(to: newIndex)
-        textState = .typedTo
         checkCrossword()
     }
     

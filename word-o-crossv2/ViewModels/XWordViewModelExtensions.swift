@@ -36,6 +36,10 @@ extension XWordViewModel {
     func getDownASquare() -> Int {
         var newIndex = focusedSquareIndex + crosswordWidth
         if (newIndex >= crosswordSize || crossword.grid[newIndex] == ".") {
+            if tapState == .tapped {
+                self.changeTapState(to: .untapped)
+                return getNextDownEmptySquare()
+            }
             newIndex = getNextDownClueSquare()
         }
         return newIndex
@@ -97,6 +101,12 @@ extension XWordViewModel {
     
     func getRightASquare() -> Int {
         var newIndex = focusedSquareIndex == crosswordSize - 1 ? 0 : focusedSquareIndex + 1
+        if (crossword.grid[newIndex] == "." || newIndex % crosswordWidth == 0) {
+            if tapState == .tapped {
+                self.changeTapState(to: .untapped)
+                return getNextAcrossEmptySquare()
+            }
+        }
         while (crossword.grid[newIndex] == ".") {
             newIndex = newIndex == crosswordSize - 1 ? 0 : newIndex + 1
         }
@@ -104,7 +114,7 @@ extension XWordViewModel {
     }
     
     func getNextAcrossEmptySquare(from: Int? = nil) -> Int {
-        let startingIndex = from != nil ? (from! == -1 ? 0 : from!) : focusedSquareIndex
+        let startingIndex = from != nil ? (from! == -1 ? crosswordSize - 1 : from!) : focusedSquareIndex
         var newIndex = startingIndex
         repeat {
             newIndex = newIndex == crosswordSize - 1 ? 0 : newIndex + 1
