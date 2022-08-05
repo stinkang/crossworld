@@ -17,6 +17,7 @@ class XWordViewModel: ObservableObject {
     @Published var otherPlayersAcrossFocused: Bool
     @Published var textState: TextState
     @Published var tapState: TapState
+    @Published var backspaceState: BackspaceState
     @Published var solvedSheetPresented: Bool
     @Published var secondsElapsed: Int64
     var solved: Bool
@@ -52,6 +53,7 @@ class XWordViewModel: ObservableObject {
         crosswordSize = 0
         textState = .typedTo
         tapState = .untapped
+        backspaceState = .notBackspacedTo
         self.crossword = Crossword()
         squareModels = []
         correctSquares = 0
@@ -151,6 +153,10 @@ class XWordViewModel: ObservableObject {
     
     func changeTapState(to tapState: TapState) {
         self.tapState = tapState
+    }
+    
+    func changeBackspaceState(to backspaceState: BackspaceState) {
+        self.backspaceState = backspaceState
     }
     
     func changeFocus() -> Void {
@@ -270,7 +276,8 @@ class XWordViewModel: ObservableObject {
     func handleBackspace() -> Void {
         let newIndex = acrossFocused ? getLeftASquare() : getUpASquare()
         changeFocusedSquareIndex(to: newIndex)
-        self.textState = .backspacedTo
+        squareModels[focusedSquareIndex].changeCurrentText(to: "")
+        changeTextState(to: .backspacedTo)
         changeShouldSendMessage(to: true)
     }
     

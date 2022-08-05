@@ -20,7 +20,7 @@ struct XWordSquare: View {
     func changeFocus() -> Void {
         xWordViewModel.changeShouldSendMessage(to: true)
         xWordViewModel.changeTextState(to: .tappedOn)
-        xWordViewModel.changeTapState(to: .tapped)
+        //xWordViewModel.changeTapState(to: .tapped)
         if (xWordViewModel.focusedSquareIndex == index) {
             xWordViewModel.changeAcrossFocused(to: !xWordViewModel.acrossFocused)
         } else {

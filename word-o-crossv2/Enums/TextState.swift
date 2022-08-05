@@ -15,3 +15,8 @@ enum TextState {
     case backspacedTo
     case shouldGoBackOne
 }
+
+enum BackspaceState {
+    case backspacedTo
+    case notBackspacedTo
+}

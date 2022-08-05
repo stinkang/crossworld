@@ -39,8 +39,15 @@ struct PermanentKeyboard: UIViewRepresentable {
                 //Allows backspace
                 } else if string == "" {
                     if (!self.parent.xWordViewModel.solved) {
+                        let prevText = self.parent.text
                         self.parent.text = ""
-                        self.parent.xWordViewModel.changeTextState(to: .shouldGoBackOne)
+                        if (prevText == "") {
+                            // notify the viewModel to go back one square
+                            self.parent.xWordViewModel.changeTextState(to: .shouldGoBackOne)
+                        } else {
+                            // just refresh so that the empty square shows up
+                            self.parent.xWordViewModel.changeFocusedSquareIndex(to: self.parent.xWordViewModel.focusedSquareIndex)
+                        }
                     }
                 }
             }
@@ -48,6 +55,7 @@ struct PermanentKeyboard: UIViewRepresentable {
             return false
         }
         
+        // only called when the textfield is already empty
         func textFieldDidDelete(_ textField: UITextField) -> Void {
             parent.xWordViewModel.handleBackspace()
         }

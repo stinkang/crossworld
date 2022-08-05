@@ -103,6 +103,13 @@ extension XWordViewModel {
         var newIndex = focusedSquareIndex == crosswordSize - 1 ? 0 : focusedSquareIndex + 1
         if (crossword.grid[newIndex] == "." || newIndex % crosswordWidth == 0) {
             if tapState == .tapped {
+                // if there are empty squares in this word to the left of this square, go to the leftmost one
+                let emptySquareToTheLeft = getFirstEmptySquareOfCurrentClue()
+                if (emptySquareToTheLeft != -1) {
+                    return emptySquareToTheLeft
+                }
+                
+                //
                 self.changeTapState(to: .untapped)
                 return getNextAcrossEmptySquare()
             }
@@ -124,6 +131,25 @@ extension XWordViewModel {
             newIndex = getNextAcrossClueSquare()
         }
         return newIndex
+    }
+    
+    func getFirstEmptySquareOfCurrentClue() -> Int {
+        let startingIndex = focusedSquareIndex
+        var newIndex = startingIndex == 0 ? crosswordSize - 1 : startingIndex - 1
+        var lastBlankSquare = -1
+
+        while (newIndex != startingIndex) {
+            if squareModels[newIndex].currentText == "" {
+                lastBlankSquare = newIndex
+            }
+            let nextIndex = newIndex == 0 ? crosswordSize - 1 : newIndex - 1
+            if (squareModels[nextIndex].currentText == "." || nextIndex % crosswordWidth == crosswordWidth - 1) {
+                break
+            }
+            newIndex = nextIndex
+        }
+        
+        return lastBlankSquare
     }
     
     func getPreviousAcrossEmptySquare(from: Int? = nil) -> Int {
@@ -162,6 +188,9 @@ extension XWordViewModel {
         }
         while (crossword.grid[newIndex] == ".") {
             newIndex += 1
+            if (newIndex == crosswordSize) {
+                newIndex = 0
+            }
         }
         return newIndex
     }

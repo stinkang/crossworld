@@ -17,65 +17,78 @@ struct XWordViewToolbar: View {
         HStack() {
             Spacer()
             VStack {
-                XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.goToPreviousSquare,
+                XWordViewToolbarButton(action: xWordViewModel.goToPreviousSquare,
                                        imageName: xWordViewModel.acrossFocused ? "chevron.backward" : "chevron.up")
-                XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.jumpToPreviousSquare,
+                XWordViewToolbarButton(action: xWordViewModel.jumpToPreviousSquare,
                                        imageName: "chevron.backward.2")
             }
-            Button(action: {
-                xWordViewModel.changeOrientation()
-            }) {
-                RoundedRectangle(cornerRadius: 4).stroke().foregroundColor(.emptyGray)
-                    .frame(maxHeight: .infinity)
-                    .frame(width: UIScreen.screenWidth / 1.5)
-                    .overlay(
-                        Text(xWordViewModel.clue)
-                            .foregroundColor(.squareBackground2))
-                    .overlay(
-                        HStack {
-                            if xWordViewModel.tapState == .tapped {
-                                Image(systemName: "pencil")
-                                    .foregroundColor(.red)
-                                    .padding(2)
-                            }
-                        }
-                        , alignment: .topTrailing)
-//                    .overlay(
-//                        VStack {
-//                            if xWordViewModel.acrossFocused {
-//                                Text("ACROSS")
-//                                .font(.caption)
-//                                .foregroundColor(.correctGreen)
-//                                .italic()
-//                            } else {
-//                                VStack(spacing: 0) {
-//                                    Text("D")
-//                                        .font(.caption)
-//                                        .foregroundColor(.correctGreen)
-//                                        .italic()
-//                                    Text("O")
-//                                        .font(.caption)
-//                                        .foregroundColor(.correctGreen)
-//                                        .italic()
-//                                    Text("W")
-//                                        .font(.caption)
-//                                        .foregroundColor(.correctGreen)
-//                                        .italic()
-//                                    Text("N")
-//                                        .font(.caption)
-//                                        .foregroundColor(.correctGreen)
-//                                        .italic()
-//                                }
-//                            }
-//                        }
-//                            .padding(.horizontal, 3)
-//                            .padding(.vertical, 1)
-//                        , alignment: .topLeading)
+            ZStack(alignment: .topTrailing) {
+                Button(action: {
+                    xWordViewModel.changeOrientation()
+                }) {
+                    RoundedRectangle(cornerRadius: 4).stroke().foregroundColor(.emptyGray)
+                        .frame(maxHeight: .infinity)
+                        .frame(width: UIScreen.screenWidth / 1.5)
+                        .overlay(
+                            Text(xWordViewModel.clue)
+                                .foregroundColor(.squareBackground2))
+    //                    .overlay(
+    //                        VStack {
+    //                            if xWordViewModel.acrossFocused {
+    //                                Text("ACROSS")
+    //                                .font(.caption)
+    //                                .foregroundColor(.correctGreen)
+    //                                .italic()
+    //                            } else {
+    //                                VStack(spacing: 0) {
+    //                                    Text("D")
+    //                                        .font(.caption)
+    //                                        .foregroundColor(.correctGreen)
+    //                                        .italic()
+    //                                    Text("O")
+    //                                        .font(.caption)
+    //                                        .foregroundColor(.correctGreen)
+    //                                        .italic()
+    //                                    Text("W")
+    //                                        .font(.caption)
+    //                                        .foregroundColor(.correctGreen)
+    //                                        .italic()
+    //                                    Text("N")
+    //                                        .font(.caption)
+    //                                        .foregroundColor(.correctGreen)
+    //                                        .italic()
+    //                                }
+    //                            }
+    //                        }
+    //                            .padding(.horizontal, 3)
+    //                            .padding(.vertical, 1)
+    //                        , alignment: .topLeading)
+                } // end of Button
+                .frame(maxWidth: .infinity) // << default center !!
+                Button(action: {
+                    xWordViewModel.tapState == .tapped
+                    ? xWordViewModel.changeTapState(to: .untapped)
+                    : xWordViewModel.changeTapState(to: .tapped)
+                }) {
+                //if xWordViewModel.tapState == .tapped {
+                    Image(systemName: "pencil")
+                        .resizable()
+                        .frame(width: boxWidth / 1.8, height: boxWidth / 1.8)
+                        .foregroundColor(xWordViewModel.tapState == .tapped ? .red : .emptyGray)
+                        .padding(2)
+                        .overlay(
+                                RoundedRectangle(cornerRadius: 4)
+                                    .stroke()
+                                    .foregroundColor(xWordViewModel.tapState == .tapped ? .red : .emptyGray)
+                        )
+                        .padding(3)
+                //}
+                }
             }
             VStack {
-                XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.goToNextSquare,
+                XWordViewToolbarButton(action: xWordViewModel.goToNextSquare,
                                        imageName: xWordViewModel.acrossFocused ? "chevron.forward" : "chevron.down")
-                XWordViewToolbarButton(boxWidth: boxWidth, action: xWordViewModel.jumpToNextSquare,
+                XWordViewToolbarButton(action: xWordViewModel.jumpToNextSquare,
                                        imageName: "chevron.forward.2")
             }
             
@@ -87,7 +100,6 @@ struct XWordViewToolbar: View {
 }
 
 struct XWordViewToolbarButton: View {
-    let boxWidth: CGFloat
     let action: () -> Void
     let imageName: String
     var body: some View {

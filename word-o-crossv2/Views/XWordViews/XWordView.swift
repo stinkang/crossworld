@@ -38,7 +38,7 @@ struct XWordView: View {
                 xWordViewModel.squareModels[xWordViewModel.focusedSquareIndex].currentText
             },
             set: {
-                xWordViewModel.squareModels[xWordViewModel.focusedSquareIndex].currentText = $0
+                xWordViewModel.squareModels[xWordViewModel.focusedSquareIndex].changeCurrentText(to: $0)
             }
         )
     }
