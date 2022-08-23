@@ -8,29 +8,41 @@
 import SwiftUI
 
 struct StatsSheetView: View {
-    var crossword: Crossword
+    @Binding var crossword: Crossword
     @ObservedObject var xWordViewModel: XWordViewModel
+    @StateObject var statsSheetViewModel: StatsSheetViewModel
+    
+    init(crossword: Binding<Crossword>, xWordViewModel: XWordViewModel) {
+        self.xWordViewModel = xWordViewModel
+        _crossword = crossword
+        _statsSheetViewModel = StateObject(wrappedValue: StatsSheetViewModel(leaderboardId: crossword.wrappedValue.leaderboardId!))
+    }
+
     var body: some View {
-        let numberOfSquaresSolvedByMe = xWordViewModel.squareModels.filter { $0.solvedByMe == true }.count
-        let numberOfTotalSquares = xWordViewModel.totalSpaces
+//        let numberOfSquaresSolvedByMe = xWordViewModel.squareModels.filter { $0.solvedByMe == true }.count
+//        let numberOfTotalSquares = xWordViewModel.totalSpaces
         VStack {
             Text("You did it!").font(.title)
-                .padding()
-            Text("Stats:")
-                .padding()
-            HStack {
-                VStack {
-                    Text("You:")
-                    Text(String(Float(numberOfSquaresSolvedByMe) / Float(numberOfTotalSquares) * 100) + " %")
-                        .foregroundColor(.green)
-                }
-                Spacer()
-                VStack {
-                    Text("Them:")
-                    Text(String((Float(numberOfTotalSquares - numberOfSquaresSolvedByMe)) / Float(numberOfTotalSquares) * 100) + " %")
-                        .foregroundColor(.green)
-                }
+            if !statsSheetViewModel.crosswordLeaderboards.isEmpty {
+                CrosswordLeaderboardView(crosswordLeaderboard: $statsSheetViewModel.crosswordLeaderboards[0], crossword: $crossword)
+                    .padding()
             }
+//
+//            Text("Stats:")
+//                .padding()
+//            HStack {
+//                VStack {
+//                    Text("You:")
+//                    Text(String(Float(numberOfSquaresSolvedByMe) / Float(numberOfTotalSquares) * 100) + " %")
+//                        .foregroundColor(.green)
+//                }
+//                Spacer()
+//                VStack {
+//                    Text("Them:")
+//                    Text(String((Float(numberOfTotalSquares - numberOfSquaresSolvedByMe)) / Float(numberOfTotalSquares) * 100) + " %")
+//                        .foregroundColor(.green)
+//                }
+//            }
         }
     }
 }

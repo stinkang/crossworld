@@ -26,7 +26,7 @@ struct XWordSquareTextBoxV2: View {
     
     var body: some View {
         Text(text)
-            .foregroundColor(.black)
+            .foregroundColor(xWordViewModel.checkOn ? (currentlyCorrect ? .black : .red) : .black)
             .font(Font.custom("Helvetica", size: boxWidth))
             .onChange(of: text, perform: { text in
                 if text == answerText {

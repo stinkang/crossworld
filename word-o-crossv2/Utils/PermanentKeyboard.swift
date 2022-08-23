@@ -24,7 +24,9 @@ struct PermanentKeyboard: UIViewRepresentable {
             //Async to prevent updating state during view update
             DispatchQueue.main.async { [self] in
                 if let last = string.last {
-                    
+                    if last == "😥" {
+                        self.parent.xWordViewModel.showIncorrectSquares()
+                    }
                     //Check if last character is alpha
                     if last.isLetter {
                         

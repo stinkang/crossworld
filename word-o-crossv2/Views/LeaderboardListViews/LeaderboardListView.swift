@@ -10,7 +10,7 @@ import SwiftUI
 struct LeaderboardListView: View/*, Equatable*/ {
     @StateObject var viewModel = CrosswordLeaderboardViewModel()
     @Binding var crossword: Crossword
-    let crosswordService = CrosswordService()
+    let crosswordService = FirebaseService()
     var body: some View {
         List($viewModel.crosswordLeaderboards) { $crosswordLeaderboard in
             CrosswordLeaderboardView(crosswordLeaderboard: $crosswordLeaderboard, crossword: $crossword)

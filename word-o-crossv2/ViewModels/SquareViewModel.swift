@@ -12,21 +12,25 @@ enum SquareState {
     case highlighted
     case unfocused
     case correct
-    case otherPlayerFocused
-    case otherPlayerHighlighted
 }
 
-class SquareModel: ObservableObject {
+class SquareViewModel: ObservableObject {
 
     @Published var squareState: SquareState = .unfocused
+    @Published var otherPlayerSquareState: SquareState = .unfocused
     @Published var currentText: String = ""
     var acrossClue: String = ""
     var downClue: String = ""
+    var answerText: String = ""
     var hasBeenCorrect: Bool = false
     var solvedByMe: Bool = false
 
     func changeSquareState(to squareState: SquareState) {
         self.squareState = squareState
+    }
+    
+    func changeOtherPlayerSquareState(to squareState: SquareState) {
+        self.otherPlayerSquareState = squareState
     }
     
     func changeCurrentText(to currentText: String) {
@@ -41,8 +45,9 @@ class SquareModel: ObservableObject {
         self.solvedByMe = solvedByMe
     }
     
-    init(acrossClue: String, downClue: String) {
+    init(acrossClue: String, downClue: String, answerText: String) {
         self.acrossClue = acrossClue
         self.downClue = downClue
+        self.answerText = answerText
     }
 }

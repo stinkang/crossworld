@@ -47,7 +47,7 @@ struct CrosswordLeaderboardView: View {
                                         HStack {
                                             Text(String(i + 1) + ". " + userName)
                                                 .font(.caption)
-                                            if (i == 0) {
+                                            if (GKLocalPlayer.local.displayName == userName) {
                                                 Text(Image(systemName: "hands.clap"))
                                                     .font(.caption)
                                                     .foregroundColor(.green)

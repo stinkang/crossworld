@@ -20,6 +20,7 @@ class XWordViewModel: ObservableObject {
     @Published var backspaceState: BackspaceState
     @Published var solvedSheetPresented: Bool
     @Published var secondsElapsed: Int64
+    @Published var checkOn: Bool
     var solved: Bool
     var shouldSendMessage: Bool
     var shouldSendCrossword: Bool
@@ -29,7 +30,7 @@ class XWordViewModel: ObservableObject {
     var crosswordWidth: Int
     var crosswordSize: Int
     var crossword: Crossword
-    var squareModels: [SquareModel]
+    var squareModels: [SquareViewModel]
     var correctSquares: Int
     var totalSpaces: Int
     var entries: [String]
@@ -61,6 +62,7 @@ class XWordViewModel: ObservableObject {
         crosswordWidth = crossword.size.cols
         crosswordSize = crossword.grid.count
         entries = crossword.entries
+        checkOn = false
         self.secondsElapsed = crossword.secondsElapsed
         self.crossword = crossword
         
@@ -71,7 +73,7 @@ class XWordViewModel: ObservableObject {
                 acrossClue = crossword.clueNamesToCluesMap[crossword.tagsToCluesMap[index]["A"]!]!
                 downClue = crossword.clueNamesToCluesMap[crossword.tagsToCluesMap[index]["D"]!]!
             }
-            squareModels.append(SquareModel(acrossClue: acrossClue, downClue: downClue))
+            squareModels.append(SquareViewModel(acrossClue: acrossClue, downClue: downClue, answerText: crossword.grid[index]))
         }
         
         var startingCorrectness = 0
@@ -143,6 +145,10 @@ class XWordViewModel: ObservableObject {
         self.currentlyOtherPlayersChanges = currentlyOtherPlayersChanges
     }
     
+    func changeCheckOn(to checkOn: Bool) {
+        self.checkOn = checkOn
+    }
+    
     func changeTextState(to textState: TextState) {
         if self.textState == .letterTyped && textState == .letterTyped {
             self.textState = .letterTyped2
@@ -180,7 +186,18 @@ class XWordViewModel: ObservableObject {
             indexToUnset-=1
             while (indexToUnset >= 0 && indexToUnset % self.crosswordWidth != (self.crosswordWidth - 1)
                   && self.crossword.grid[indexToUnset] != ".") {
+//                let otherPlayerSquareState = squareModels[indexToUnset].squareState
                 squareModels[indexToUnset].changeSquareState(to: .unfocused)
+//                switch otherPlayerSquareState {
+//                    case .unfocused:
+//                        squareModels[indexToUnset].changeSquareState(to: .unfocused)
+//                    case .focused:
+//                        squareModels[indexToUnset].changeOtherPlayerSquareState(to: .focused)
+//                    case .highlighted:
+//                        squareModels[indexToUnset].changeOtherPlayerSquareState(to: .highlighted)
+//
+//                }
+
                 indexToUnset-=1
             }
             indexToUnset = positionToUnset + 1
@@ -319,6 +336,10 @@ class XWordViewModel: ObservableObject {
         }
     }
     
+    func showIncorrectSquares() -> Void {
+        checkOn ? changeCheckOn(to: false) : changeCheckOn(to: true)
+    }
+    
     
     // MARK: OTHER PLAYER'S CHANGES
     func changeOtherPlayersFocus() -> Void {
@@ -339,7 +360,7 @@ class XWordViewModel: ObservableObject {
         let clueName = clues[orientationToUnset ? "A" : "D"]
         let clueTags: Array<Int> = (crossword.cluesToTagsMap[clueName!])!
         for clueTag in clueTags {
-            squareModels[clueTag].changeSquareState(to: .unfocused)
+            squareModels[clueTag].changeOtherPlayerSquareState(to: .unfocused)
         }
     }
     
@@ -348,9 +369,9 @@ class XWordViewModel: ObservableObject {
         let clueName = clues[otherPlayersAcrossFocused ? "A" : "D"]
         let clueTags: Array<Int> = (crossword.cluesToTagsMap[clueName!])!
         for clueTag in clueTags {
-            squareModels[clueTag].changeSquareState(to: .otherPlayerHighlighted)
+            squareModels[clueTag].changeOtherPlayerSquareState(to: .highlighted)
         }
-        squareModels[otherPlayersFocusedSquareIndex].changeSquareState(to: .otherPlayerFocused)
+        squareModels[otherPlayersFocusedSquareIndex].changeOtherPlayerSquareState(to: .focused)
     }
     
     func changeOtherPlayersHighlighting() -> Void {

@@ -30,6 +30,7 @@ struct XWordView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     let persistenceController = PersistenceController.shared
     @StateObject var xWordViewModel: XWordViewModel
+    @StateObject var appState: AppState
     @ObservedObject var keyboardHeightHelper: KeyboardHeightHelper = KeyboardHeightHelper()
     var crosswordAlreadySolved = false
     var selectedInputBinding: Binding<String> {
@@ -48,7 +49,7 @@ struct XWordView: View {
     @State var minutes: Int64 = 0;
     @State var seconds: Int64 = 0;
     @State var timer: Timer? = nil
-    let crosswordService = CrosswordService()
+    let crosswordService = FirebaseService()
     
     func updateSecondsElapsed() {
         secondsElapsed += 1
@@ -81,7 +82,7 @@ struct XWordView: View {
         self.crosswordAlreadySolved = crossword.solved
         numberFormatter.minimumIntegerDigits = 2
         _xWordViewModel = StateObject(wrappedValue: XWordViewModel(crossword: crossword))
-
+        _appState = StateObject(wrappedValue: AppState())
         //self.secondsElapsed = crossword.secondsElapsed
     }
 
@@ -202,6 +203,9 @@ struct XWordView: View {
                 shouldGoBackToLobby = false
             }
         })
+        .onChange(of: appState.isActive, perform: { _ in
+            saveCrossword()
+        })
         .onWillDisappear {
             if (crossword.title != "") {
                 saveCrossword()
@@ -242,8 +246,8 @@ struct XWordView: View {
 //        .onChange(of: xWordViewModel.typedText, perform: { newTypedText in
 //            self.socketManager.sendMessage(xWordViewModel.typedText)
 //        })
-        .sheet(isPresented: $xWordViewModel.solvedSheetPresented) {
-            StatsSheetView(crossword: crossword, xWordViewModel: xWordViewModel)
+        .popover(isPresented: $xWordViewModel.solvedSheetPresented) {
+            StatsSheetView(crossword: $crosswordBinding, xWordViewModel: xWordViewModel)
         }
     }
     

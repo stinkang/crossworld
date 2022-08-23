@@ -8,12 +8,24 @@
 import Foundation
 import Firebase
 
-struct CrosswordService {
+struct FirebaseService {
     func uploadOrUpdateCrosswordLeaderboard(crossword: Crossword, userName: String, score: Int64) {
         if crossword.leaderboardId == nil {
             uploadCrosswordLeaderboardWithOneScore(crossword: crossword, userName: userName, score: score)
         } else {
             updateCrosswordLeaderboard(leaderboardId: crossword.leaderboardId!, userName: userName, score: score)
+        }
+    }
+    
+    func getCrosswordLeaderboard(leaderboardId: String, completion: @escaping(CrosswordLeaderboard) -> Void) {
+        let ref = Firestore.firestore().collection("crosswordLeaderboardsTest").document(leaderboardId)
+        ref.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let data = try? document.data(as: CrosswordLeaderboard.self)
+                completion(data!)
+            } else {
+                print("Document does not exist")
+            }
         }
     }
     
@@ -108,4 +120,13 @@ struct CrosswordService {
             }
         }
     }
+    
+    // MARK: Users
+    
+//    func signIn(email: String, password: String) {
+//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+//          guard let strongSelf = self else { return }
+//          // ...
+//        }
+//    }
 }

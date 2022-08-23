@@ -9,7 +9,7 @@ import Foundation
 
 class CrosswordLeaderboardViewModel: ObservableObject {
     @Published var crosswordLeaderboards = [CrosswordLeaderboard]()
-    let service = CrosswordService()
+    let service = FirebaseService()
     
     init() {
         fetchCrosswordLeaderboards()

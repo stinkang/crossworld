@@ -42,9 +42,9 @@ struct XWordSquareColorBox: View {
                 ? Color.lightBlue
                 : (xWordViewModel.squareModels[index].squareState == .focused
                    ? Color.focusedBlue
-                   : (xWordViewModel.squareModels[index].squareState == .otherPlayerFocused
+                   : (xWordViewModel.squareModels[index].otherPlayerSquareState == .focused
                       ? Color.redFocused
-                      : (xWordViewModel.squareModels[index].squareState == .otherPlayerHighlighted
+                      : (xWordViewModel.squareModels[index].otherPlayerSquareState == .highlighted
                          ? Color.redHighlighted
                          : (xWordViewModel.squareModels[index].squareState == .correct
                             ? .correctGreen

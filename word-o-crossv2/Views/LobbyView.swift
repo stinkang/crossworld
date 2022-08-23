@@ -26,7 +26,7 @@ struct LobbyView: View {
     @StateObject var viewModel = LobbyViewModel()
     @Environment(\.managedObjectContext) var managedObjectContext
     var xWordViewModel: XWordViewModel = XWordViewModel(crossword: Crossword())
-    let crosswordService = CrosswordService()
+    let crosswordService = FirebaseService()
 
     var body: some View {
         VStack {
