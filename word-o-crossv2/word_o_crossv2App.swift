@@ -15,12 +15,16 @@ struct word_o_crossv2App: App {
     
     init() {
         FirebaseApp.configure()
+        if let user = Auth.auth().currentUser {
+            print("You're signed in as \(user.uid), email: \(user.email ?? "unknown")")
+        }
     }
 
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                LobbyView()
+                CrossWorldView()
+                    .navigationTitle("CrossWorld!")
             }
             .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }

@@ -1,34 +1,26 @@
 //
-//  UserModel.swift
+//  c.swift
 //  word_o_crossv2
 //
-//  Created by Austin Kang on 2/9/22.
+//  Created by Austin Kang on 10/14/22.
 //
 
 import Foundation
 
-class User: ObservableObject, Codable {
-    var userId: String? = ""
-    var userName: String = ""
-    var email: String = ""
-    var pw: String = ""
-    
-    init(userName: String, email: String, pw: String) {
-        self.userId = ""
-        self.userName = userName
-        self.email = email
-        self.pw = pw
-    }
-}
+import FirebaseFirestoreSwift
+import Firebase
 
-class CreateUserRequest: ObservableObject, Codable {
-    var userName: String = ""
-    var email: String = ""
-    var pw: String = ""
+struct UserModel: Identifiable, Codable, Equatable {
+    @DocumentID var id: String?
+    var uid: String
+    var email: String?
+    var photoURL: URL?
+    var displayName: String?
     
-    init(userName: String, email: String, pw: String) {
-        self.userName = userName
-        self.email = email
-        self.pw = pw
+    static func == (lhs: UserModel, rhs: UserModel) -> Bool {
+        return lhs.uid == rhs.uid
+            && lhs.email == rhs.email
+            && lhs.photoURL == rhs.photoURL
+            && lhs.displayName == rhs.displayName
     }
 }

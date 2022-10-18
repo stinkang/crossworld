@@ -330,7 +330,7 @@ class XWordViewModel: ObservableObject {
             squareModels.forEach({ squareModel in
                 squareModel.squareState = .correct
             })
-            solvedSheetPresented = true
+            //solvedSheetPresented = true
             solved = true
             crossword.solved = true
         }

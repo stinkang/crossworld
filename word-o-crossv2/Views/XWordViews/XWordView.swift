@@ -29,8 +29,10 @@ struct XWordView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @Environment(\.managedObjectContext) var managedObjectContext
     let persistenceController = PersistenceController.shared
+    let userService = UserService()
     @StateObject var xWordViewModel: XWordViewModel
     @StateObject var appState: AppState
+    @State var leaderboardId = ""
     @ObservedObject var keyboardHeightHelper: KeyboardHeightHelper = KeyboardHeightHelper()
     var crosswordAlreadySolved = false
     var selectedInputBinding: Binding<String> {
@@ -238,7 +240,8 @@ struct XWordView: View {
         .onChange(of: xWordViewModel.solved) { solved in
             if (solved) {
                 if (!crosswordAlreadySolved) {
-                    crosswordService.uploadOrUpdateCrosswordLeaderboard(crossword: crossword, userName: GKLocalPlayer.local.displayName, score: secondsElapsed)
+                    leaderboardId = crosswordService.uploadOrUpdateCrosswordLeaderboard(crossword: crossword, userName: userService.getCurrentUser()!.displayName!, score: secondsElapsed)
+                    xWordViewModel.solvedSheetPresented = true
                 }
                 timer!.invalidate()
             }
@@ -247,7 +250,7 @@ struct XWordView: View {
 //            self.socketManager.sendMessage(xWordViewModel.typedText)
 //        })
         .popover(isPresented: $xWordViewModel.solvedSheetPresented) {
-            StatsSheetView(crossword: $crosswordBinding, xWordViewModel: xWordViewModel)
+            StatsSheetView(leaderboardId: leaderboardId, crossword: $crosswordBinding, xWordViewModel: xWordViewModel)
         }
     }
     

@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct StatsSheetView: View {
+    var leaderboardId: String
     @Binding var crossword: Crossword
     @ObservedObject var xWordViewModel: XWordViewModel
     @StateObject var statsSheetViewModel: StatsSheetViewModel
     
-    init(crossword: Binding<Crossword>, xWordViewModel: XWordViewModel) {
+    init(leaderboardId: String, crossword: Binding<Crossword>, xWordViewModel: XWordViewModel) {
+        self.leaderboardId = leaderboardId
         self.xWordViewModel = xWordViewModel
         _crossword = crossword
-        _statsSheetViewModel = StateObject(wrappedValue: StatsSheetViewModel(leaderboardId: crossword.wrappedValue.leaderboardId!))
+        _statsSheetViewModel = StateObject(wrappedValue: StatsSheetViewModel(leaderboardId: leaderboardId))
     }
 
     var body: some View {

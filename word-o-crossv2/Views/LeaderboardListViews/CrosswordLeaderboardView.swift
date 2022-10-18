@@ -11,6 +11,7 @@ import GameKit
 struct CrosswordLeaderboardView: View {
     @Binding var crosswordLeaderboard: CrosswordLeaderboard
     @Binding var crossword: Crossword
+    let userService = UserService()
     //@GestureState private var isTapped = false
     var body: some View {
 //        let tap = DragGesture(minimumDistance: 0)
@@ -47,7 +48,7 @@ struct CrosswordLeaderboardView: View {
                                         HStack {
                                             Text(String(i + 1) + ". " + userName)
                                                 .font(.caption)
-                                            if (GKLocalPlayer.local.displayName == userName) {
+                                            if (userService.getCurrentUser() != nil && userService.getCurrentUser()!.displayName! == userName) {
                                                 Text(Image(systemName: "hands.clap"))
                                                     .font(.caption)
                                                     .foregroundColor(.green)

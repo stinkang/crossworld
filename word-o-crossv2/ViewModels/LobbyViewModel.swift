@@ -12,6 +12,7 @@ import GameKit
 @MainActor
 class LobbyViewModel: ObservableObject {
     @Published var playerPhoto = UIImage()
+    @Published var userModel: UserModel?
 
     func loadPhoto(player: GKPlayer) async {
         do {

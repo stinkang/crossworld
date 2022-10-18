@@ -15,6 +15,7 @@ struct LobbyView: View {
     @State private var showArchive = false
     @State private var showInfo = false
     @State var isShowingXWordView = false
+    @State var isShowingProfileView = false
     @State var xWordMatch: GKMatch = GKMatch()
     @State var gcButtonPressed: Bool = false
     @State var gcAuthenticated: Bool = false
@@ -23,9 +24,11 @@ struct LobbyView: View {
     @State var opponent = GKPlayer()
     @State var connectedStatus = false
     @State var playerPhoto = UIImage()
-    @StateObject var viewModel = LobbyViewModel()
+    @State var loginTapped = false
+    @EnvironmentObject var viewModel: LobbyViewModel
     @Environment(\.managedObjectContext) var managedObjectContext
     var xWordViewModel: XWordViewModel = XWordViewModel(crossword: Crossword())
+    let userService = UserService()
     let crosswordService = FirebaseService()
 
     var body: some View {
@@ -68,13 +71,13 @@ struct LobbyView: View {
                     }
                 }
                 Spacer()
-                if (connectedStatus && opponent.displayName != "") {
-                    HStack {
-                        Image(uiImage: viewModel.playerPhoto)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.green, lineWidth: 2))
-                    }
-                }
+//                if (connectedStatus && opponent.displayName != "") {
+//                    HStack {
+//                        Image(uiImage: viewModel.playerPhoto)
+//                            .clipShape(Circle())
+//                            .overlay(Circle().stroke(Color.green, lineWidth: 2))
+//                    }
+//                }
                 NavigationLink(destination:
                     XWordView(
                         crossword: crossword,
@@ -139,30 +142,46 @@ struct LobbyView: View {
 //                }
                 
                 // TODO: Fix up multiplayer before uncommenting this!!
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    ZStack{
+//                        MenuView(
+//                            isShowingXWordView: $isShowingXWordView,
+//                            shouldSendCrosswordData: $shouldSendCrosswordData,
+//                            xWordMatch: $xWordMatch,
+//                            crossword: $crossword,
+//                            buttonPressed: $gcButtonPressed,
+//                            gcAuthenticated: $gcAuthenticated,
+//                            connectedStatus: $connectedStatus,
+//                            opponent: $opponent
+//                        )
+//                        Button(action: {
+//                            crossword = Crossword()
+//                            gcButtonPressed = true
+//                        }) {
+//                            Image(systemName: "person.crop.circle.badge.plus")
+//                        }
+//                    }
+//                }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    ZStack{
-                        MenuView(
-                            isShowingXWordView: $isShowingXWordView,
-                            shouldSendCrosswordData: $shouldSendCrosswordData,
-                            xWordMatch: $xWordMatch,
-                            crossword: $crossword,
-                            buttonPressed: $gcButtonPressed,
-                            gcAuthenticated: $gcAuthenticated,
-                            connectedStatus: $connectedStatus,
-                            opponent: $opponent
-                        )
-                        Button(action: {
-                            crossword = Crossword()
-                            gcButtonPressed = true
-                        }) {
-                            Image(systemName: "person.crop.circle.badge.plus")
+                    if (userService.getCurrentUser() == nil) {
+                        ZStack {
+                            LoginView(loginTapped: $loginTapped)
+                            Button(action: {
+                                loginTapped = true
+                            }) {
+                                Text("Log In")
+                            }
+                        }
+                    } else {
+                        NavigationLink(destination: ProfileView(viewModel: viewModel), isActive: $isShowingProfileView) {
+                            Image(systemName: "person.circle")
                         }
                     }
                 }
             }
-            .task {
-                await viewModel.loadPhoto(player: opponent)
-            }
+//            .task {
+//                await viewModel.loadPhoto(player: opponent)
+//            }
             .sheet(isPresented: self.$showInfo) {
                 InfoView()
             }

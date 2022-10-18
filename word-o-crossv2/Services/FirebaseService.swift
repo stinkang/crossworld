@@ -9,11 +9,11 @@ import Foundation
 import Firebase
 
 struct FirebaseService {
-    func uploadOrUpdateCrosswordLeaderboard(crossword: Crossword, userName: String, score: Int64) {
+    func uploadOrUpdateCrosswordLeaderboard(crossword: Crossword, userName: String, score: Int64) -> String {
         if crossword.leaderboardId == nil {
-            uploadCrosswordLeaderboardWithOneScore(crossword: crossword, userName: userName, score: score)
+            return uploadCrosswordLeaderboardWithOneScore(crossword: crossword, userName: userName, score: score)
         } else {
-            updateCrosswordLeaderboard(leaderboardId: crossword.leaderboardId!, userName: userName, score: score)
+            return updateCrosswordLeaderboard(leaderboardId: crossword.leaderboardId!, userName: userName, score: score)
         }
     }
     
@@ -33,7 +33,7 @@ struct FirebaseService {
 //        let ref = Firestore.firestore().collection("crosswordLeaderboards").whereField("", in: <#T##[Any]#>)
 //    }
     
-    func uploadCrosswordLeaderboardWithOneScore(crossword: Crossword, userName: String, score: Int64) {
+    func uploadCrosswordLeaderboardWithOneScore(crossword: Crossword, userName: String, score: Int64) -> String {
         var crosswordData = crossword.encodeBackIntoJson()
         
         var scores: [Any] = []
@@ -56,10 +56,13 @@ struct FirebaseService {
             ref.updateData([
                 "crossword": crosswordData!
             ]) { _ in print("DEBUG: Did update crossword leaderboardId") }
+            
+            return ref.documentID
         }
+        return ""
     }
     
-    func updateCrosswordLeaderboard(leaderboardId: String, userName: String, score: Int64) {
+    func updateCrosswordLeaderboard(leaderboardId: String, userName: String, score: Int64) -> String {
 
         let ref = Firestore.firestore().collection("crosswordLeaderboardsTest").document(leaderboardId)
         ref.getDocument { (document, error) in
@@ -77,6 +80,7 @@ struct FirebaseService {
                 print("Document does not exist")
             }
         }
+        return leaderboardId
     }
 //        ref.updateData([
 //            "scores":
@@ -120,13 +124,4 @@ struct FirebaseService {
             }
         }
     }
-    
-    // MARK: Users
-    
-//    func signIn(email: String, password: String) {
-//        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-//          guard let strongSelf = self else { return }
-//          // ...
-//        }
-//    }
 }
