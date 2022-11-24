@@ -25,6 +25,7 @@ struct UserService {
         let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
         changeRequest?.displayName = displayName
         changeRequest?.commitChanges { error in
+            print("ERROR")
             print(error)
         }
     }

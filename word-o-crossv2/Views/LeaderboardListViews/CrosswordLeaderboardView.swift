@@ -48,7 +48,9 @@ struct CrosswordLeaderboardView: View {
                                         HStack {
                                             Text(String(i + 1) + ". " + userName)
                                                 .font(.caption)
-                                            if (userService.getCurrentUser() != nil && userService.getCurrentUser()!.displayName! == userName) {
+                                            if (userService.getCurrentUser() != nil
+                                                && userService.getCurrentUser()!.displayName != nil
+                                                && userService.getCurrentUser()!.displayName! == userName) {
                                                 Text(Image(systemName: "hands.clap"))
                                                     .font(.caption)
                                                     .foregroundColor(.green)

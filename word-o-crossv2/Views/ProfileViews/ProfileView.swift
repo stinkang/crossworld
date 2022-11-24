@@ -8,14 +8,26 @@
 import SwiftUI
 
 struct ProfileView: View {
+    
     @ObservedObject var viewModel: LobbyViewModel
+    @State var isShowingMakeXWordView = false
+    
     var userService = UserService()
     var body: some View {
-        Button(action: {
-            userService.signOut()
-            viewModel.userModel = nil
-        }) {
-            Text("Sign Out")
+        VStack {
+            Button(action: {
+                userService.signOut()
+                viewModel.userModel = nil
+            }) {
+                Text("Sign Out")
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: MakeXWordStartView(), isActive: $isShowingMakeXWordView) {
+                    Image(systemName: "square.and.pencil")
+                }
+            }
         }
     }
 }

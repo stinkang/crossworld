@@ -32,37 +32,6 @@ struct XWordViewToolbar: View {
                         .overlay(
                             Text(xWordViewModel.clue)
                                 .foregroundColor(.squareBackground2))
-    //                    .overlay(
-    //                        VStack {
-    //                            if xWordViewModel.acrossFocused {
-    //                                Text("ACROSS")
-    //                                .font(.caption)
-    //                                .foregroundColor(.correctGreen)
-    //                                .italic()
-    //                            } else {
-    //                                VStack(spacing: 0) {
-    //                                    Text("D")
-    //                                        .font(.caption)
-    //                                        .foregroundColor(.correctGreen)
-    //                                        .italic()
-    //                                    Text("O")
-    //                                        .font(.caption)
-    //                                        .foregroundColor(.correctGreen)
-    //                                        .italic()
-    //                                    Text("W")
-    //                                        .font(.caption)
-    //                                        .foregroundColor(.correctGreen)
-    //                                        .italic()
-    //                                    Text("N")
-    //                                        .font(.caption)
-    //                                        .foregroundColor(.correctGreen)
-    //                                        .italic()
-    //                                }
-    //                            }
-    //                        }
-    //                            .padding(.horizontal, 3)
-    //                            .padding(.vertical, 1)
-    //                        , alignment: .topLeading)
                 } // end of Button
                 .frame(maxWidth: .infinity) // << default center !!
                 Button(action: {

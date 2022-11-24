@@ -18,7 +18,7 @@ struct FirebaseService {
     }
     
     func getCrosswordLeaderboard(leaderboardId: String, completion: @escaping(CrosswordLeaderboard) -> Void) {
-        let ref = Firestore.firestore().collection("crosswordLeaderboardsTest").document(leaderboardId)
+        let ref = Firestore.firestore().collection("crosswordLeaderboards").document(leaderboardId)
         ref.getDocument { (document, error) in
             if let document = document, document.exists {
                 let data = try? document.data(as: CrosswordLeaderboard.self)
@@ -48,7 +48,7 @@ struct FirebaseService {
                 "crossword": crosswordData!,
                 "scores": scores
             ] as [String : Any]
-            let ref = Firestore.firestore().collection("crosswordLeaderboardsTest").document()
+            let ref = Firestore.firestore().collection("crosswordLeaderboards").document()
 
             ref.setData(data) { _ in print("DEBUG: Did upload crossword leederbort") }
             crosswordData!["leaderboardId"] = ref.documentID
@@ -64,7 +64,7 @@ struct FirebaseService {
     
     func updateCrosswordLeaderboard(leaderboardId: String, userName: String, score: Int64) -> String {
 
-        let ref = Firestore.firestore().collection("crosswordLeaderboardsTest").document(leaderboardId)
+        let ref = Firestore.firestore().collection("crosswordLeaderboards").document(leaderboardId)
         ref.getDocument { (document, error) in
             if let document = document, document.exists {
                 var scores: [Any] = document.data()!["scores"] as! [Any]
@@ -97,7 +97,7 @@ struct FirebaseService {
     }
     
     func fetchCrosswordLeaderboards(completion: @escaping([CrosswordLeaderboard]) -> Void) {
-        Firestore.firestore().collection("crosswordLeaderboardsTest").getDocuments { snapshot, _ in
+        Firestore.firestore().collection("crosswordLeaderboards").getDocuments { snapshot, _ in
             guard let documents = snapshot?.documents else { return }
             
 //            do {

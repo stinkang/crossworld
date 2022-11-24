@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ChangeDisplayNameView: View {
+    @ObservedObject var viewModel: LobbyViewModel
     @State private var displayName: String = ""
     let userService = UserService()
     
@@ -15,16 +16,17 @@ struct ChangeDisplayNameView: View {
         VStack {
             Text("Enter a display name:")
             TextField("", text: $displayName)
+                .multilineTextAlignment(.center)
                 .onSubmit {
                     userService.updateDisplayName(displayName: displayName)
-                    print("new displayname: \(userService.getCurrentUserModel()?.displayName!)")
+                    viewModel.userModel!.displayName = displayName
                 }
         }
     }
 }
 
-struct ChangeDisplayNameView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChangeDisplayNameView()
-    }
-}
+//struct ChangeDisplayNameView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        //ChangeDisplayNameView()
+//    }
+//}

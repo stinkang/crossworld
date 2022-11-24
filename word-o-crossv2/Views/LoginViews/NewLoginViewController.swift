@@ -53,7 +53,7 @@ class NewLoginViewController: UIViewController {
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
         button.widthAnchor.constraint(equalToConstant: 300).isActive = true
         button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        button.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
+        button.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
 
     }
     

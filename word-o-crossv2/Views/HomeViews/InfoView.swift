@@ -14,11 +14,9 @@ struct InfoView: View {
                 Text("Welcome to CrossWorld!")
                     .font(.title)
                      
-                Text("CrossWorld! is a collaborative, competitive app made for crossword enthusiasts by a (budding) crossword enthusiast.")
-
-                Text("You can work on crosswords individually and try to place on the leaderboards, or team up with a friend and place on the leaderboards together!")
+                Text("CrossWorld! is an app made for crossword enthusiasts by a crossword enthusiast.")
                 
-                Text("Get new crosswords to do by either uploading them yourself, having a friend send them to you, or pulling them straight from the leaderboards from the CrossWorld! community.")
+                Text("Get new crosswords to do by either uploading them yourself or pulling them straight from the leaderboards from the CrossWorld! community.")
                 
                 Group {
                     Text("Uploading Crosswords")
@@ -46,10 +44,13 @@ struct InfoView: View {
                     Group {
                         Text("- Tap on the board to navigate to a square")
                         Text("- Tap on the clue or on the current square to change orientation")
-                        Text("- Tap to the right of the clue to get to the next clue")
-                        Text("- Tap to the left of the clue to get to the previous square (will be previous clue soon)")
+                        Text("- Tap the ") + Text(Image(systemName: "chevron.forward.2")) + Text("/") + Text(Image(systemName: "chevron.backward.2")) + Text(" button to go to the next/previous clue")
+                        Text("- Tap the ") + Text(Image(systemName: "chevron.forward")) + Text("/") + Text(Image(systemName: "chevron.backward")) + Text(" button to go to the next/previous square (if you're currently looking at DOWN clues these buttons will be ") + Text(Image(systemName: "chevron.up")) + Text("/") + Text(Image(systemName: "chevron.down")) + Text(")!")
+                        Text("- Tap the ") + Text(Image(systemName: "pencil")).foregroundColor(.red) + Text(" button to overwrite squares in current word (otherwise filled-in squares will be skipped by default).")
+                        Text("- Type \"😥\" to reveal the incorrect squares")
                     }
                     .padding(.leading, 10)
+                    
                 }
                 
                 Group {
