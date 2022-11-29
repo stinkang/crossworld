@@ -1,24 +1,23 @@
 //
-//  CrosswordListView.swift
+//  MakeCrosswordListView.swift
 //  word_o_crossv2
 //
-//  Created by Austin Kang on 3/9/22.
+//  Created by Austin Kang on 11/28/22.
 //
 
 import SwiftUI
 import GameKit
 import CoreData
 
-struct CrosswordListView: View {
-    @Binding var crossword: Crossword
+struct MakeCrosswordListView: View {
+    @Binding var makeCrossword: MakeCrossword
     @Binding var showArchive: Bool
-    @Binding var shouldSendCrosswordData: Bool
     @FetchRequest(
-      entity: CrosswordModel.entity(),
+      entity: MakeCrosswordModel.entity(),
       sortDescriptors: [
-        NSSortDescriptor(keyPath: \CrosswordModel.lastAccessed, ascending: false)
+        NSSortDescriptor(keyPath: \MakeCrosswordModel.date, ascending: false)
       ]
-    ) var crosswords: FetchedResults<CrosswordModel>
+    ) var makeCrosswords: FetchedResults<MakeCrosswordModel>
     
     @Environment(\.managedObjectContext) var managedObjectContext
     
@@ -28,18 +27,17 @@ struct CrosswordListView: View {
     var body: some View {
         VStack {
             List {
-                Section(header: Text("My Crosswords")) {
-                    ForEach(crosswords, id: \.title) {
-                        CrosswordListRow(
-                            crosswordModel: $0,
-                            chosenCrossword: $crossword,
-                            showArchive: $showArchive,
-                            shouldSendCrosswordData: $shouldSendCrosswordData
+                Section(header: Text("My MakeCrosswords")) {
+                    ForEach(makeCrosswords, id: \.title) {
+                        MakeCrosswordListRow(
+                            makeCrosswordModel: $0,
+                            chosenMakeCrossword: $makeCrossword,
+                            showArchive: $showArchive
                         )
                     }
-                    .onDelete(perform: deleteCrossword)
+                    .onDelete(perform: deleteMakeCrossword)
                     .id(refreshID)
-                    .onReceive(self.didSave) { _ in   //the listener
+                    .onReceive(self.didSave) { _ in   // the listener
                         self.refreshID = UUID()
                         print("generated a new UUID")
                     }
@@ -48,14 +46,13 @@ struct CrosswordListView: View {
         }
     }
     
-    func deleteCrossword(at offsets: IndexSet) {
+    func deleteMakeCrossword(at offsets: IndexSet) {
       // 1
       offsets.forEach { index in
         // 2
-        let crossword = self.crosswords[index]
+        let makeCrossword = self.makeCrosswords[index]
         // 3
-        self.managedObjectContext.delete(crossword)
-          
+        self.managedObjectContext.delete(makeCrossword)
       }
       // 4
       saveContext()

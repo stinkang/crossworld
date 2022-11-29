@@ -10,6 +10,10 @@ import SwiftUI
 struct MakeXWordView: View {
     @StateObject var viewModel: MakeXWordViewModel
     @State var isShowingInfoView = false
+    @StateObject var appState: AppState
+    @Environment(\.managedObjectContext) var managedObjectContext
+    let userService = UserService()
+    let persistenceController = PersistenceController.shared
     
     var boxWidth: CGFloat {
         return (UIScreen.screenWidth-5)/CGFloat(viewModel.cols)
@@ -42,8 +46,9 @@ struct MakeXWordView: View {
         )
     }
 
-    init(cols: Int) {
-        _viewModel = StateObject(wrappedValue: MakeXWordViewModel(cols: cols))
+    init(makeCrossword: MakeCrossword) {
+        _viewModel = StateObject(wrappedValue: MakeXWordViewModel(makeCrossword: makeCrossword))
+        _appState = StateObject(wrappedValue: AppState())
     }
 
     var body: some View {
@@ -72,22 +77,7 @@ struct MakeXWordView: View {
                     Button(action: {
                         viewModel.changeEditGridMode(to: !viewModel.editGridMode)
                     }) {
-                        Image(systemName: viewModel.editGridMode ? "rectangle.and.pencil.and.ellipsis" : "square.grid.3x3.square")
-                    }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        print("button pressed")
-                    }) {
-                        Image(systemName: "plus.bubble")
-                    }
-
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        print("button pressed")
-                    }) {
-                        Image(systemName: "pencil")
+                        Image(systemName: viewModel.editGridMode ? "square.grid.3x3.square" : "rectangle.and.pencil.and.ellipsis")
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -99,11 +89,29 @@ struct MakeXWordView: View {
             MakeXWordPermanentKeyboard(text: selectedInputBinding)
         }
         .environmentObject(viewModel)
+        .onChange(of: appState.isActive, perform: { _ in
+            saveCrossword()
+        })
+        .onWillDisappear {
+            saveCrossword()
+        }
+    }
+    
+    func saveCrossword() {
+        let newCrossword = MakeCrosswordModel(context: managedObjectContext)
+        newCrossword.cols = Int32(viewModel.cols)
+        newCrossword.author = userService.getCurrentUser()?.displayName
+        newCrossword.date = Date()
+        newCrossword.lastAccessed = Date()
+        newCrossword.notes = viewModel.notes
+        newCrossword.title = viewModel.title
+        newCrossword.grid = viewModel.getGrid()
+        persistenceController.save()
     }
 }
 
-struct MakeXWordView_Previews: PreviewProvider {
-    static var previews: some View {
-        MakeXWordView(cols: 3)
-    }
-}
+//struct MakeXWordView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MakeXWordView(cols: 3)
+//    }
+//}

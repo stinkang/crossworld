@@ -30,11 +30,11 @@ struct PersistenceController {
     }()
 
     // An initializer to load Core Data, optionally able
-    // to use an in-memory store.
+    // to use an in-memory store./
     init(inMemory: Bool = false) {
         // If you didn't name your model Main you'll need
         // to change this name below.
-        container = NSPersistentContainer(name: "CrosswordModel")
+        container = NSPersistentContainer(name: "Crossworld")
         
         //container.viewContext.mergePolicy = NSMergePolicy(merge: .overwriteMergePolicyType)
 

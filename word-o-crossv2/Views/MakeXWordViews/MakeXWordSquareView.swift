@@ -33,14 +33,20 @@ struct MakeXWordSquareView: View {
                 .foregroundColor(.black)
                 .font(Font.custom("Helvetica", size: boxWidth))
             if (viewModel.clueNumber != 0) {
-                VStack {
-                    Spacer().frame(height: 2)
-                    HStack {
-                        Spacer().frame(width: 3)
-                        Text(String(viewModel.clueNumber))
-                            .font(Font.custom("Helvetica", size: boxWidth / 3))
-                            .frame(width: boxWidth / 2, height: boxWidth / 3, alignment: .topLeading)
-                            .foregroundColor(.black)
+                ZStack(alignment: .topLeading) {
+                    Rectangle()
+                        .frame(width: boxWidth, height: boxWidth, alignment: .center)
+                        .border(.black)
+                        .foregroundColor(.clear)
+                    VStack {
+                        Spacer().frame(height: 2)
+                        HStack {
+                            Spacer().frame(width: 3)
+                            Text(String(viewModel.clueNumber))
+                                .font(Font.custom("Helvetica", size: boxWidth / 3))
+                                .frame(width: boxWidth / 2, height: boxWidth / 3, alignment: .topLeading)
+                                .foregroundColor(.black)
+                        }
                     }
                 }
             }
@@ -49,7 +55,15 @@ struct MakeXWordSquareView: View {
             if makeXWordViewModel.editGridMode {
                 viewModel.isWhite = !viewModel.isWhite
                 viewModel.currentText = ""
-                makeXWordViewModel.squareModels[(makeXWordViewModel.size - 1) - index].isWhite = !makeXWordViewModel.squareModels[(makeXWordViewModel.size - 1) - index].isWhite
+                let oppositeIndex = (makeXWordViewModel.size - 1) - index
+                if oppositeIndex != index {
+                    makeXWordViewModel.squareModels[oppositeIndex].isWhite = !makeXWordViewModel.squareModels[oppositeIndex].isWhite
+                }
+                // for each square affected, add the clue index it corresponds to to the set of clues to erase
+                makeXWordViewModel.affectedAcrossClueIndexes.insert(makeXWordViewModel.squareModels[index].acrossClueIndex)
+                makeXWordViewModel.affectedAcrossClueIndexes.insert(makeXWordViewModel.squareModels[oppositeIndex].acrossClueIndex)
+                makeXWordViewModel.affectedDownClueIndexes.insert(makeXWordViewModel.squareModels[index].downClueIndex)
+                makeXWordViewModel.affectedDownClueIndexes.insert(makeXWordViewModel.squareModels[oppositeIndex].downClueIndex)
             } else {
                 if viewModel.isWhite {
                     if (viewModel.squareState == .focused) {
@@ -66,8 +80,8 @@ struct MakeXWordSquareView: View {
     }
 }
 
-struct MakeXWordSquareView_Previews: PreviewProvider {
-    static var previews: some View {
-        MakeXWordSquareView(boxWidth: 25, index: 0, makeXWordViewModel: MakeXWordViewModel(cols: 3))
-    }
-}
+//struct MakeXWordSquareView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MakeXWordSquareView(boxWidth: 25, index: 0, makeXWordViewModel: MakeXWordViewModel(cols: 3))
+//    }
+//}

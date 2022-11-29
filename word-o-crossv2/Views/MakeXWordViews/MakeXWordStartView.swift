@@ -19,7 +19,9 @@ struct MakeXWordStartView: View {
             TextField("Title", text: $title)
             TextField("Author", text: $author)
             TextField("Width", value: $cols, format: .number)
-            NavigationLink(destination: MakeXWordView(cols: cols), isActive: $isShowingMakeXWordView) {
+            NavigationLink(destination: MakeXWordView(makeCrossword: MakeCrossword(
+                title: title, author: author, cols: cols
+            )), isActive: $isShowingMakeXWordView) {
                 Text("Start")
             }
         }

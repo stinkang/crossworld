@@ -8,6 +8,9 @@
 import Foundation
 
 class MakeXWordViewModel: ObservableObject {
+    @Published var title: String = ""
+    @Published var author: String = ""
+    @Published var notes: String = ""
     @Published var cols: Int
     //@Published var grid: [String]
     @Published var editGridMode = true
@@ -17,6 +20,9 @@ class MakeXWordViewModel: ObservableObject {
     @Published var indexToAcrossCluesMap = Dictionary<Int, String>()
     @Published var indexToDownCluesMap = Dictionary<Int, String>()
     var clueText = ""
+    var affectedAcrossClueIndexes: Set<Int> = []
+    var affectedDownClueIndexes: Set<Int> = []
+    var grid: [String]
     
     var size: Int {
         get {
@@ -27,14 +33,25 @@ class MakeXWordViewModel: ObservableObject {
     var previousFocusedIndex: Int
     var squareModels: [MakeXWordSquareViewModel]
     
-    init(cols: Int) {
-        self.cols = cols
-        //self.grid = ["X", "X", "X", "X", "X", "X", "X", "X", "X"]
+    init(makeCrossword: MakeCrossword) {
+        self.cols = makeCrossword.cols
+        self.grid = makeCrossword.grid
         self.focusedIndex = 0
         self.previousFocusedIndex = 0
         squareModels = []
         (0...(cols * cols) - 1).forEach { index in
-            squareModels.append(MakeXWordSquareViewModel(acrossClue: "", downClue: "", answerText: ""))
+            indexToAcrossCluesMap[index] = ""
+            indexToDownCluesMap[index] = ""
+            squareModels.append(MakeXWordSquareViewModel(
+                answerText: "",
+                isWhite: makeCrossword.grid[index] == "." ? false : true,
+                currentText: makeCrossword.grid[index] == "." ? "" : makeCrossword.grid[index]
+            ))
+        }
+        
+        (0...cols).forEach { clueIndex in
+            affectedDownClueIndexes.insert(clueIndex)
+            affectedAcrossClueIndexes.insert(clueIndex * cols)
         }
         numberSquares()
     }
@@ -328,23 +345,28 @@ class MakeXWordViewModel: ObservableObject {
     }
     
     func numberSquares() {
-        
-        // not ideal
-        indexToDownCluesMap.removeAll()
-        indexToAcrossCluesMap.removeAll()
-        
-        var startingIndex = cols*cols - 1
-        while (!squareModels[startingIndex].isWhite) {
-            startingIndex -= 1
+                
+        // erase current text if it was affected
+        if acrossFocused && affectedAcrossClueIndexes.contains(squareModels[focusedIndex].acrossClueIndex)
+            || !acrossFocused && affectedDownClueIndexes.contains(squareModels[focusedIndex].downClueIndex) {
+            clueText = ""
         }
-        var index = min(getNextAcrossClueSquare(from: startingIndex), getNextDownClueSquareFromCurrentPoint(from: startingIndex))
+        
+        // erase all previous clue numbers
+        for i in 0...cols*cols - 1 { squareModels[i].clueNumber = 0 }
+        
+        // initialize starting index to the last word so that we can call getNext____ClueSquare() in the while loop and start at the first clue index
+        var index = cols*cols - 1
+        while (!squareModels[index].isWhite) { index -= 1 }
+        let nextAcrossClueSquare = getNextAcrossClueSquare(from: index)
+        let nextDownClueSquare = getNextDownClueSquareFromCurrentPoint(from: index)
+        index = min(nextDownClueSquare, nextAcrossClueSquare)
         var clueNumber = 1
-        for i in 0...cols*cols - 1 {
-            squareModels[i].clueNumber = 0
-        }
+        
         while squareModels[index].clueNumber == 0 {
             squareModels[index].clueNumber = clueNumber
             clueNumber += 1
+            
             let nextAcrossClueSquare = getNextAcrossClueSquare(from: index)
             let nextDownClueSquare = getNextDownClueSquareFromCurrentPoint(from: index)
             if squareModels[nextAcrossClueSquare].clueNumber != 0 {
@@ -357,24 +379,50 @@ class MakeXWordViewModel: ObservableObject {
             
             if index == nextDownClueSquare {
                 var downClueSettingIndex = index
+                
+                // set all squares that correspond to this clue to this index
                 while (downClueSettingIndex <= size - 1 && squareModels[downClueSettingIndex].isWhite) {
                     squareModels[downClueSettingIndex].downClueIndex = index
                     downClueSettingIndex+=cols
                 }
-                indexToDownCluesMap[index] = ""
             }
             
             if index == nextAcrossClueSquare {
                 var acrossClueSettingIndex = index
                 squareModels[acrossClueSettingIndex].acrossClueIndex = index
                 acrossClueSettingIndex+=1
+                
+                // set all squares that correspond to this clue to this index
                 while (acrossClueSettingIndex % cols != 0 && squareModels[acrossClueSettingIndex].isWhite) {
                     squareModels[acrossClueSettingIndex].acrossClueIndex = index
                     acrossClueSettingIndex+=1
                 }
-                indexToAcrossCluesMap[index] = ""
             }
         }
+        
+        for affectedIndex in affectedAcrossClueIndexes {
+            indexToAcrossCluesMap[affectedIndex] = ""
+        }
+        for affectedIndex in affectedDownClueIndexes {
+            indexToDownCluesMap[affectedIndex] = ""
+        }
+        
+        affectedAcrossClueIndexes.removeAll()
+        affectedDownClueIndexes.removeAll()
+        
+        
+        // undo all highlighting
+        for squareModel in squareModels {
+            squareModel.squareState = .unfocused
+        }
+    }
+    
+    func getGrid() -> [String] {
+        var grid: [String] = []
+        for squareModel in squareModels {
+            grid.append(squareModel.isWhite ? squareModel.currentText : ".")
+        }
+        return grid
     }
 
 }

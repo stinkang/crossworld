@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G5023d" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="21G115" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CrosswordModel" representedClassName="CrosswordModel" syncable="YES" codeGenerationType="class">
         <attribute name="acrossanswers" optional="YES" attributeType="Transformable" customClassName="[String]"/>
         <attribute name="acrossclues" optional="YES" attributeType="Transformable" customClassName="[String]"/>
@@ -31,7 +31,14 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="uniclue" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
-    <elements>
-        <element name="CrosswordModel" positionX="-54" positionY="-9" width="128" height="464"/>
-    </elements>
+    <entity name="MakeCrosswordModel" representedClassName="MakeCrosswordModel" syncable="YES" codeGenerationType="class">
+        <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="clues" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="cols" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="grid" optional="YES" attributeType="Transformable" customClassName="[String]"/>
+        <attribute name="lastAccessed" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
 </model>
