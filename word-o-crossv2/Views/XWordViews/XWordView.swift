@@ -269,7 +269,7 @@ struct XWordView: View {
         } catch {
             print("Fetch Failed: \(error)")
         }
-
+ 
         newCrossword.title = crossword.title
         newCrossword.author = crossword.author
         newCrossword.editor = crossword.editor

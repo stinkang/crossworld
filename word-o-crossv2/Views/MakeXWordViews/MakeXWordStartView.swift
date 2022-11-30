@@ -9,21 +9,31 @@ import SwiftUI
 
 struct MakeXWordStartView: View {
     @State var title = ""
-    @State var author = ""
     @State var date = Date()
     @State var cols = 5
     @State var isShowingMakeXWordView = false
+    var makeCrossword: Binding<MakeCrossword> { Binding<MakeCrossword>(
+        get: { MakeCrossword(title: title, author: "", cols: cols, grid: [String](repeating: "", count: cols*cols))},
+        set: { $0 }
+        )
+    }
     
     var body: some View {
         VStack {
+            Spacer()
+            Text("New Crossword").font(.title)
+            Spacer()
+            Text("Title:")
             TextField("Title", text: $title)
-            TextField("Author", text: $author)
+                .multilineTextAlignment(.center)
+            Text("Width:")
             TextField("Width", value: $cols, format: .number)
-            NavigationLink(destination: MakeXWordView(makeCrossword: MakeCrossword(
-                title: title, author: author, cols: cols
-            )), isActive: $isShowingMakeXWordView) {
+                .multilineTextAlignment(.center)
+            Spacer()
+            NavigationLink(destination: MakeXWordView(makeCrossword: makeCrossword.wrappedValue), isActive: $isShowingMakeXWordView) {
                 Text("Start")
             }
+            Spacer()
         }
     }
 }

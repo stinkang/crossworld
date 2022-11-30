@@ -10,14 +10,13 @@ import SwiftUI
 struct MakeXWordInfoView: View {
     @ObservedObject var viewModel: MakeXWordViewModel
     @State var title = ""
-    @State var author = ""
-    @State var date = Date()
     
     var body: some View {
         VStack {
             TextField("Title", text: $title)
-            TextField("Author", text: $author)
+                .multilineTextAlignment(.center)
             Button("Save", action: {
+                viewModel.title = title
             })
         }
     }

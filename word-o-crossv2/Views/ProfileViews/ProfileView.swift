@@ -9,31 +9,65 @@ import SwiftUI
 
 struct ProfileView: View {
     
+    func deleteMakeCrossword(at offsets: IndexSet) {
+      // 1
+      offsets.forEach { index in
+        // 2
+        let makeCrosswordModel = self.makeCrosswordModels[index]
+        // 3
+        self.managedObjectContext.delete(makeCrosswordModel)
+      }
+      // 4
+      saveContext()
+    }
+
+    func saveContext() {
+      do {
+        try managedObjectContext.save()
+      } catch {
+        print("Error saving managed object context: \(error)")
+      }
+    }
+    
     @ObservedObject var viewModel: LobbyViewModel
     @State var isShowingMakeXWordView = false
     @State var isShowingMakeNewXWordView = false
     @State var isShowingSettingsView = false
     @State private var showDrafts = false
-    @State var makeCrossword = MakeCrossword()
+    @State private var showArchive = false
+    @State var makeCrosswordModel = MakeCrosswordModel()
+
+    @FetchRequest(
+      entity: MakeCrosswordModel.entity(),
+      sortDescriptors: [
+        NSSortDescriptor(keyPath: \MakeCrosswordModel.date, ascending: false)
+      ]
+    ) var makeCrosswordModels: FetchedResults<MakeCrosswordModel>
     
+    @Environment(\.managedObjectContext) var managedObjectContext
+    
+    var didSave = NotificationCenter.default.publisher(for: .NSManagedObjectContextDidSave)
+    @State var refreshID = UUID()
     var userService = UserService()
+    
     var body: some View {
         VStack {
-
-            Spacer()
-            NavigationLink(destination:
-                MakeXWordView(
-                    makeCrossword: makeCrossword
-                ), isActive: $isShowingMakeXWordView) {
-                    Text("Continue Drafting Crossword")
-                        .foregroundColor(.white)
-                        .frame(width: 150, height: 40)
-                        .background(makeCrossword.title == "" ? Color.gray : Color.green)
-                        .cornerRadius(15)
-                        .padding(.trailing, 10)
-                        .padding(.bottom, 10)
+            List {
+                Section(header: Text("My Drafts")) {
+                    ForEach(makeCrosswordModels, id: \.lastAccessed) {
+                      MakeCrosswordListRow(
+                        makeCrosswordModel: $0,
+                        chosenMakeCrosswordModel: $makeCrosswordModel,
+                        showArchive: $showArchive)
+                    }
+                    .onDelete(perform: deleteMakeCrossword)
+                    .id(refreshID)
+                    .onReceive(self.didSave) { _ in   // the listener
+                        self.refreshID = UUID()
+                        print("generated a new UUID")
+                    }
+                }
             }
-            //.disabled(makeCrossword.title == "")
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -45,24 +79,17 @@ struct ProfileView: View {
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    showDrafts = true
-                }) {
-                    HStack {
-                        Text("Drafts")
-                        Image(systemName: "square.3.layers.3d.down.right")
-                    }
-                }
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink(destination: ProfileSettingsView(viewModel: viewModel), isActive: $isShowingSettingsView) {
                     Image(systemName: "gearshape")
                 }
             }
         }
+//        .onChange(of: makeCrosswordModel, perform: { _ in
+//            makeCrossword = MakeCrossword(makeCrosswordModel: makeCrosswordModel)
+//        })
         .sheet(isPresented: self.$showDrafts) {
             MakeCrosswordListView(
-                makeCrossword: $makeCrossword,
+                makeCrosswordModel: $makeCrosswordModel,
                 showArchive: $showDrafts
             )
         }

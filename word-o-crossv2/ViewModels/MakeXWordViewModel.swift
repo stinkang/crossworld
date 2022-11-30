@@ -13,7 +13,7 @@ class MakeXWordViewModel: ObservableObject {
     @Published var notes: String = ""
     @Published var cols: Int
     //@Published var grid: [String]
-    @Published var editGridMode = true
+    @Published var editGridMode = false
     @Published var focusedIndex: Int
     @Published var acrossFocused = true
     @Published var editClueTapped = false
@@ -23,6 +23,8 @@ class MakeXWordViewModel: ObservableObject {
     var affectedAcrossClueIndexes: Set<Int> = []
     var affectedDownClueIndexes: Set<Int> = []
     var grid: [String]
+    var acrossCluesCount: Int = 0
+    var downCluesCount: Int = 0
     
     var size: Int {
         get {
@@ -34,14 +36,26 @@ class MakeXWordViewModel: ObservableObject {
     var squareModels: [MakeXWordSquareViewModel]
     
     init(makeCrossword: MakeCrossword) {
+        self.author = makeCrossword.author
+        self.title = makeCrossword.title
+        self.notes = makeCrossword.notes
         self.cols = makeCrossword.cols
         self.grid = makeCrossword.grid
         self.focusedIndex = 0
         self.previousFocusedIndex = 0
         squareModels = []
+        if makeCrossword.indexToDownCluesMap.isEmpty {
+            (0...(cols * cols) - 1).forEach { index in
+                indexToAcrossCluesMap[index] = ""
+                indexToDownCluesMap[index] = ""
+            }
+        } else {
+            indexToDownCluesMap = makeCrossword.indexToDownCluesMap
+            indexToAcrossCluesMap = makeCrossword.indexToAcrossCluesMap
+            self.clueText = indexToAcrossCluesMap[0]!
+        }
+        
         (0...(cols * cols) - 1).forEach { index in
-            indexToAcrossCluesMap[index] = ""
-            indexToDownCluesMap[index] = ""
             squareModels.append(MakeXWordSquareViewModel(
                 answerText: "",
                 isWhite: makeCrossword.grid[index] == "." ? false : true,
@@ -49,10 +63,10 @@ class MakeXWordViewModel: ObservableObject {
             ))
         }
         
-        (0...cols).forEach { clueIndex in
-            affectedDownClueIndexes.insert(clueIndex)
-            affectedAcrossClueIndexes.insert(clueIndex * cols)
-        }
+//        (0...cols).forEach { clueIndex in
+//            affectedDownClueIndexes.insert(clueIndex)
+//            affectedAcrossClueIndexes.insert(clueIndex * cols)
+//        }
         numberSquares()
     }
     
@@ -345,12 +359,13 @@ class MakeXWordViewModel: ObservableObject {
     }
     
     func numberSquares() {
-                
         // erase current text if it was affected
         if acrossFocused && affectedAcrossClueIndexes.contains(squareModels[focusedIndex].acrossClueIndex)
             || !acrossFocused && affectedDownClueIndexes.contains(squareModels[focusedIndex].downClueIndex) {
             clueText = ""
         }
+        downCluesCount = 0
+        acrossCluesCount = 0
         
         // erase all previous clue numbers
         for i in 0...cols*cols - 1 { squareModels[i].clueNumber = 0 }
@@ -385,6 +400,7 @@ class MakeXWordViewModel: ObservableObject {
                     squareModels[downClueSettingIndex].downClueIndex = index
                     downClueSettingIndex+=cols
                 }
+                downCluesCount += 1
             }
             
             if index == nextAcrossClueSquare {
@@ -397,6 +413,7 @@ class MakeXWordViewModel: ObservableObject {
                     squareModels[acrossClueSettingIndex].acrossClueIndex = index
                     acrossClueSettingIndex+=1
                 }
+                acrossCluesCount += 1
             }
         }
         
@@ -423,6 +440,29 @@ class MakeXWordViewModel: ObservableObject {
             grid.append(squareModel.isWhite ? squareModel.currentText : ".")
         }
         return grid
+    }
+    
+    func getPercentageComplete() -> Float {
+        let totalCluesNeeded = acrossCluesCount + downCluesCount
+        var totalSquaresNeeded = 0
+        var totalCluesFilled = 0
+        var totalSquaresFilled = 0
+        for i in (0...cols * cols - 1) {
+            if indexToAcrossCluesMap[i] != "" && indexToAcrossCluesMap[i] != "." {
+                totalCluesFilled += 1
+            }
+            if indexToDownCluesMap[i] != "" && indexToDownCluesMap[i] != "." {
+                totalCluesFilled += 1
+            }
+            if squareModels[i].isWhite {
+                totalSquaresNeeded += 1
+                if squareModels[i].currentText != "" {
+                    totalSquaresFilled += 1
+                }
+            }
+        }
+        
+        return 100 * Float(totalCluesFilled + totalSquaresFilled) / Float(totalCluesNeeded + totalSquaresNeeded)
     }
 
 }

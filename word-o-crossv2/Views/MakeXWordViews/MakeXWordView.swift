@@ -10,10 +10,12 @@ import SwiftUI
 struct MakeXWordView: View {
     @StateObject var viewModel: MakeXWordViewModel
     @State var isShowingInfoView = false
+    @State var editGridModeOn = false
     @StateObject var appState: AppState
     @Environment(\.managedObjectContext) var managedObjectContext
     let userService = UserService()
     let persistenceController = PersistenceController.shared
+    var makeCrosswordModel: MakeCrosswordModel?
     
     var boxWidth: CGFloat {
         return (UIScreen.screenWidth-5)/CGFloat(viewModel.cols)
@@ -50,6 +52,11 @@ struct MakeXWordView: View {
         _viewModel = StateObject(wrappedValue: MakeXWordViewModel(makeCrossword: makeCrossword))
         _appState = StateObject(wrappedValue: AppState())
     }
+    init(makeCrossword: MakeCrossword, makeCrosswordModel: MakeCrosswordModel) {
+        _viewModel = StateObject(wrappedValue: MakeXWordViewModel(makeCrossword: makeCrossword))
+        _appState = StateObject(wrappedValue: AppState())
+        self.makeCrosswordModel = makeCrosswordModel
+    }
 
     var body: some View {
         ZStack {
@@ -74,11 +81,16 @@ struct MakeXWordView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        viewModel.changeEditGridMode(to: !viewModel.editGridMode)
-                    }) {
-                        Image(systemName: viewModel.editGridMode ? "square.grid.3x3.square" : "rectangle.and.pencil.and.ellipsis")
-                    }
+                    Toggle("Edit grid mode " + (editGridModeOn ? "on" : "off"), isOn: $editGridModeOn)
+                        .onChange(of: editGridModeOn) { value in
+                            viewModel.changeEditGridMode(to: !viewModel.editGridMode)
+                        }
+                        .toggleStyle(.switch)
+//                    Button(action: {
+//                        viewModel.changeEditGridMode(to: !viewModel.editGridMode)
+//                    }) {
+//                        Image(systemName: viewModel.editGridMode ? "square.grid.3x3.square" : "rectangle.and.pencil.and.ellipsis")
+//                    }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: MakeXWordInfoView(viewModel: viewModel), isActive: $isShowingInfoView) {
@@ -98,14 +110,23 @@ struct MakeXWordView: View {
     }
     
     func saveCrossword() {
-        let newCrossword = MakeCrosswordModel(context: managedObjectContext)
+        var newCrossword: MakeCrosswordModel
+        if makeCrosswordModel != nil {
+            newCrossword = makeCrosswordModel!
+        } else {
+            newCrossword = MakeCrosswordModel(context: managedObjectContext)
+        }
         newCrossword.cols = Int32(viewModel.cols)
         newCrossword.author = userService.getCurrentUser()?.displayName
         newCrossword.date = Date()
         newCrossword.lastAccessed = Date()
         newCrossword.notes = viewModel.notes
-        newCrossword.title = viewModel.title
+        newCrossword.title = viewModel.title != "" ? viewModel.title : "Untitled"
         newCrossword.grid = viewModel.getGrid()
+        newCrossword.indexToAcrossCluesMap = viewModel.indexToAcrossCluesMap
+        newCrossword.indexToDownCluesMap = viewModel.indexToDownCluesMap
+        newCrossword.percentageComplete = viewModel.getPercentageComplete()
+        
         persistenceController.save()
     }
 }

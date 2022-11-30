@@ -32,13 +32,16 @@
         <attribute name="uniclue" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
     <entity name="MakeCrosswordModel" representedClassName="MakeCrosswordModel" syncable="YES" codeGenerationType="class">
-        <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="author" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="clues" optional="YES" attributeType="Transformable" customClassName="[String]"/>
-        <attribute name="cols" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="cols" optional="YES" attributeType="Integer 32" defaultValueString="5" usesScalarValueType="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" defaultDateTimeInterval="691478340" usesScalarValueType="NO"/>
         <attribute name="grid" optional="YES" attributeType="Transformable" customClassName="[String]"/>
-        <attribute name="lastAccessed" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="notes" optional="YES" attributeType="String"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="indexToAcrossCluesMap" optional="YES" attributeType="Transformable" customClassName="Dictionary&lt;Int, String&gt;"/>
+        <attribute name="indexToDownCluesMap" optional="YES" attributeType="Transformable" customClassName="Dictionary&lt;Int, String&gt;"/>
+        <attribute name="lastAccessed" optional="YES" attributeType="Date" defaultDateTimeInterval="691478340" usesScalarValueType="NO"/>
+        <attribute name="notes" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="percentageComplete" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" defaultValueString=""/>
     </entity>
 </model>

@@ -15,10 +15,13 @@ struct MakeCrossword: Codable {
     var grid: [String]
     var notes: String
     var lastAccessed: Date
+    var indexToAcrossCluesMap: Dictionary<Int, String>
+    var indexToDownCluesMap: Dictionary<Int, String>
+    var percentageComplete: Float
     var crosswordId: String?
     
     enum OuterKeys: String, CodingKey {
-        case title, author, date, notes, cols, grid, crosswordId, lastAccessed
+        case title, author, date, notes, cols, grid, crosswordId, lastAccessed, percentageComplete
     }
     
     init(from decoder: Decoder) throws {
@@ -31,6 +34,9 @@ struct MakeCrossword: Codable {
         self.grid = try outerContainer.decode([String].self, forKey: .grid)
         self.notes = try outerContainer.decode(String.self, forKey: .notes)
         self.lastAccessed = try outerContainer.decode(Date.self, forKey: .lastAccessed)
+        self.indexToDownCluesMap = try outerContainer.decode(Dictionary<Int, String>.self, forKey: .lastAccessed)
+        self.indexToAcrossCluesMap = try outerContainer.decode(Dictionary<Int, String>.self, forKey: .lastAccessed)
+        self.percentageComplete = try outerContainer.decode(Float.self, forKey: .percentageComplete)
     }
     
     init(makeCrosswordModel: MakeCrosswordModel) {
@@ -41,6 +47,9 @@ struct MakeCrossword: Codable {
         self.cols = Int(makeCrosswordModel.cols)
         self.date = makeCrosswordModel.date!
         self.lastAccessed = makeCrosswordModel.lastAccessed!
+        self.indexToDownCluesMap = makeCrosswordModel.indexToDownCluesMap!
+        self.indexToAcrossCluesMap = makeCrosswordModel.indexToAcrossCluesMap!
+        self.percentageComplete = makeCrosswordModel.percentageComplete
     }
 
     init(title: String="Untitled", author: String="", date: Date=Date(), cols: Int=5, grid: [String]=[String](repeating: "", count: 25), notes: String="") {
@@ -51,6 +60,9 @@ struct MakeCrossword: Codable {
         self.grid = grid
         self.notes = notes
         self.lastAccessed = Date()
+        self.indexToAcrossCluesMap = Dictionary<Int, String>()
+        self.indexToDownCluesMap = Dictionary<Int, String>()
+        self.percentageComplete = 0.0
     }
 }
 

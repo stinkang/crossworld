@@ -10,14 +10,14 @@ import GameKit
 import CoreData
 
 struct MakeCrosswordListView: View {
-    @Binding var makeCrossword: MakeCrossword
+    @Binding var makeCrosswordModel: MakeCrosswordModel
     @Binding var showArchive: Bool
     @FetchRequest(
       entity: MakeCrosswordModel.entity(),
       sortDescriptors: [
         NSSortDescriptor(keyPath: \MakeCrosswordModel.date, ascending: false)
       ]
-    ) var makeCrosswords: FetchedResults<MakeCrosswordModel>
+    ) var makeCrosswordModels: FetchedResults<MakeCrosswordModel>
     
     @Environment(\.managedObjectContext) var managedObjectContext
     
@@ -27,11 +27,11 @@ struct MakeCrosswordListView: View {
     var body: some View {
         VStack {
             List {
-                Section(header: Text("My MakeCrosswords")) {
-                    ForEach(makeCrosswords, id: \.title) {
+                Section(header: Text("My Drafts")) {
+                    ForEach(makeCrosswordModels, id: \.lastAccessed) {
                         MakeCrosswordListRow(
                             makeCrosswordModel: $0,
-                            chosenMakeCrossword: $makeCrossword,
+                            chosenMakeCrosswordModel: $makeCrosswordModel,
                             showArchive: $showArchive
                         )
                     }
@@ -50,9 +50,9 @@ struct MakeCrosswordListView: View {
       // 1
       offsets.forEach { index in
         // 2
-        let makeCrossword = self.makeCrosswords[index]
+        let makeCrosswordModel = self.makeCrosswordModels[index]
         // 3
-        self.managedObjectContext.delete(makeCrossword)
+        self.managedObjectContext.delete(makeCrosswordModel)
       }
       // 4
       saveContext()
