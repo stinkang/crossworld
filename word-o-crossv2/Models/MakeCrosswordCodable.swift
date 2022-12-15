@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MakeCrossword: Codable {
+struct MakeCrosswordCodable: Codable {
     var title: String
     var author: String
     var date: Date
@@ -66,7 +66,7 @@ struct MakeCrossword: Codable {
     }
 }
 
-extension MakeCrossword {
+extension MakeCrosswordCodable {
     func encode() -> Data? {
         return try? JSONEncoder().encode(self)
     }

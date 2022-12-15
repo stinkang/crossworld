@@ -22,12 +22,12 @@ struct CrosswordLeaderboardView: View {
         VStack(alignment: .leading) {
             HStack {
                 VStack(alignment: .leading) {
-                    Text(crosswordLeaderboard.crossword.dow).textCase(.uppercase)
+                    //Text(crosswordLeaderboard.crossword.dow).textCase(.uppercase)
                     Text(crosswordLeaderboard.crossword.title)
                         .fixedSize(horizontal: false, vertical: true)
                     Text("By " + crosswordLeaderboard.crossword.author)
                         .font(.caption)
-                    Text("Edited by " + crosswordLeaderboard.crossword.editor)
+                    //Text("Edited by " + crosswordLeaderboard.crossword.editor)
                     Spacer()
                 }
                     //.frame(minWidth: 0, maxWidth: (UIScreen.screenWidth / 3) * 2)

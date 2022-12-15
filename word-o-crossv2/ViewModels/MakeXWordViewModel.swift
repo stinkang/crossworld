@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import CoreData
+import SwiftUI
 
 class MakeXWordViewModel: ObservableObject {
-    @Published var title: String = ""
+    var title: String = ""
     @Published var author: String = ""
     @Published var notes: String = ""
     @Published var cols: Int
@@ -17,25 +19,85 @@ class MakeXWordViewModel: ObservableObject {
     @Published var focusedIndex: Int
     @Published var acrossFocused = true
     @Published var editClueTapped = false
+    @Published var editGridModeOn = false
     @Published var indexToAcrossCluesMap = Dictionary<Int, String>()
     @Published var indexToDownCluesMap = Dictionary<Int, String>()
+    @Published var isShowingInfoView = false
+    
     var clueText = ""
     var affectedAcrossClueIndexes: Set<Int> = []
     var affectedDownClueIndexes: Set<Int> = []
     var grid: [String]
     var acrossCluesCount: Int = 0
     var downCluesCount: Int = 0
-    
-    var size: Int {
-        get {
-            cols * cols
-        }
-    }
-    
+    var size: Int { get { cols * cols } }
     var previousFocusedIndex: Int
     var squareModels: [MakeXWordSquareViewModel]
     
-    init(makeCrossword: MakeCrossword) {
+    let userService = UserService()
+    let persistenceController = PersistenceController.shared
+    var makeCrosswordModel: MakeCrosswordModel?
+    
+    var selectedInputBinding: Binding<String> {
+        Binding<String>(
+            get: {
+                if self.editClueTapped {
+                    if self.acrossFocused {
+                        return self.indexToAcrossCluesMap[self.squareModels[self.focusedIndex].acrossClueIndex]!
+                    } else {
+                        return self.indexToDownCluesMap[self.squareModels[self.focusedIndex].downClueIndex]!
+                    }
+                } else {
+                    return self.squareModels[self.focusedIndex].currentText
+                }
+            },
+            set: {
+                if self.editClueTapped {
+                    if self.acrossFocused {
+                        self.indexToAcrossCluesMap[self.squareModels[self.focusedIndex].acrossClueIndex] = $0
+                    } else {
+                        self.indexToDownCluesMap[self.squareModels[self.focusedIndex].downClueIndex] = $0
+                    }
+                } else {
+                    self.squareModels[self.focusedIndex].currentText = $0
+                }
+            }
+        )
+    }
+    
+    
+    init(makeCrosswordModel: MakeCrosswordModel) {
+        self.makeCrosswordModel = makeCrosswordModel
+        self.author = makeCrosswordModel.author ?? ""
+        self.title = makeCrosswordModel.title ?? ""
+        self.notes = makeCrosswordModel.notes ?? ""
+        self.cols = Int(makeCrosswordModel.cols)
+        self.grid = makeCrosswordModel.grid!
+        self.focusedIndex = 0
+        self.previousFocusedIndex = 0
+        squareModels = []
+        if makeCrosswordModel.indexToDownCluesMap!.isEmpty {
+            (0...(size) - 1).forEach { index in
+                indexToAcrossCluesMap[index] = ""
+                indexToDownCluesMap[index] = ""
+            }
+        } else {
+            indexToDownCluesMap = makeCrosswordModel.indexToDownCluesMap!
+            indexToAcrossCluesMap = makeCrosswordModel.indexToAcrossCluesMap!
+            self.clueText = indexToAcrossCluesMap[0]!
+        }
+        
+        (0...(size) - 1).forEach { index in
+            squareModels.append(MakeXWordSquareViewModel(
+                answerText: "",
+                isWhite: makeCrosswordModel.grid![index] == "." ? false : true,
+                currentText: makeCrosswordModel.grid![index] == "." ? "" : makeCrosswordModel.grid![index]
+            ))
+        }
+        numberSquares()
+    }
+    
+    init(makeCrossword: MakeCrosswordCodable) {
         self.author = makeCrossword.author
         self.title = makeCrossword.title
         self.notes = makeCrossword.notes
@@ -45,7 +107,7 @@ class MakeXWordViewModel: ObservableObject {
         self.previousFocusedIndex = 0
         squareModels = []
         if makeCrossword.indexToDownCluesMap.isEmpty {
-            (0...(cols * cols) - 1).forEach { index in
+            (0...(size) - 1).forEach { index in
                 indexToAcrossCluesMap[index] = ""
                 indexToDownCluesMap[index] = ""
             }
@@ -55,7 +117,7 @@ class MakeXWordViewModel: ObservableObject {
             self.clueText = indexToAcrossCluesMap[0]!
         }
         
-        (0...(cols * cols) - 1).forEach { index in
+        (0...(size) - 1).forEach { index in
             squareModels.append(MakeXWordSquareViewModel(
                 answerText: "",
                 isWhite: makeCrossword.grid[index] == "." ? false : true,
@@ -63,20 +125,20 @@ class MakeXWordViewModel: ObservableObject {
             ))
         }
         
-//        (0...cols).forEach { clueIndex in
-//            affectedDownClueIndexes.insert(clueIndex)
-//            affectedAcrossClueIndexes.insert(clueIndex * cols)
-//        }
+        //        (0...cols).forEach { clueIndex in
+        //            affectedDownClueIndexes.insert(clueIndex)
+        //            affectedAcrossClueIndexes.insert(clueIndex * cols)
+        //        }
         numberSquares()
     }
     
-//    func changeCols(to cols: Int) {
-//        squareModels = []
-//        (0...(cols * cols) - 1).forEach { index in
-//            squareModels.append(MakeXWordSquareViewModel(acrossClue: "", downClue: "", answerText: ""))
-//        }
-//        self.cols = cols
-//    }
+    //    func changeCols(to cols: Int) {
+    //        squareModels = []
+    //        (0...(size) - 1).forEach { index in
+    //            squareModels.append(MakeXWordSquareViewModel(acrossClue: "", downClue: "", answerText: ""))
+    //        }
+    //        self.cols = cols
+    //    }
     
     func changeEditGridMode(to editGridMode: Bool) {
         self.editGridMode = editGridMode
@@ -168,7 +230,7 @@ class MakeXWordViewModel: ObservableObject {
     
     func getUpASquare() -> Int {
         var newIndex = focusedIndex - cols
-
+        
         if (newIndex < 0 || !squareModels[newIndex].isWhite) {
             newIndex = getPreviousDownClueSquare()
             
@@ -237,17 +299,17 @@ class MakeXWordViewModel: ObservableObject {
         while (newIndex >= cols && squareModels[newIndex - cols].isWhite) {
             newIndex -= cols
         }
-
+        
         if newIndex == startingIndex {
             // start looking at the square left of this one
             newIndex = newIndex - 1 >= 0 ? newIndex - 1 : size - 1
-
+            
             // get to the first space with a black square or nothing above it from this point
             while(!squareModels[newIndex].isWhite || (newIndex >= cols && squareModels[newIndex - cols].isWhite)) {
                 newIndex = newIndex - 1 >= 0 ? newIndex - 1 : size - 1
             }
         }
-
+        
         return newIndex
     }
     
@@ -261,12 +323,12 @@ class MakeXWordViewModel: ObservableObject {
         
         // start looking at the square right of this one
         newIndex += 1
-
+        
         // get to the first space with a black square or nothing above it from this point
         while(!squareModels[newIndex].isWhite || (newIndex >= cols && squareModels[newIndex - cols].isWhite)) {
             newIndex = newIndex + 1 < size ? newIndex + 1 : 0
         }
-
+        
         return newIndex
     }
     
@@ -275,12 +337,12 @@ class MakeXWordViewModel: ObservableObject {
         
         // start looking at the square right of this one
         newIndex = newIndex + 1 < size ? newIndex + 1 : 0
-
+        
         // get to the first space with a black square or nothing above it from this point
         while(!squareModels[newIndex].isWhite || (newIndex >= cols && squareModels[newIndex - cols].isWhite)) {
             newIndex = newIndex + 1 < size ? newIndex + 1 : 0
         }
-
+        
         return newIndex
     }
     
@@ -321,17 +383,17 @@ class MakeXWordViewModel: ObservableObject {
     func unsetPreviousHighlighting(acrossFocusedChanged: Bool) -> Void {
         // if acrossFocused was changed, get the one it changed from
         let positionToUnset = acrossFocusedChanged
-            ? focusedIndex
-            : previousFocusedIndex
+        ? focusedIndex
+        : previousFocusedIndex
         let orientationToUnset = acrossFocusedChanged
-            ? !acrossFocused
-            : acrossFocused
+        ? !acrossFocused
+        : acrossFocused
         var indexToUnset = positionToUnset
         if orientationToUnset /* (across) */ {
             // get all squares to the left of position
             indexToUnset-=1
             while (indexToUnset >= 0 && indexToUnset % cols != (cols - 1)
-                  && squareModels[indexToUnset].isWhite) {
+                   && squareModels[indexToUnset].isWhite) {
                 squareModels[indexToUnset].squareState = .unfocused
                 indexToUnset-=1
             }
@@ -442,12 +504,40 @@ class MakeXWordViewModel: ObservableObject {
         return grid
     }
     
+    func getGridNums() -> [Int] {
+        var gridNums: [Int] = []
+        for squareModel in squareModels {
+            gridNums.append(squareModel.clueNumber)
+        }
+        return gridNums
+    }
+    
+    func getAcrossClues() -> [String] {
+        var result: [String] = []
+        for i in (0...size - 1) {
+            if indexToAcrossCluesMap[i] != "" {
+                result.append(indexToAcrossCluesMap[i]!)
+            }
+        }
+        return result
+    }
+    
+    func getDownClues() -> [String] {
+        var result: [String] = []
+        for i in (0...size - 1) {
+            if indexToDownCluesMap[i] != "" {
+                result.append(indexToDownCluesMap[i]!)
+            }
+        }
+        return result
+    }
+    
     func getPercentageComplete() -> Float {
         let totalCluesNeeded = acrossCluesCount + downCluesCount
         var totalSquaresNeeded = 0
         var totalCluesFilled = 0
         var totalSquaresFilled = 0
-        for i in (0...cols * cols - 1) {
+        for i in (0...size - 1) {
             if indexToAcrossCluesMap[i] != "" && indexToAcrossCluesMap[i] != "." {
                 totalCluesFilled += 1
             }
@@ -463,6 +553,27 @@ class MakeXWordViewModel: ObservableObject {
         }
         
         return 100 * Float(totalCluesFilled + totalSquaresFilled) / Float(totalCluesNeeded + totalSquaresNeeded)
+    }
+    
+    func saveCrossword(managedObjectContext: NSManagedObjectContext) {
+        var newCrossword: MakeCrosswordModel
+        if makeCrosswordModel != nil {
+            newCrossword = makeCrosswordModel!
+        } else {
+            newCrossword = MakeCrosswordModel(context: managedObjectContext)
+        }
+        newCrossword.cols = Int32(cols)
+        newCrossword.author = userService.getCurrentUser()?.displayName
+        newCrossword.date = Date()
+        newCrossword.lastAccessed = Date()
+        newCrossword.notes = notes
+        newCrossword.title = title != "" ? title : "Untitled"
+        newCrossword.grid = getGrid()
+        newCrossword.indexToAcrossCluesMap = indexToAcrossCluesMap
+        newCrossword.indexToDownCluesMap = indexToDownCluesMap
+        newCrossword.percentageComplete = getPercentageComplete()
+        
+        persistenceController.save()
     }
 
 }

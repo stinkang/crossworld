@@ -55,10 +55,7 @@ struct ProfileView: View {
             List {
                 Section(header: Text("My Drafts")) {
                     ForEach(makeCrosswordModels, id: \.lastAccessed) {
-                      MakeCrosswordListRow(
-                        makeCrosswordModel: $0,
-                        chosenMakeCrosswordModel: $makeCrosswordModel,
-                        showArchive: $showArchive)
+                      MakeCrosswordListRow(makeCrosswordModel: $0)
                     }
                     .onDelete(perform: deleteMakeCrossword)
                     .id(refreshID)

@@ -121,7 +121,7 @@ struct XWordView: View {
 //                            VStack {
                                 Text("By " + crossword.author)
                                 HStack {
-                                    Text("Edited By " + crossword.editor)
+                                    //Text("Edited By " + crossword.editor)
                                     Spacer()
                                     // timer
                                     Text("\(numberFormatter.string(from: NSNumber(value: hours))!):\(numberFormatter.string(from: NSNumber(value: minutes))!):\(numberFormatter.string(from: NSNumber(value: seconds))!)")
@@ -286,15 +286,12 @@ struct XWordView: View {
         newCrossword.rows = Int64(crossword.size.rows)
         newCrossword.cols = Int64(crossword.size.cols)
         newCrossword.downclues = crossword.clues.down
-        newCrossword.downanswers = crossword.answers.down
         newCrossword.acrossclues = crossword.clues.across
-        newCrossword.acrossanswers = crossword.answers.across
         newCrossword.dow = crossword.dow
         newCrossword.date = crossword.date
         newCrossword.copyright = crossword.copyright
         newCrossword.circles = crossword.circles
         //newCrossword.auto = crossword.auto
-        newCrossword.admin = crossword.admin
         newCrossword.secondsElapsed = secondsElapsed
         newCrossword.leaderboardId = crossword.leaderboardId
         newCrossword.percentageComplete = calculatePercentageComplete()

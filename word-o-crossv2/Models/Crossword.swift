@@ -10,15 +10,15 @@ import Foundation
 struct Crossword: Codable {
     var title: String
     var author: String
-    var editor: String
-    var copyright: String
+    var editor: String?
+    var admin: Bool?
+    var copyright: String?
     var publisher: String?
     var date: String
-    var dow: String
+    var dow: String?
     var target: String?
     var valid: Bool?
     var uniclue: Bool?
-    var admin: Bool
     var hastitle: Bool?
     var navigate: Bool?
     var auto: Bool?
@@ -34,9 +34,6 @@ struct Crossword: Codable {
     var clueNamesToCluesMap: Dictionary<String, String> // was crossword.clues
     var tagsToCluesMap: Array<Dictionary<String, String>>
     var cluesToTagsMap: Dictionary<String, [Int]>
-//    var acrossAnswers: [String]
-//    var downAnswers: [String]
-    var answers: CrosswordAnswers
     var notes: String?
     var solved: Bool
     var entries: [String]
@@ -47,8 +44,8 @@ struct Crossword: Codable {
     
     enum OuterKeys: String, CodingKey {
         case title, author, editor, copyright, publisher, date, dow,
-            target, valid, admin, navigate, auto, size, grid, circles,
-            clues, answers, notes, uniclue, hastitle, gridnums, acrossmap,
+            target, valid, navigate, auto, size, grid, circles,
+            clues, notes, uniclue, hastitle, gridnums, acrossmap,
             downmap, rbars, bbars, entries, secondsElapsed, lastAccessed,
              leaderboardId, percentageComplete
     }
@@ -61,17 +58,11 @@ struct Crossword: Codable {
         case acrossClues = "across"
         case downClues = "down"
     }
-    
-    enum AnswersKeys: String, CodingKey {
-        case acrossAnswers = "across"
-        case downAnswers = "down"
-    }
 
     init(from decoder: Decoder) throws {
         let outerContainer = try decoder.container(keyedBy: OuterKeys.self)
         let sizeContainer = try outerContainer.nestedContainer(keyedBy: SizeKeys.self, forKey: .size)
         let cluesContainer = try outerContainer.nestedContainer(keyedBy: CluesKeys.self, forKey: .clues)
-        let answersContainer = try outerContainer.nestedContainer(keyedBy: AnswersKeys.self, forKey: .answers)
         
         self.title = try outerContainer.decode(String.self, forKey: .title)
         self.author = try outerContainer.decode(String.self, forKey: .author)
@@ -98,8 +89,6 @@ struct Crossword: Codable {
         } else {
             self.uniclue = nil
         }
-
-        self.admin = try outerContainer.decode(Bool.self, forKey: .admin)
 
         if let hastitle = try outerContainer.decodeIfPresent(Bool.self, forKey: .hastitle) {
             self.hastitle = hastitle
@@ -149,11 +138,6 @@ struct Crossword: Codable {
         let tagsToCluesMap = Crossword.buildTagsToCluesMap(gridnums: gridnums, cols: cols, grid: grid)
         self.tagsToCluesMap = tagsToCluesMap
         self.cluesToTagsMap = Crossword.buildCluesToTagsMap(tagsToCluesMap: tagsToCluesMap)
-        
-        let acrossAnswers = try answersContainer.decode([String].self, forKey: .acrossAnswers)
-        let downAnswers = try answersContainer.decode([String].self, forKey: .downAnswers)
-        
-        self.answers = CrosswordAnswers(across: acrossAnswers, down: downAnswers)
         
         if let notes = try outerContainer.decodeIfPresent(String.self, forKey: .notes) {
             self.notes = notes
@@ -232,20 +216,45 @@ struct Crossword: Codable {
         let tagsToCluesMap = Crossword.buildTagsToCluesMap(gridnums: gridnums, cols: cols, grid: grid)
         self.tagsToCluesMap = tagsToCluesMap
         self.cluesToTagsMap = Crossword.buildCluesToTagsMap(tagsToCluesMap: tagsToCluesMap)
-
-        self.answers = CrosswordAnswers(across: crosswordModel.acrossanswers!, down: crosswordModel.downanswers!)
         self.dow = crosswordModel.dow!
         self.date = crosswordModel.date!
         self.copyright = crosswordModel.copyright!
         self.circles = crosswordModel.circles
-        //self.auto = crossword.auto
-        self.admin = crosswordModel.admin
         
         self.solved = crosswordModel.solved
         self.secondsElapsed = crosswordModel.secondsElapsed
         //self.lastAccessed = crosswordModel.lastAccessed ?? nil
         self.leaderboardId = crosswordModel.leaderboardId
         self.percentageComplete = crosswordModel.percentageComplete
+    }
+    
+    init(makeCrosswordViewModel: MakeXWordViewModel) {
+        let dateFormatter = DateFormatter()
+        let cols = makeCrosswordViewModel.cols
+        dateFormatter.dateFormat = "MM/dd/YY"
+        self.title = makeCrosswordViewModel.title
+        self.author = makeCrosswordViewModel.author
+        self.date = dateFormatter.string(from: Date())
+        self.size = CrosswordSize(rows: Int(makeCrosswordViewModel.cols), cols: Int(makeCrosswordViewModel.cols))
+        self.grid = makeCrosswordViewModel.getGrid()
+        self.gridnums = makeCrosswordViewModel.getGridNums()
+        let acrossClues = makeCrosswordViewModel.getAcrossClues()
+        let downClues = makeCrosswordViewModel.getDownClues()
+        self.clues = CrosswordClues(across: acrossClues, down: downClues)
+        self.clueNamesToCluesMap = Crossword.buildClueNamesToCluesMap(gridnums: gridnums, makeXWordViewModel: makeCrosswordViewModel)
+        self.tagsToCluesMap = Crossword.buildTagsToCluesMap(gridnums: gridnums, makeXWordViewModel: makeCrosswordViewModel)
+        self.cluesToTagsMap = Crossword.buildCluesToTagsMap(tagsToCluesMap: tagsToCluesMap)
+        self.solved = true
+        self.entries = [String](repeating: "", count: cols * cols)
+        self.secondsElapsed = 0
+        self.percentageComplete = 100.00
+        self.hastitle = false
+        self.uniclue = false
+        self.publisher = ""
+        self.dow = ""
+        self.editor = ""
+        self.copyright = ""
+        self.admin = false
     }
     
     static func getTrimmedClues(clues: Array<String>) -> Array<String> {
@@ -270,13 +279,13 @@ struct Crossword: Codable {
         let isNotBlackSquare = grid[squareNumber] != "."
         let isEdgeSquare = squareNumber % cols == 0
         let hasBlackSquareToTheLeft = !isEdgeSquare && grid[squareNumber - 1] == "."
-        let hasAtLeastTwoWhiteSquaresToTheRight =
-            (squareNumber + 1) % cols != 0
-            && (squareNumber + 2) % cols != 0
-            && grid[squareNumber + 1] != "."
-            && grid[squareNumber + 2] != "."
+//        let hasAtLeastTwoWhiteSquaresToTheRight =
+//            (squareNumber + 1) % cols != 0
+//            && (squareNumber + 2) % cols != 0
+//            && grid[squareNumber + 1] != "."
+//            && grid[squareNumber + 2] != "."
 
-        return isNotBlackSquare && (isEdgeSquare || hasBlackSquareToTheLeft) && hasAtLeastTwoWhiteSquaresToTheRight
+        return isNotBlackSquare && (isEdgeSquare || hasBlackSquareToTheLeft) //&& hasAtLeastTwoWhiteSquaresToTheRight
     }
     
     // Naive
@@ -284,13 +293,13 @@ struct Crossword: Codable {
         let isNotBlackSquare = grid[squareNumber] != "."
         let isEdgeSquare = squareNumber < cols
         let hasBlackSquareAbove = squareNumber - cols >= 0 && grid[squareNumber - cols] == "."
-        let hasAtLeastTwoWhiteSquaresBelow =
-            squareNumber + cols < grid.count
-            && squareNumber + cols * 2 < grid.count
-            && grid[squareNumber + cols] != "."
-            && grid[squareNumber + cols * 2] != "."
+//        let hasAtLeastTwoWhiteSquaresBelow =
+//            squareNumber + cols < grid.count
+//            && squareNumber + cols * 2 < grid.count
+//            && grid[squareNumber + cols] != "."
+//            && grid[squareNumber + cols * 2] != "."
         
-        return isNotBlackSquare && (isEdgeSquare || hasBlackSquareAbove) && hasAtLeastTwoWhiteSquaresBelow
+        return isNotBlackSquare && (isEdgeSquare || hasBlackSquareAbove) //&& hasAtLeastTwoWhiteSquaresBelow
     }
     
     static func getDownClueForSquare(squareNumber: Int, cols: Int, gridnums: Array<Int>, grid: Array<String>) -> String {
@@ -339,27 +348,45 @@ struct Crossword: Codable {
         return map
     }
     
+    static func buildClueNamesToCluesMap(gridnums: Array<Int>, makeXWordViewModel: MakeXWordViewModel) -> Dictionary<String, String>
+    {
+        var map: Dictionary<String, String> = [:]
+        for i in 0..<gridnums.count {
+            let gridnum = gridnums[i]
+            if gridnum != 0 {
+                if makeXWordViewModel.indexToAcrossCluesMap[makeXWordViewModel.squareModels[i].acrossClueIndex] != "" {
+                    map[String(gridnum) + "A"] = makeXWordViewModel.indexToAcrossCluesMap[makeXWordViewModel.squareModels[i].acrossClueIndex]
+                }
+                if makeXWordViewModel.indexToDownCluesMap[makeXWordViewModel.squareModels[i].downClueIndex] != "" {
+                    map[String(gridnum) + "D"] = makeXWordViewModel.indexToDownCluesMap[makeXWordViewModel.squareModels[i].downClueIndex]
+                }
+            }
+        }
+        return map
+    }
+    
     static func buildTagsToCluesMap(gridnums: Array<Int>, cols: Int, grid: Array<String>) -> Array<Dictionary<String, String>> {
         var array: Array<Dictionary<String, String>> = []
         for i in 0..<gridnums.count {
             var map: Dictionary<String, String> = [:]
-//            if (gridNum != 0) {
-//                if (squareShouldHaveDownClue(squareNumber: i, cols: cols, grid: grid)) {
-//                    map["D"] = String(gridNum) + "D"
-//                } else {
-//                    map["D"] = ""
-//                }
-//                if (squareShouldHaveAcrossClue(squareNumber: i, cols: cols, grid: grid)) {
-//                    map["A"] = String(gridNum) + "A"
-//                } else {
-//                    map["A"] = ""
-//                }
-//            } else {
-//                map["D"] = ""
-//                map["A"] = ""
-//            }
             map["A"] = getAcrossClueForSquare(squareNumber: i, cols: cols, gridnums: gridnums, grid: grid)
             map["D"] = getDownClueForSquare(squareNumber: i, cols: cols, gridnums: gridnums, grid: grid)
+            array.append(map)
+        }
+        return array
+    }
+    
+    static func buildTagsToCluesMap(gridnums: Array<Int>, makeXWordViewModel: MakeXWordViewModel) -> Array<Dictionary<String, String>> {
+        var array: Array<Dictionary<String, String>> = []
+        for i in 0..<gridnums.count {
+            var map: Dictionary<String, String> = [:]
+            if makeXWordViewModel.grid[i] != "." {
+                map["A"] = String(gridnums[makeXWordViewModel.squareModels[i].acrossClueIndex]) + "A"
+                map["D"] = String(gridnums[makeXWordViewModel.squareModels[i].downClueIndex]) + "D"
+            } else {
+                map["A"] = ""
+                map["D"] = ""
+            }
             array.append(map)
         }
         return array
@@ -392,7 +419,6 @@ struct Crossword: Codable {
         self.target = ""
         self.valid = true
         self.uniclue = true
-        self.admin = true
         self.hastitle = true
         self.navigate = true
         self.auto = true
@@ -408,7 +434,6 @@ struct Crossword: Codable {
 //        self.acrossAnswers = [""]
 //        self.downAnswers = [""]
         self.clues = CrosswordClues(across: [""], down: [""])
-        self.answers = CrosswordAnswers(across: [""], down: [""])
         self.clueNamesToCluesMap = [:]
         self.tagsToCluesMap = [[:]]
         self.cluesToTagsMap = [:]
@@ -475,11 +500,6 @@ struct CrosswordSize: Codable {
 }
 
 struct CrosswordClues: Codable {
-    var across: [String]
-    var down: [String]
-}
-
-struct CrosswordAnswers: Codable {
     var across: [String]
     var down: [String]
 }

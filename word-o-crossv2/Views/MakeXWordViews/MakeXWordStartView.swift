@@ -12,8 +12,8 @@ struct MakeXWordStartView: View {
     @State var date = Date()
     @State var cols = 5
     @State var isShowingMakeXWordView = false
-    var makeCrossword: Binding<MakeCrossword> { Binding<MakeCrossword>(
-        get: { MakeCrossword(title: title, author: "", cols: cols, grid: [String](repeating: "", count: cols*cols))},
+    var makeCrossword: Binding<MakeCrosswordCodable> { Binding<MakeCrosswordCodable>(
+        get: { MakeCrosswordCodable(title: title, author: "", cols: cols, grid: [String](repeating: "", count: cols*cols))},
         set: { $0 }
         )
     }
